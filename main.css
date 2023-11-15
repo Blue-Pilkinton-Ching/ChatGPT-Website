@@ -58,11 +58,20 @@ main {
 .sign-in-button {
   position: relative;
   height: 40px;
-  background-color: blue;
   margin: 7px;
   display: block;
   width: calc(100% - 14px);
   text-align: center;
+  border-radius: 10px;
+  border-width: 0;
+  transition-duration: 0.2s;
+  box-shadow: inset 0 1px 0 0 darkslategrey;
+}
+
+.sign-in-button:hover {
+  box-shadow: inset -1px 0 0 darkslategrey, inset 0 -1px 0 darkslategrey,
+    inset 1px 0 0 darkslategrey, inset 0 1px 0 darkslategrey;
+  cursor: pointer;
 }
 
 .sign-in-button-img {
@@ -71,10 +80,12 @@ main {
   aspect-ratio: 1/1;
   float: left;
   vertical-align: middle;
+  padding-left: 5px;
 }
 
 .sign-in-button-text {
   display: inline-block;
+  font-family: 'Roboto', sans-serif;
 }
 
 .sign-in-button-text {

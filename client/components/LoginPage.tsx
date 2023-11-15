@@ -22,6 +22,7 @@ function LoginPage() {
   }, [])
 
   function OnSignInButtonClick(service: string) {
+    console.log('Clicked')
     return service
   }
 
