@@ -1,0 +1,31 @@
+:root {
+  --color1: rgb(10, 14, 29);
+  --color2: rgb(13, 32, 65);
+
+  --gradient: linear-gradient(
+    127deg,
+    var(--color1) 15%,
+    var(--color2) 50%,
+    var(--color1) 85%
+  );
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#app {
+  height: 100%;
+}
+
+main {
+  background: var(--gradient);
+  height: fit-content;
+  margin: 0;
+  height: 100%;
+}
