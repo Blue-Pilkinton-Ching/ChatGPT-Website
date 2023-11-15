@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 
 import { FirebaseApp, initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
+import { SignInButton } from './SignInButton'
+import Logos from '../auth-logos'
 
 function LoginPage() {
   let app: FirebaseApp
@@ -20,9 +21,32 @@ function LoginPage() {
     app = initializeApp(config)
   }, [])
 
+  function OnSignInButtonClick(service: string) {
+    return service
+  }
+
   return (
     <>
-      <div className="container"></div>
+      <div id="sign-in">
+        <SignInButton
+          imgSrc={Logos.google}
+          bgColor="#FFFFFF"
+          text="Sign in with Google"
+          textColor="#757575"
+          onClickCallback={() => {
+            OnSignInButtonClick('google')
+          }}
+        ></SignInButton>
+        <SignInButton
+          imgSrc={Logos.github}
+          bgColor="#333333"
+          text="Sign in with Github"
+          textColor="#FFFFFF"
+          onClickCallback={() => {
+            OnSignInButtonClick('github')
+          }}
+        ></SignInButton>
+      </div>
     </>
   )
 }

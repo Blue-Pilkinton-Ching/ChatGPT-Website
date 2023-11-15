@@ -7,3 +7,11 @@ export interface FirebaseConfig {
   appId: string
   measurementId: string
 }
+
+export interface SignInButtonProps {
+  text: string
+  imgSrc: string
+  bgColor: string
+  textColor: string
+  onClickCallback: () => void
+}

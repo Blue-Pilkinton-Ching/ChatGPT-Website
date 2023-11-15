@@ -1,13 +1,30 @@
 :root {
   --color1: rgb(10, 14, 29);
-  --color2: rgb(13, 32, 65);
+  --color2: rgb(8, 23, 53);
+  --color3: rgba(118, 157, 211, 0.021);
 
-  --gradient: linear-gradient(
+  --bg-gradient: linear-gradient(
     127deg,
     var(--color1) 15%,
     var(--color2) 50%,
     var(--color1) 85%
   );
+
+  --bg-gradient-grid: repeating-linear-gradient(
+      90deg,
+      var(--color3),
+      var(--color3) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      var(--color3),
+      var(--color3) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    var(--bg-gradient);
 }
 
 html {
@@ -24,8 +41,64 @@ body {
 }
 
 main {
-  background: var(--gradient);
-  height: fit-content;
-  margin: 0;
+  background: var(--bg-gradient-grid);
   height: 100%;
+}
+
+#sign-in {
+  position: absolute;
+  width: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  justify-content: center;
+}
+
+.sign-in-button {
+  position: relative;
+  height: 40px;
+  background-color: blue;
+  margin: 7px;
+  display: block;
+  width: calc(100% - 14px);
+  text-align: center;
+}
+
+.sign-in-button-img {
+  position: relative;
+  height: 20px;
+  aspect-ratio: 1/1;
+  float: left;
+  vertical-align: middle;
+}
+
+.sign-in-button-text {
+  display: inline-block;
+}
+
+.sign-in-button-text {
+  margin-block-end: 0;
+  margin-block-start: 0;
+}
+
+/* Phablet */
+@media (min-width: 400px) {
+  #sign-in {
+    width: 350px;
+  }
+}
+
+/* tablet */
+@media (min-width: 750px) {
+  #sign-in {
+    width: 350px;
+  }
+}
+
+/* desktop */
+@media (min-width: 1000px) {
+  #sign-in {
+    width: min(300px, 100%);
+  }
 }
