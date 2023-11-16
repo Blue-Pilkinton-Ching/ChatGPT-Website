@@ -1,9 +1,17 @@
 import { useEffect } from 'react'
 
-import { FirebaseApp, initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import { FirebaseApp, FirebaseError, initializeApp } from 'firebase/app'
+import {
+  AuthProvider,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  UserCredential,
+  getAuth,
+  signInWithPopup,
+} from 'firebase/auth'
 import { SignInButton } from './SignInButton'
 import Logos from '../auth-logos'
+import { OAuthCredential } from 'firebase/auth'
 
 function LoginPage() {
   let app: FirebaseApp
@@ -22,7 +30,72 @@ function LoginPage() {
   }, [])
 
   function OnSignInButtonClick(service: string) {
-    console.log('Clicked')
+    console.log('Signing In')
+
+    let provider: AuthProvider
+    let getCredentialFromResult: (
+      result: UserCredential
+    ) => OAuthCredential | null
+    let getCredentialFromError: (error: FirebaseError) => OAuthCredential | null
+
+    // Init services & functionality based on sign in button
+
+    switch (service) {
+      case 'google':
+        provider = new GoogleAuthProvider()
+        getCredentialFromResult = (result: UserCredential) => {
+          return GoogleAuthProvider.credentialFromResult(result)
+        }
+        getCredentialFromError = (error: FirebaseError) => {
+          return GoogleAuthProvider.credentialFromError(error)
+        }
+        break
+      case 'github':
+        provider = new GithubAuthProvider()
+        getCredentialFromResult = (result: UserCredential) => {
+          return GithubAuthProvider.credentialFromResult(result)
+        }
+        getCredentialFromError = (error: FirebaseError) => {
+          return GithubAuthProvider.credentialFromError(error)
+        }
+        break
+      default:
+        console.error('Unknown Sign In Service')
+        return
+    }
+
+    const auth = getAuth(app)
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = getCredentialFromResult(result)
+
+        if (credential == null) {
+          console.error('Credential is null or undefined!')
+          return
+        }
+
+        const token = credential.accessToken
+        // The signed-in user info.
+        const user = result.user
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+
+        console.log(user)
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code
+        const errorMessage = error.message
+        // The email of the user's account used.
+        const email = error.customData.email
+        // The AuthCredential type that was used.
+        const credential = getCredentialFromError(error)
+        // ...
+
+        console.error(errorMessage)
+      })
+
     return service
   }
 
