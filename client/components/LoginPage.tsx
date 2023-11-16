@@ -29,6 +29,10 @@ function LoginPage() {
   return (
     <>
       <div id="sign-in">
+        <h1> Sign in Method</h1>
+        <hr className="sign-in-bar" />
+        <br />
+        <br />
         <SignInButton
           imgSrc={Logos.google}
           bgColor="#FFFFFF"
