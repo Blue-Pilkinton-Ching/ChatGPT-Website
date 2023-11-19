@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
+import { useRef, useState } from 'react'
 
-import { FirebaseApp, FirebaseError, initializeApp } from 'firebase/app'
+import { FirebaseError, initializeApp } from 'firebase/app'
 import {
   AuthProvider,
   GithubAuthProvider,
@@ -14,10 +14,8 @@ import Logos from '../auth-logos'
 import { OAuthCredential } from 'firebase/auth'
 
 function LoginPage() {
-  let app: FirebaseApp
-
-  useEffect(() => {
-    const config = {
+  const app = useRef(
+    initializeApp({
       apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
       authDomain: 'chatgpt-website-c81b2.firebaseapp.com',
       projectId: 'chatgpt-website-c81b2',
@@ -25,12 +23,13 @@ function LoginPage() {
       messagingSenderId: '348741570396',
       appId: '1:348741570396:web:dfd779c008b66a00e3fb99',
       measurementId: 'G-9KW9PBHY99',
-    }
-    app = initializeApp(config)
-  }, [])
+    })
+  )
+  const [signingIn, setSigningIn] = useState(false)
 
   function OnSignInButtonClick(service: string) {
     console.log('Signing In')
+    setSigningIn(true)
 
     let provider: AuthProvider
     let getCredentialFromResult: (
@@ -64,7 +63,7 @@ function LoginPage() {
         return
     }
 
-    const auth = getAuth(app)
+    const auth = getAuth(app.current)
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -82,18 +81,18 @@ function LoginPage() {
         // ...
 
         console.log(user)
+        setSigningIn(false)
       })
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
         // The email of the user's account used.
         const email = error.customData.email
         // The AuthCredential type that was used.
         const credential = getCredentialFromError(error)
         // ...
 
-        console.error(errorMessage)
+        alert(`Error Signing in: ${error.code}`)
+        console.error(error)
+        setSigningIn(false)
       })
 
     return service
@@ -101,30 +100,37 @@ function LoginPage() {
 
   return (
     <>
-      <div id="sign-in">
-        <h1> Sign in Method</h1>
-        <hr className="sign-in-bar" />
-        <br />
-        <br />
-        <SignInButton
-          imgSrc={Logos.google}
-          bgColor="#FFFFFF"
-          text="Sign in with Google"
-          textColor="#757575"
-          onClickCallback={() => {
-            OnSignInButtonClick('google')
-          }}
-        ></SignInButton>
-        <SignInButton
-          imgSrc={Logos.github}
-          bgColor="#333333"
-          text="Sign in with Github"
-          textColor="#FFFFFF"
-          onClickCallback={() => {
-            OnSignInButtonClick('github')
-          }}
-        ></SignInButton>
-      </div>
+      {signingIn ? (
+        <div className="center">
+          <span className="loader"></span>
+          <h5>Signing in...</h5>
+        </div>
+      ) : (
+        <div className="center" id="sign-in">
+          <h1> Sign in Method</h1>
+          <hr className="sign-in-bar" />
+          <br />
+          <br />
+          <SignInButton
+            imgSrc={Logos.google}
+            bgColor="#FFFFFF"
+            text="Sign in with Google"
+            textColor="#757575"
+            onClickCallback={() => {
+              OnSignInButtonClick('google')
+            }}
+          ></SignInButton>
+          <SignInButton
+            imgSrc={Logos.github}
+            bgColor="#333333"
+            text="Sign in with Github"
+            textColor="#FFFFFF"
+            onClickCallback={() => {
+              OnSignInButtonClick('github')
+            }}
+          ></SignInButton>
+        </div>
+      )}
     </>
   )
 }
