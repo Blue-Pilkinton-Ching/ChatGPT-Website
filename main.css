@@ -49,10 +49,6 @@ main.login{
   background: var(--bg-gradient-grid);
 }
 
-main.home{
-  background: var(--bg-gradient);
-}
-
 #sign-in {
   width: 90%;
   top: 40%;
@@ -162,15 +158,70 @@ h5 {
   margin-block-start: 0;
 }
 
+main#home{
+  background: var(--bg-gradient);
+  display: grid;
+  grid-template-areas: 'panel';
+}
+
+.chat-area {
+  position: relative;
+  grid-area: panel;
+  background-color: rgb(25, 0, 255);
+}
+
+.threads-panel {
+  position: relative;
+  grid-area: panel;
+  background-color: rgb(255, 0, 0);
+  width: 100%;
+}
+
+.threads-panel.show {
+  display: inline;
+}
+
+.threads-panel.hide {
+  display: none;
+}
+
+.show-threads-panel {
+  position: absolute;
+  right: 0;
+  height: 30px;
+  width: 30px;
+}
+
+.exit-threads-panel {
+  position: absolute;
+  right: 0;
+  height: 30px;
+  width: 30px;
+}
+
 /* Phablet */
 @media (min-width: 400px) {
   #sign-in {
     width: 350px;
   }
+
+  .threads-panel.show {
+    display: inline;
+  }
+  
+  .threads-panel.hide {
+    display: none;
+  }
+
+  .threads-panel {
+    width: max(min(300px, 30%), 225px);
+  }
 }
 
 /* tablet */
 @media (min-width: 750px) {
+
+
 }
 
 /* desktop */

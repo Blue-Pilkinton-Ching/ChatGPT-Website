@@ -15,3 +15,12 @@ export interface SignInButtonProps {
   textColor: string
   onClickCallback: () => void
 }
+
+export interface ChatAreaProps {
+  onOpenThreadsPanel: () => void
+}
+
+export interface ThreadPanelProps {
+  show: boolean
+  onExitButton: () => void
+}

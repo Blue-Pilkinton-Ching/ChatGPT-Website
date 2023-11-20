@@ -1,4 +1,4 @@
-import { SignInButtonProps } from '../../Interfaces/firebase'
+import { SignInButtonProps } from '../../Interfaces/interfaces.ts'
 
 export function SignInButton(props: SignInButtonProps) {
   return (
