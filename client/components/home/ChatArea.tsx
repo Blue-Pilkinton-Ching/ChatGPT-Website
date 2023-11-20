@@ -1,5 +1,5 @@
 import { FormEvent } from 'react'
-import { ChatAreaProps } from '../../../Interfaces/interfaces.ts'
+import { ChatAreaProps } from '../../../interfaces.ts'
 
 export default function ChatArea(props: ChatAreaProps) {
   function handleEnter(event: FormEvent<HTMLButtonElement>) {

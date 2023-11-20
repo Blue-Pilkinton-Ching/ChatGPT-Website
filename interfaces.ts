@@ -1,3 +1,5 @@
+import { User } from 'firebase/auth'
+
 export interface FirebaseConfig {
   apiKey: string
   authDomain: string
@@ -6,6 +8,11 @@ export interface FirebaseConfig {
   messagingSenderId: string
   appId: string
   measurementId: string
+}
+
+export interface AuthInfo {
+  user: User
+  token: string
 }
 
 export interface SignInButtonProps {

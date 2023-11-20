@@ -83,6 +83,7 @@ function LoginPage() {
         // ...
 
         console.log(user)
+
         setSigningIn(false)
         navigate('/home')
       })

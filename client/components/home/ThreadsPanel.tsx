@@ -1,5 +1,5 @@
 import { FormEvent } from 'react'
-import { ThreadPanelProps } from '../../../Interfaces/interfaces.ts'
+import { ThreadPanelProps } from '../../../interfaces.ts'
 
 export default function ThreadPanel(props: ThreadPanelProps) {
   function handleExit(event: FormEvent<HTMLButtonElement>) {
