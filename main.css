@@ -42,8 +42,15 @@ body {
 }
 
 main {
-  background: var(--bg-gradient-grid);
   height: 100%;
+}
+
+main.login{
+  background: var(--bg-gradient-grid);
+}
+
+main.home{
+  background: var(--bg-gradient);
 }
 
 #sign-in {

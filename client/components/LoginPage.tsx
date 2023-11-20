@@ -12,6 +12,7 @@ import {
 import { SignInButton } from './SignInButton'
 import Logos from '../auth-logos'
 import { OAuthCredential } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 function LoginPage() {
   const app = useRef(
@@ -26,6 +27,7 @@ function LoginPage() {
     })
   )
   const [signingIn, setSigningIn] = useState(false)
+  const navigate = useNavigate()
 
   function OnSignInButtonClick(service: string) {
     console.log('Signing In')
@@ -82,6 +84,7 @@ function LoginPage() {
 
         console.log(user)
         setSigningIn(false)
+        navigate('/home')
       })
       .catch((error) => {
         // The email of the user's account used.
