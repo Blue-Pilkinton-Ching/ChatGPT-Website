@@ -10,7 +10,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth'
 import { SignInButton } from './SignInButton'
-import Logos from '../auth-logos'
+import Logos from '../../auth-logos'
 import { OAuthCredential } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 

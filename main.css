@@ -170,7 +170,7 @@ main#home {
 
 .threads-panel {
   position: absolute;
-  background-color: rgb(255, 0, 0);
+  background-color: rgb(25, 35, 51);
   height: 100%;
   width: 100%;
   z-index: 5;
@@ -185,6 +185,7 @@ main#home {
 }
 
 .show-threads-panel {
+  cursor: pointer;
   position: absolute;
   left: 0;
   height: 30px;
@@ -192,6 +193,7 @@ main#home {
 }
 
 .exit-threads-panel {
+  cursor: pointer;
   position: absolute;
   right: 0;
   height: 30px;

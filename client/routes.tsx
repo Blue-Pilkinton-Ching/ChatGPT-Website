@@ -1,8 +1,8 @@
 import { Route, createRoutesFromElements } from 'react-router-dom'
-import LoginLayout from './components/LoginLayout'
-import HomeLayout from './components/HomeLayout'
-import LoginPage from './components/LoginPage'
-import HomePage from './components/HomePage'
+import LoginLayout from './components/log-in/LoginLayout'
+import HomeLayout from './components/home/HomeLayout'
+import LoginPage from './components/log-in/LoginPage'
+import HomePage from './components/home/HomePage'
 
 export default createRoutesFromElements(
   <>
