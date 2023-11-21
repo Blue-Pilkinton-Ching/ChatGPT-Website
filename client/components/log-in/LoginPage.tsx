@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 import { FirebaseError, initializeApp } from 'firebase/app'
 import {
