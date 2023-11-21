@@ -78,12 +78,17 @@ function LoginPage() {
 
         const token = credential.accessToken
         // The signed-in user info.
+
+        if (token == undefined) {
+          console.error('Token is null or undefine')
+          return
+        }
+
         const user = result.user
         // IdP data available using getAdditionalUserInfo(result)
         // ...
 
         console.log(user)
-
         setSigningIn(false)
         navigate('/home')
       })

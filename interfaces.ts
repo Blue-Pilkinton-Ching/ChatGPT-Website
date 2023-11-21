@@ -10,9 +10,13 @@ export interface FirebaseConfig {
   measurementId: string
 }
 
-export interface AuthInfo {
-  user: User
-  token: string
+export interface GlobalContextState {
+  globalContext: GlobalContextInfo | undefined
+  setGlobalContext: (context: GlobalContextInfo) => void
+}
+
+export interface GlobalContextInfo {
+  authInfo: { user: User; token: string; isSignedIn: boolean }
 }
 
 export interface SignInButtonProps {
