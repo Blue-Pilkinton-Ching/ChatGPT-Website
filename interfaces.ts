@@ -10,12 +10,12 @@ export interface FirebaseConfig {
   measurementId: string
 }
 
-export interface GlobalContextState {
-  globalContext: GlobalContextInfo | undefined
-  setGlobalContext: (context: GlobalContextInfo) => void
+export interface GlobalDataWrapper {
+  globalData: GlobalData | undefined
+  setGlobalData: (data: GlobalData) => void
 }
 
-export interface GlobalContextInfo {
+export interface GlobalData {
   authInfo: { user: User; token: string; isSignedIn: boolean }
 }
 

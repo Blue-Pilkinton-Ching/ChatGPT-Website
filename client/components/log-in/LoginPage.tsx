@@ -14,18 +14,17 @@ import Logos from '../../auth-logos'
 import { OAuthCredential } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
+const app = initializeApp({
+  apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
+  authDomain: 'chatgpt-website-c81b2.firebaseapp.com',
+  projectId: 'chatgpt-website-c81b2',
+  storageBucket: 'chatgpt-website-c81b2.appspot.com',
+  messagingSenderId: '348741570396',
+  appId: '1:348741570396:web:dfd779c008b66a00e3fb99',
+  measurementId: 'G-9KW9PBHY99',
+})
+
 function LoginPage() {
-  const app = useRef(
-    initializeApp({
-      apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
-      authDomain: 'chatgpt-website-c81b2.firebaseapp.com',
-      projectId: 'chatgpt-website-c81b2',
-      storageBucket: 'chatgpt-website-c81b2.appspot.com',
-      messagingSenderId: '348741570396',
-      appId: '1:348741570396:web:dfd779c008b66a00e3fb99',
-      measurementId: 'G-9KW9PBHY99',
-    })
-  )
   const [signingIn, setSigningIn] = useState(false)
   const navigate = useNavigate()
 
@@ -65,7 +64,7 @@ function LoginPage() {
         return
     }
 
-    const auth = getAuth(app.current)
+    const auth = getAuth(app)
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.

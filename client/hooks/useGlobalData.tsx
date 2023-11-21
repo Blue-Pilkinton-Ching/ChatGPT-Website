@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
-import { GlobalContextState } from '../../interfaces'
+import { GlobalDataWrapper } from '../../interfaces'
 
-export function useGlobalContext() {
+export function useGlobalData() {
   const context = useContext(GlobalContext)
 
   if (context == undefined) {
@@ -11,6 +11,6 @@ export function useGlobalContext() {
   return context
 }
 
-export const GlobalContext = createContext<GlobalContextState | undefined>(
+export const GlobalContext = createContext<GlobalDataWrapper | undefined>(
   undefined
 )

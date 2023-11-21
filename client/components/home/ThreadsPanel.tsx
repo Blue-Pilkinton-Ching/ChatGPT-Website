@@ -1,9 +1,9 @@
 import { FormEvent } from 'react'
 import { ThreadPanelProps } from '../../../interfaces.ts'
-import { useGlobalContext } from '../../hooks/useGlobalContext.tsx'
+import { useGlobalData } from '../../hooks/useGlobalData.tsx'
 
 export default function ThreadPanel(props: ThreadPanelProps) {
-  const globalContext = useGlobalContext()
+  const globalContext = useGlobalData()
 
   function handleExit(event: FormEvent<HTMLButtonElement>) {
     event?.preventDefault()
