@@ -2,7 +2,15 @@
   --color1: rgb(10, 14, 29);
   --color2: rgb(8, 23, 53);
   --color3: rgba(118, 157, 211, 0.021);
-  --color4: rgb(21, 46, 82);
+  --color4: rgba(0, 0, 0, 0.281);
+  --color5: rgb(25, 35, 51);
+
+  --border-radius: 10px;
+  --hover-bg: rgba(0, 0, 0, 0.233);
+  --active-brightness: 70%;
+  --hover-brightness: 85%;
+  --transition-duration: 0.2s;
+  --font1: 'Roboto', sans-serif;
 
   --bg-gradient: linear-gradient(
     127deg,
@@ -72,7 +80,7 @@ main#login {
   text-align: center;
   border-radius: 8px;
   border-width: 0;
-  transition-duration: 0.2s;
+  transition-duration: var(--transition-duration);
   box-shadow: inset 0 1px 0 0 darkslategrey;
 }
 
@@ -84,7 +92,7 @@ main#login {
 }
 
 .sign-in-button:active {
-  scale: 0.95;
+  filter: brightness(var(--active-brightness));
 }
 
 .sign-in-button-img {
@@ -98,7 +106,7 @@ main#login {
 
 .sign-in-button-text {
   display: inline-block;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font1);
   font-size: 1.1rem;
 }
 
@@ -133,6 +141,54 @@ main#login {
   border-color: white transparent;
 }
 
+.bar {
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  transition-duration: var(--transition-duration);
+}
+
+.exit-threads-panel {
+  .bar1 {
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .bar2 {
+    transform: translateY(-50%) rotate(-45deg);
+  }
+}
+
+.exit-threads-panel:hover .bar1,
+.exit-threads-panel:hover .bar2,
+.show-threads-panel:hover .bar1,
+.show-threads-panel:hover .bar2,
+.show-threads-panel:hover .bar3 {
+  filter: brightness(var(--hover-brightness));
+}
+
+.exit-threads-panel:active .bar1,
+.exit-threads-panel:active .bar2,
+.show-threads-panel:active .bar1,
+.show-threads-panel:active .bar2,
+.show-threads-panel:active .bar3 {
+  filter: brightness(var(--active-brightness));
+}
+
+.show-threads-panel {
+  .bar1 {
+    transform: translateY(9px);
+  }
+
+  .bar2 {
+    transform: translateY(-15px);
+  }
+  .bar3 {
+    transform: translateY(-3px);
+  }
+}
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -143,13 +199,13 @@ main#login {
 }
 
 h1 {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font1);
   color: white;
   font-size: 2.5rem;
 }
 
 h5 {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font1);
   color: white;
 }
 
@@ -170,7 +226,7 @@ main#home {
 
 .threads-panel {
   position: absolute;
-  background-color: rgb(25, 35, 51);
+  background-color: var(--color5);
   height: 100%;
   width: 100%;
   z-index: 5;
@@ -187,17 +243,73 @@ main#home {
 .show-threads-panel {
   cursor: pointer;
   position: absolute;
-  left: 0;
+  left: 18px;
+  top: 18px;
   height: 30px;
   width: 30px;
+  transition-duration: var(--transition-duration);
+  background-color: transparent;
+  color: white;
+  border: 0;
 }
 
 .exit-threads-panel {
   cursor: pointer;
   position: absolute;
-  right: 0;
+  right: 15px;
+  top: 15px;
   height: 30px;
   width: 30px;
+  background-color: transparent;
+  border: 0;
+}
+
+.account-container {
+  width: calc(100% - 30px);
+  bottom: 0;
+  height: 50px;
+  position: absolute;
+  margin: 15px;
+  margin-right: 0px;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--border-radius);
+  transition-duration: var(--transition-duration);
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+}
+
+.account-name {
+  font-family: var(--font1);
+  font-size: 1.1em;
+  color: white;
+  letter-spacing: 0.5px;
+  float: left;
+  padding-left: 5px;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+
+.account-container:hover {
+  background-color: var(--hover-bg);
+}
+
+.account-container:active {
+  background-color: var(--hover-bg);
+}
+
+.profile-photo {
+  position: relative;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  padding: 8px;
+  height: 100%;
+  float: left;
+  box-sizing: border-box;
 }
 
 /* Phablet */
