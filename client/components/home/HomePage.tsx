@@ -15,8 +15,8 @@ export default function HomePage() {
 
   return (
     <>
-      <ChatArea onOpenThreadsPanel={onOpenThreadsPanel} />
       <ThreadPanel show={showThreadPanel} onExitButton={onExitThreadsPanel} />
+      <ChatArea onOpenThreadsPanel={onOpenThreadsPanel} />
     </>
   )
 }

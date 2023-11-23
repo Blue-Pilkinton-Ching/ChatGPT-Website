@@ -14,6 +14,7 @@ import Logos from '../../auth-logos'
 import { OAuthCredential } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { useGlobalData } from '../../hooks/useGlobalData'
+import { getFirestore } from 'firebase/firestore'
 
 const app = initializeApp({
   apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
@@ -94,7 +95,9 @@ function LoginPage() {
           isSignedIn: true,
         }
 
-        setGlobalData({ ...globalData, authInfo })
+        const db = getFirestore()
+
+        setGlobalData({ ...globalData, authInfo, db })
         setSigningIn(false)
         navigate('/home')
       })

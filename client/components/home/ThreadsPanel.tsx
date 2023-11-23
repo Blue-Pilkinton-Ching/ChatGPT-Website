@@ -14,8 +14,6 @@ export default function ThreadPanel(props: ThreadPanelProps) {
     event.preventDefault()
   }
 
-  console.log(globalData?.authInfo.user)
-
   return (
     <>
       <div className={`threads-panel ${props.show ? 'show' : 'hide'}`}>

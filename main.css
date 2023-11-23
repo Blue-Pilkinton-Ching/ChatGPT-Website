@@ -312,6 +312,11 @@ main#home {
   box-sizing: border-box;
 }
 
+.create-message {
+  width: 80%;
+  text-align: center;
+}
+
 /* Phablet */
 @media (min-width: 400px) {
   #sign-in {

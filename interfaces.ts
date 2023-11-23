@@ -1,4 +1,5 @@
 import { User } from 'firebase/auth'
+import { Firestore } from 'firebase/firestore'
 
 export interface FirebaseConfig {
   apiKey: string
@@ -17,6 +18,7 @@ export interface GlobalDataWrapper {
 
 export interface GlobalData {
   authInfo: { user: User; token: string; isSignedIn: boolean }
+  db: Firestore
 }
 
 export interface SignInButtonProps {

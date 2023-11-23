@@ -1,5 +1,6 @@
 import { FormEvent } from 'react'
 import { ChatAreaProps } from '../../../interfaces.ts'
+import { CreateMessageArea } from './CreateMessageArea.tsx'
 
 export default function ChatArea(props: ChatAreaProps) {
   function handleEnter(event: FormEvent<HTMLButtonElement>) {
@@ -15,6 +16,7 @@ export default function ChatArea(props: ChatAreaProps) {
           <div className="bar2 bar"></div>
           <div className="bar3 bar"></div>
         </button>
+        <CreateMessageArea />
       </div>
     </>
   )
