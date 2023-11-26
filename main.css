@@ -215,14 +215,14 @@ h5 {
 
 main#home {
   background: var(--bg-gradient);
+  display: flex;
 }
 
 .chat-area {
-  position: relative;
   height: 100%;
-  width: calc(100% - 300px);
-  display: inline-block;
-  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  flex-grow: 1;
 }
 
 .threads-panel {
@@ -313,9 +313,15 @@ main#home {
   box-sizing: border-box;
 }
 
-.create-message {
+.message-area {
+  width: 100%;
   text-align: center;
-  bottom: 0;
+  margin-bottom: 10vw;
+}
+
+.message-text-field {
+  width: 80%;
+  height: 50px;
 }
 
 /* Phablet */
@@ -342,8 +348,25 @@ main#home {
   .threads-panel {
     position: relative;
   }
+
+  .message-area {
+    margin-bottom: 60px;
+  }
+
+  .message-text-field {
+    width: min(80%, 500px);
+    height: 50px;
+  }
 }
 
 /* desktop */
 @media (min-width: 1000px) {
+  .message-text-field {
+    width: min(50%, 600px);
+    height: 55px;
+  }
+
+  .message-area {
+    margin-bottom: 65px;
+  }
 }

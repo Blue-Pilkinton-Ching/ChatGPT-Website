@@ -6,9 +6,9 @@ export function CreateMessageArea() {
   }
 
   return (
-    <div className="create-message">
+    <div className="message-area">
       <form onSubmit={onMessageSubmit}>
-        <input type="text" />
+        <input type="text" className="message-text-field" />
       </form>
     </div>
   )
