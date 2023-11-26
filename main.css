@@ -155,7 +155,7 @@ main#login {
 .exit-threads-panel .bar1 {
   transform: translateY(-50%) rotate(45deg);
 }
-  
+
 .exit-threads-panel .bar2 {
   transform: translateY(-50%) rotate(-45deg);
 }
@@ -175,7 +175,6 @@ main#login {
 .show-threads-panel:active .bar3 {
   filter: brightness(var(--active-brightness));
 }
-
 
 .show-threads-panel .bar1 {
   transform: translateY(9px);
@@ -219,9 +218,11 @@ main#home {
 }
 
 .chat-area {
-  position: absolute;
+  position: relative;
   height: 100%;
+  width: calc(100% - 300px);
   display: inline-block;
+  text-align: center;
 }
 
 .threads-panel {
@@ -313,8 +314,8 @@ main#home {
 }
 
 .create-message {
-  width: 20%;
   text-align: center;
+  bottom: 0;
 }
 
 /* Phablet */
@@ -345,5 +346,4 @@ main#home {
 
 /* desktop */
 @media (min-width: 1000px) {
-
 }

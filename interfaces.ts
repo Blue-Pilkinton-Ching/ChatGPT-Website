@@ -30,6 +30,7 @@ export interface SignInButtonProps {
 }
 
 export interface ChatAreaProps {
+  show: boolean
   onOpenThreadsPanel: () => void
 }
 
