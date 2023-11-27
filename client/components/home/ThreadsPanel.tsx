@@ -1,9 +1,18 @@
 import { FormEvent } from 'react'
 import { ThreadPanelProps } from '../../../interfaces.ts'
-import { useGlobalData } from '../../hooks/useGlobalData.tsx'
+import { User, getAuth } from 'firebase/auth'
+
+let user: User
 
 export default function ThreadPanel(props: ThreadPanelProps) {
-  const { globalData } = useGlobalData()
+  const auth = getAuth()
+
+  auth.onAuthStateChanged((u) => {
+    if (u == null) {
+      return
+    }
+    user = u
+  })
 
   function handleExit(event: FormEvent<HTMLButtonElement>) {
     event?.preventDefault()
@@ -12,7 +21,7 @@ export default function ThreadPanel(props: ThreadPanelProps) {
 
   function OnAccountClick(event: FormEvent<HTMLButtonElement>) {
     event.preventDefault()
-    globalData?.auth
+    auth
       .signOut()
       .then(() => {
         console.log('Signed out!')
@@ -26,25 +35,27 @@ export default function ThreadPanel(props: ThreadPanelProps) {
 
   return (
     <>
-      <div className={`threads-panel ${props.show ? 'show' : 'hide'}`}>
-        <button onClick={handleExit} className="exit-threads-panel">
-          <div className="bar1 bar"></div>
-          <div className="bar2 bar"></div>
-        </button>
-        <button className="account-container" onClick={OnAccountClick}>
-          <img
-            className="profile-photo"
-            src={globalData?.auth.currentUser?.photoURL as string}
-            alt=""
-            referrerPolicy="no-referrer"
-          />
-          <span className="account-name">
-            {globalData?.auth.currentUser
-              ? globalData.auth.currentUser.displayName
-              : 'name'}
-          </span>
-        </button>
-      </div>
+      {user ? (
+        <div className={`threads-panel ${props.show ? 'show' : 'hide'}`}>
+          <button onClick={handleExit} className="exit-threads-panel">
+            <div className="bar1 bar"></div>
+            <div className="bar2 bar"></div>
+          </button>
+          <button className="account-container" onClick={OnAccountClick}>
+            <img
+              className="profile-photo"
+              src={user.photoURL as string}
+              alt=""
+              referrerPolicy="no-referrer"
+            />
+            <span className="account-name">
+              {user ? user.displayName : 'name'}
+            </span>
+          </button>
+        </div>
+      ) : (
+        ''
+      )}
     </>
   )
 }

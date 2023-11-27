@@ -4,6 +4,7 @@
   --color3: rgba(118, 157, 211, 0.021);
   --color4: rgba(0, 0, 0, 0.281);
   --color5: rgb(25, 35, 51);
+  --color6: rgb(70, 84, 104);
 
   --border-radius: 10px;
   --hover-bg: rgba(0, 0, 0, 0.233);
@@ -34,6 +35,20 @@
       transparent 20px
     ),
     var(--bg-gradient);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color5);
+  border-radius: 9999px;
+  --tw-border-opacity: 1;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 9999px;
 }
 
 html {
@@ -320,8 +335,24 @@ main#home {
 }
 
 .message-text-field {
-  width: 80%;
-  height: 50px;
+  width: calc(80% - 60px);
+  height: 25px;
+  box-shadow: none;
+  border-color: var(--color6);
+  border-style: solid;
+  border-radius: var(--border-radius);
+  background-color: transparent;
+  color: white;
+  border-width: 1px;
+  font-size: 1.05em;
+  font-family: var(--font1);
+  padding-left: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-right: 60px;
+  resize: none;
+  line-height: 25px;
+  text-align: left center;
 }
 
 /* Phablet */
@@ -355,15 +386,13 @@ main#home {
 
   .message-text-field {
     width: min(80%, 500px);
-    height: 50px;
   }
 }
 
 /* desktop */
 @media (min-width: 1000px) {
   .message-text-field {
-    width: min(50%, 600px);
-    height: 55px;
+    width: 50%;
   }
 
   .message-area {

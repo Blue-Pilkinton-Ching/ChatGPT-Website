@@ -1,4 +1,3 @@
-import { Auth } from 'firebase/auth'
 import { Firestore } from 'firebase/firestore'
 
 export interface FirebaseConfig {
@@ -17,7 +16,6 @@ export interface GlobalDataWrapper {
 }
 
 export interface GlobalData {
-  auth: Auth
   db: Firestore
 }
 

@@ -1,17 +1,16 @@
 import { useState } from 'react'
 import ChatArea from './ChatArea'
 import ThreadPanel from './ThreadsPanel'
-import { useGlobalData } from '../../hooks/useGlobalData'
 import { useNavigate } from 'react-router-dom'
+import { getAuth } from 'firebase/auth'
 
 export default function HomePage() {
-  const { globalData } = useGlobalData()
-
   const [showThreadPanel, setShowThreadPanel] = useState(false)
   const [showChatArea, setShowChatArea] = useState(true)
   const navigate = useNavigate()
+  const auth = getAuth()
 
-  globalData?.auth.onAuthStateChanged((user) => {
+  auth.onAuthStateChanged((user) => {
     if (!user) {
       console.log('Rerouting')
       navigate('/')

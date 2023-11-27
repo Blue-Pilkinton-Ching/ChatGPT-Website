@@ -37,8 +37,6 @@ function LoginPage() {
   auth.onAuthStateChanged((user) => {
     if (user) {
       userSignIn(user)
-    } else {
-      // No user is signed in.
     }
   })
 
@@ -88,7 +86,7 @@ function LoginPage() {
     const db = getFirestore()
     console.log(user)
 
-    setGlobalData({ ...globalData, db, auth })
+    setGlobalData({ ...globalData, db })
     setSigningIn(false)
     navigate('/home')
   }
