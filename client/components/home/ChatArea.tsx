@@ -1,6 +1,6 @@
 import { FormEvent } from 'react'
 import { ChatAreaProps } from '../../../interfaces.ts'
-import { CreateMessageArea } from './CreateMessageArea.tsx'
+import { MessageArea } from './MessageArea.tsx'
 
 export default function ChatArea(props: ChatAreaProps) {
   function handleEnter(event: FormEvent<HTMLButtonElement>) {
@@ -11,7 +11,7 @@ export default function ChatArea(props: ChatAreaProps) {
   return (
     <>
       <div className="chat-area">
-        {props.show ? (
+        {props.showPanelThreadsButton ? (
           <button onClick={handleEnter} className="show-threads-panel">
             <div className="bar1 bar"></div>
             <div className="bar2 bar"></div>
@@ -20,7 +20,7 @@ export default function ChatArea(props: ChatAreaProps) {
         ) : (
           ''
         )}
-        <CreateMessageArea />
+        <MessageArea />
       </div>
     </>
   )

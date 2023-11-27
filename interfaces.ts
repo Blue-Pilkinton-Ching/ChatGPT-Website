@@ -1,5 +1,3 @@
-import { Firestore } from 'firebase/firestore'
-
 export interface FirebaseConfig {
   apiKey: string
   authDomain: string
@@ -16,7 +14,7 @@ export interface GlobalDataWrapper {
 }
 
 export interface GlobalData {
-  db: Firestore
+  insideNewChat: boolean
 }
 
 export interface SignInButtonProps {
@@ -28,7 +26,8 @@ export interface SignInButtonProps {
 }
 
 export interface ChatAreaProps {
-  show: boolean
+  chatStarted: boolean
+  showPanelThreadsButton: boolean
   onOpenThreadsPanel: () => void
 }
 

@@ -360,6 +360,14 @@ main#home {
   border-color: var(--color7);
 }
 
+.new-chat-page {
+  position: relative;
+  height: 25px;
+  width: 123px;
+
+  background-color: red;
+}
+
 /* Phablet */
 @media (min-width: 400px) {
   #sign-in {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { initializeApp } from 'firebase/app'
 import {
@@ -15,7 +15,6 @@ import Logos from '../../auth-logos'
 import { OAuthCredential } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { useGlobalData } from '../../hooks/useGlobalData'
-import { getFirestore } from 'firebase/firestore'
 
 const app = initializeApp({
   apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
@@ -34,11 +33,15 @@ function LoginPage() {
   const navigate = useNavigate()
   const { globalData, setGlobalData } = useGlobalData()
 
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      userSignIn(user)
-    }
-  })
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      console.log('Auth state changed')
+      if (user) {
+        userSignIn(user)
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function OnSignInButtonClick(service: string) {
     console.log('Signing In')
@@ -69,24 +72,19 @@ function LoginPage() {
         return
     }
 
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        userSignIn(result.user)
-      })
-      .catch((error) => {
-        alert(`Error Signing in: ${error.code}`)
-        console.error(error)
-        setSigningIn(false)
-      })
+    signInWithPopup(auth, provider).catch((error) => {
+      alert(`Error Signing in: ${error.code}`)
+      console.error(error)
+      setSigningIn(false)
+    })
 
     return service
   }
 
   function userSignIn(user: User) {
-    const db = getFirestore()
     console.log(user)
 
-    setGlobalData({ ...globalData, db })
+    setGlobalData({ ...globalData, insideNewChat: true })
     setSigningIn(false)
     navigate('/home')
   }
