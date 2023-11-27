@@ -12,6 +12,16 @@ export default function ThreadPanel(props: ThreadPanelProps) {
 
   function OnAccountClick(event: FormEvent<HTMLButtonElement>) {
     event.preventDefault()
+    globalData?.auth
+      .signOut()
+      .then(() => {
+        console.log('Signed out!')
+      })
+      .catch((error) => {
+        console.error('Failed to sign out')
+        console.error(error.message)
+        alert(error.message)
+      })
   }
 
   return (
@@ -24,12 +34,14 @@ export default function ThreadPanel(props: ThreadPanelProps) {
         <button className="account-container" onClick={OnAccountClick}>
           <img
             className="profile-photo"
-            src={globalData?.authInfo.user.photoURL as string}
+            src={globalData?.auth.currentUser?.photoURL as string}
             alt=""
             referrerPolicy="no-referrer"
           />
           <span className="account-name">
-            {globalData ? globalData.authInfo.user.displayName : 'name'}
+            {globalData?.auth.currentUser
+              ? globalData.auth.currentUser.displayName
+              : 'name'}
           </span>
         </button>
       </div>

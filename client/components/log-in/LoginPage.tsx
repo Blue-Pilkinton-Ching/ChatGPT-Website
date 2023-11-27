@@ -1,10 +1,11 @@
 import { useState } from 'react'
 
-import { FirebaseError, initializeApp } from 'firebase/app'
+import { initializeApp } from 'firebase/app'
 import {
   AuthProvider,
   GithubAuthProvider,
   GoogleAuthProvider,
+  User,
   UserCredential,
   getAuth,
   signInWithPopup,
@@ -26,10 +27,20 @@ const app = initializeApp({
   measurementId: 'G-9KW9PBHY99',
 })
 
+const auth = getAuth(app)
+
 function LoginPage() {
   const [signingIn, setSigningIn] = useState(false)
   const navigate = useNavigate()
   const { globalData, setGlobalData } = useGlobalData()
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      userSignIn(user)
+    } else {
+      // No user is signed in.
+    }
+  })
 
   function OnSignInButtonClick(service: string) {
     console.log('Signing In')
@@ -39,7 +50,6 @@ function LoginPage() {
     let getCredentialFromResult: (
       result: UserCredential
     ) => OAuthCredential | null
-    let getCredentialFromError: (error: FirebaseError) => OAuthCredential | null
 
     // Init services & functionality based on sign in button
 
@@ -49,17 +59,11 @@ function LoginPage() {
         getCredentialFromResult = (result: UserCredential) => {
           return GoogleAuthProvider.credentialFromResult(result)
         }
-        getCredentialFromError = (error: FirebaseError) => {
-          return GoogleAuthProvider.credentialFromError(error)
-        }
         break
       case 'github':
         provider = new GithubAuthProvider()
         getCredentialFromResult = (result: UserCredential) => {
           return GithubAuthProvider.credentialFromResult(result)
-        }
-        getCredentialFromError = (error: FirebaseError) => {
-          return GithubAuthProvider.credentialFromError(error)
         }
         break
       default:
@@ -67,53 +71,26 @@ function LoginPage() {
         return
     }
 
-    const auth = getAuth(app)
     signInWithPopup(auth, provider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = getCredentialFromResult(result)
-
-        if (credential == null) {
-          console.error('Credential is null or undefined!')
-          return
-        }
-
-        const token = credential.accessToken
-        // The signed-in user info.
-
-        if (token == undefined) {
-          console.error('Token is null or undefine')
-          return
-        }
-
-        const user = result.user
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-        const authInfo = {
-          user,
-          token,
-          isSignedIn: true,
-        }
-
-        const db = getFirestore()
-
-        setGlobalData({ ...globalData, authInfo, db })
-        setSigningIn(false)
-        navigate('/home')
+        userSignIn(result.user)
       })
       .catch((error) => {
-        // The email of the user's account used.
-        const email = error.customData.email
-        // The AuthCredential type that was used.
-        const credential = getCredentialFromError(error)
-        // ...
-
         alert(`Error Signing in: ${error.code}`)
         console.error(error)
         setSigningIn(false)
       })
 
     return service
+  }
+
+  function userSignIn(user: User) {
+    const db = getFirestore()
+    console.log(user)
+
+    setGlobalData({ ...globalData, db, auth })
+    setSigningIn(false)
+    navigate('/home')
   }
 
   return (
