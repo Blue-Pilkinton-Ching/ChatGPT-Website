@@ -5,6 +5,7 @@
   --color4: rgba(0, 0, 0, 0.281);
   --color5: rgb(25, 35, 51);
   --color6: rgb(70, 84, 104);
+  --color7: rgb(54, 64, 80);
 
   --border-radius: 10px;
   --hover-bg: rgba(0, 0, 0, 0.233);
@@ -352,7 +353,11 @@ main#home {
   padding-right: 60px;
   resize: none;
   line-height: 25px;
-  text-align: left center;
+}
+
+.message-text-field:focus {
+  outline: none;
+  border-color: var(--color7);
 }
 
 /* Phablet */

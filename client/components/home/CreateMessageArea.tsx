@@ -18,6 +18,7 @@ export function CreateMessageArea() {
         onChange={onMessageChange}
         className="message-text-field"
         name="message-text-field"
+        placeholder="Message GPT..."
         rows={1}
       ></textarea>
     </div>
