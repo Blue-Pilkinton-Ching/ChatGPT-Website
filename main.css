@@ -362,10 +362,27 @@ h5 {
 
 .new-chat-page {
   position: relative;
-  height: 25px;
-  width: 123px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30vh;
+}
 
-  background-color: red;
+.logo-svg {
+  width: 50px;
+  margin-top: 40px;
+  transform: translateY(-50%);
+}
+
+.logo-container {
+  width: 80px;
+  height: 80px;
+  border-color: black;
+  border-radius: 100%;
+  border-style: solid;
+  border-width: 3.5px;
+  background-color: white;
+  margin: auto;
+  text-align: center;
 }
 
 /* Phablet */
