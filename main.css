@@ -70,7 +70,7 @@ main {
   height: 100%;
 }
 
-main#login {
+.login {
   background: var(--bg-gradient-grid);
 }
 
@@ -229,7 +229,7 @@ h5 {
   margin-block-start: 0;
 }
 
-main#home {
+.home {
   background: var(--bg-gradient);
   display: flex;
 }

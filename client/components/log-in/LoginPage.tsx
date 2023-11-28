@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { initializeApp } from 'firebase/app'
 import {
   AuthProvider,
   GithubAuthProvider,
   GoogleAuthProvider,
-  User,
   UserCredential,
   getAuth,
   signInWithPopup,
@@ -13,8 +12,7 @@ import {
 import { SignInButton } from './SignInButton'
 import Logos from '../../auth-logos'
 import { OAuthCredential } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
-import { useGlobalData } from '../../hooks/useGlobalData'
+import { Loader } from '../Loader'
 
 const app = initializeApp({
   apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
@@ -30,21 +28,7 @@ const auth = getAuth(app)
 
 function LoginPage() {
   const [signingIn, setSigningIn] = useState(false)
-  const navigate = useNavigate()
-  const { globalData, setGlobalData } = useGlobalData()
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      console.log('Auth state changed')
-      if (user) {
-        userSignIn(user)
-      }
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   function OnSignInButtonClick(service: string) {
-    console.log('Signing In')
     setSigningIn(true)
 
     let provider: AuthProvider
@@ -81,21 +65,10 @@ function LoginPage() {
     return service
   }
 
-  function userSignIn(user: User) {
-    console.log(user)
-
-    setGlobalData({ ...globalData, insideNewChat: true })
-    setSigningIn(false)
-    navigate('/home')
-  }
-
   return (
-    <>
+    <main className="login">
       {signingIn ? (
-        <div className="center">
-          <span className="loader"></span>
-          <h5>Signing in...</h5>
-        </div>
+        <Loader />
       ) : (
         <div className="center" id="sign-in">
           <h1> Sign in Method</h1>
@@ -122,7 +95,7 @@ function LoginPage() {
           ></SignInButton>
         </div>
       )}
-    </>
+    </main>
   )
 }
 
