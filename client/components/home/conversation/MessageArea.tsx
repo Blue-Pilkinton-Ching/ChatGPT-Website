@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, KeyboardEvent } from 'react'
 import NewChatPage from './NewChatPage'
-import { useGlobalData } from '../../hooks/useGlobalData'
+import { useGlobalData } from '../../../hooks/useGlobalData'
 
 export function MessageArea() {
   const { globalData } = useGlobalData()

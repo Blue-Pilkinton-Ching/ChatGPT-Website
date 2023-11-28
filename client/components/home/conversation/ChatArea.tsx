@@ -1,5 +1,5 @@
 import { FormEvent } from 'react'
-import { ChatAreaProps } from '../../../interfaces.ts'
+import { ChatAreaProps } from '../../../../interfaces.ts'
 import { MessageArea } from './MessageArea.tsx'
 
 export default function ChatArea(props: ChatAreaProps) {

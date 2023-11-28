@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import ChatArea from './ChatArea'
-import ThreadPanel from './ThreadsPanel'
+import ChatArea from './conversation/ChatArea'
+import ThreadPanel from './thread-panel/ThreadsPanel'
 import { useGlobalData } from '../../hooks/useGlobalData'
 import { User, getAuth } from 'firebase/auth'
 import { Loader } from '../Loader'

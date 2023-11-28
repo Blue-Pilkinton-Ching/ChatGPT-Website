@@ -1,5 +1,5 @@
 import { FormEvent } from 'react'
-import { ThreadPanelProps } from '../../../interfaces.ts'
+import { ThreadPanelProps } from '../../../../interfaces.ts'
 import { getAuth } from 'firebase/auth'
 
 export default function ThreadPanel(props: ThreadPanelProps) {
