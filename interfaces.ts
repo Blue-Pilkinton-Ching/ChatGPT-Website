@@ -45,3 +45,10 @@ export interface ThreadPanelProps {
   show: boolean
   onExitButton: () => void
 }
+
+export interface SettingsOptionProps {
+  id: number
+  icon: string
+  text: string
+  onClick: (id: number) => void
+}

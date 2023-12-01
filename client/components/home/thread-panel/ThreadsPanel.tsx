@@ -30,7 +30,7 @@ export default function ThreadPanel(props: ThreadPanelProps) {
             alt=""
             referrerPolicy="no-referrer"
           />
-          <span className="account-name">
+          <span className="account-name text">
             {getAuth().currentUser
               ? getAuth().currentUser?.displayName
               : 'name'}

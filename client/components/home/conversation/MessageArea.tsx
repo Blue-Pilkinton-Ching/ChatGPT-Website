@@ -32,7 +32,7 @@ export function MessageArea() {
       <textarea
         onKeyDown={onKeyDown}
         onChange={onMessageChange}
-        className="message-text-field"
+        className="message-text-field text"
         name="message-text-field"
         placeholder="Message GPT..."
         rows={1}
