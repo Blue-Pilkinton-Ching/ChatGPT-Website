@@ -1,26 +1,46 @@
-import { useState } from 'react'
+import { useState, KeyboardEvent } from 'react'
 import { SettingsProps } from '../../../../interfaces'
 import { ExitButton } from '../../ExitButton'
 import { SettingsOption } from './SettingsOption'
 
-const defaultSettingsContent = (
+const generalSettings = <></>
+const usageSettings = <></>
+const apiKeySettings = (
   <>
-    <input type="text" className="api-key-text" />
+    <textarea
+      onKeyDown={onKeyDown}
+      className="api-key-text text"
+      placeholder="Paste your OpenAI API key..."
+      wrap="off"
+    />
   </>
 )
 
+function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+  if (event.code === 'Enter') {
+    event.preventDefault()
+    event.currentTarget.blur()
+  }
+}
+
 export default function Settings(props: SettingsProps) {
-  const [settingsContent, setSettingsContent] = useState(defaultSettingsContent)
+  const [settingsContent, setSettingsContent] = useState(generalSettings)
   const [selectedID, setSelectedID] = useState(0)
 
   function onSettingsOptionClick(id: number) {
     setSelectedID(id)
     switch (id) {
       case 0:
-        setSettingsContent(defaultSettingsContent)
+        setSettingsContent(generalSettings)
+        break
+      case 1:
+        setSettingsContent(usageSettings)
+        break
+      case 2:
+        setSettingsContent(apiKeySettings)
         break
       default:
-        break
+        throw new Error('Unknown settings content id!')
     }
   }
 
@@ -56,6 +76,12 @@ export default function Settings(props: SettingsProps) {
                   onClick={onSettingsOptionClick}
                   selected={selectedID === 2}
                 />
+                <div className="save-settings">
+                  <button className="save-button"></button>
+                </div>
+                <div className="revert-settings">
+                  <button className="revert-button"></button>
+                </div>
               </div>
               <div className="settings-content">{settingsContent}</div>
             </div>

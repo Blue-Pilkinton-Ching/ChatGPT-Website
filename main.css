@@ -40,9 +40,6 @@
     var(--bg-gradient);
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-}
 ::-webkit-scrollbar-thumb {
   background-color: var(--color5);
   border-radius: 9999px;
@@ -448,6 +445,7 @@ h1 {
   float: left;
   box-sizing: border-box;
   padding: 8px;
+  overflow: scroll;
 }
 
 .settings-option {
@@ -463,6 +461,7 @@ h1 {
   float: left;
   font-size: 0.9em;
   cursor: pointer;
+  overflow: scroll;
 }
 
 .settings-option:hover {
@@ -480,17 +479,36 @@ h4 {
 }
 
 .settings-content {
-  width: 70%;
-  float: right;
+  width: 100%;
 }
 
-/* .api-key-text {
-  width: 40px;
-  background-color: transparent;
-  border-style: solid;
+.settings-option-selected {
+  background-color: var(--color4);
+}
+
+.api-key-text {
+  width: calc(80%);
+  margin-top: 20px;
+  height: 30px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  box-shadow: none;
   border-color: var(--color6);
+  border-style: solid;
   border-radius: var(--border-radius);
-} */
+  background-color: transparent;
+  resize: none;
+  line-height: 22px;
+  border-width: 1px;
+  padding-right: 0;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+
+.api-key-text:focus {
+  outline: none;
+  border-color: var(--color7);
+}
 
 /* Phablet */
 @media (min-width: 400px) {
@@ -531,10 +549,6 @@ h4 {
     border-top-left-radius: 0;
     height: calc(80vh - 80px);
     width: min(80vw, 400px);
-  }
-
-  .settings-option-selected {
-    background-color: var(--color4);
   }
 }
 
