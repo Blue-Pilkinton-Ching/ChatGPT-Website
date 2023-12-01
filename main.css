@@ -532,6 +532,10 @@ h4 {
     height: calc(80vh - 80px);
     width: min(80vw, 400px);
   }
+
+  .settings-option-selected {
+    background-color: var(--color4);
+  }
 }
 
 /* tablet */

@@ -11,13 +11,14 @@ const defaultSettingsContent = (
 
 export default function Settings(props: SettingsProps) {
   const [settingsContent, setSettingsContent] = useState(defaultSettingsContent)
+  const [selectedID, setSelectedID] = useState(0)
 
   function onSettingsOptionClick(id: number) {
+    setSelectedID(id)
     switch (id) {
       case 0:
         setSettingsContent(defaultSettingsContent)
         break
-
       default:
         break
     }
@@ -39,18 +40,21 @@ export default function Settings(props: SettingsProps) {
                   text="General Settings"
                   id={0}
                   onClick={onSettingsOptionClick}
+                  selected={selectedID === 0}
                 />
                 <SettingsOption
                   icon="images/chart.svg"
                   text="Usage"
                   id={1}
                   onClick={onSettingsOptionClick}
+                  selected={selectedID === 1}
                 />
                 <SettingsOption
                   icon="images/key.svg"
                   text="API key settings"
                   id={2}
                   onClick={onSettingsOptionClick}
+                  selected={selectedID === 2}
                 />
               </div>
               <div className="settings-content">{settingsContent}</div>

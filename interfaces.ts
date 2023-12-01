@@ -47,6 +47,7 @@ export interface ThreadPanelProps {
 }
 
 export interface SettingsOptionProps {
+  selected: boolean
   id: number
   icon: string
   text: string
