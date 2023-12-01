@@ -35,21 +35,21 @@ export default function Settings(props: SettingsProps) {
             <div className="settings-box">
               <div className="settings-options">
                 <SettingsOption
-                  icon="images/key.svg"
-                  text="API key settings"
+                  icon="images/settings.svg"
+                  text="General Settings"
                   id={0}
+                  onClick={onSettingsOptionClick}
+                />
+                <SettingsOption
+                  icon="images/chart.svg"
+                  text="Usage"
+                  id={1}
                   onClick={onSettingsOptionClick}
                 />
                 <SettingsOption
                   icon="images/key.svg"
                   text="API key settings"
-                  id={0}
-                  onClick={onSettingsOptionClick}
-                />
-                <SettingsOption
-                  icon="images/key.svg"
-                  text="API key settings"
-                  id={0}
+                  id={2}
                   onClick={onSettingsOptionClick}
                 />
               </div>

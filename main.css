@@ -563,6 +563,7 @@ h4 {
   }
   .settings-option-icon {
     left: 24px;
+    margin: 0;
   }
 
   h4 {
