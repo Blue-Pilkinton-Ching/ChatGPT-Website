@@ -3,7 +3,7 @@
   --color2: rgb(8, 23, 53);
   --color3: rgba(118, 157, 211, 0.021);
   --color4: rgba(0, 0, 0, 0.281);
-  --color5: rgb(25, 35, 51);
+  --color5: rgb(36, 48, 67);
   --color6: rgb(70, 84, 104);
   --color7: rgb(54, 64, 80);
 
@@ -180,7 +180,8 @@ main {
 .exit-threads-panel:hover .bar2,
 .show-threads-panel:hover .bar1,
 .show-threads-panel:hover .bar2,
-.show-threads-panel:hover .bar3 {
+.show-threads-panel:hover .bar3,
+.settings:hover .settings-svg {
   filter: brightness(var(--hover-brightness));
 }
 
@@ -188,7 +189,8 @@ main {
 .exit-threads-panel:active .bar2,
 .show-threads-panel:active .bar1,
 .show-threads-panel:active .bar2,
-.show-threads-panel:active .bar3 {
+.show-threads-panel:active .bar3,
+.settings:active .settings-svg {
   filter: brightness(var(--active-brightness));
 }
 
@@ -258,12 +260,30 @@ h5 {
 }
 
 .show-threads-panel {
-  cursor: pointer;
-  position: absolute;
   left: 18px;
   top: 18px;
   height: 30px;
   width: 30px;
+}
+
+.settings {
+  left: 15px;
+  top: 60px;
+  height: 30px;
+  width: 30px;
+  padding: 0;
+}
+
+.settings-svg {
+  height: 37px;
+  width: 37px;
+  transform: translate();
+}
+
+.button {
+  transition-duration: var(--transition-duration);
+  cursor: pointer;
+  position: absolute;
   transition-duration: var(--transition-duration);
   background-color: transparent;
   color: white;
@@ -271,14 +291,10 @@ h5 {
 }
 
 .exit-threads-panel {
-  cursor: pointer;
-  position: absolute;
   right: 15px;
   top: 15px;
   height: 30px;
   width: 30px;
-  background-color: transparent;
-  border: 0;
 }
 
 .account-container {

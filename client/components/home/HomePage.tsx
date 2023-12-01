@@ -4,6 +4,7 @@ import ThreadPanel from './thread-panel/ThreadsPanel'
 import { useGlobalData } from '../../hooks/useGlobalData'
 import { User, getAuth } from 'firebase/auth'
 import { Loader } from '../Loader'
+import Settings from './Settings'
 
 export default function HomePage() {
   const [showThreadPanel, setShowThreadPanel] = useState(false)
@@ -47,7 +48,8 @@ export default function HomePage() {
             chatStarted={false}
             showPanelThreadsButton={showChatArea}
             onOpenThreadsPanel={onOpenThreadsPanel}
-          />{' '}
+          />
+          <Settings />
         </>
       ) : (
         <Loader />

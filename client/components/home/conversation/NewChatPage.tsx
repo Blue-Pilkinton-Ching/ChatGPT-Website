@@ -3,7 +3,7 @@ export default function NewChatPage() {
     <>
       <div className="new-chat-page">
         <div className="logo-container">
-          <img src="images/logo.svg" alt="" className="logo-svg" />
+          <img src="images/logo.svg" alt="logo" className="logo-svg" />
         </div>
         <h1>How can I help you today?</h1>
       </div>

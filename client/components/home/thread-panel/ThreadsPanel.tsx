@@ -22,7 +22,7 @@ export default function ThreadPanel(props: ThreadPanelProps) {
   return (
     <>
       <div className={`threads-panel ${props.show ? 'show' : 'hide'}`}>
-        <button onClick={handleExit} className="exit-threads-panel">
+        <button onClick={handleExit} className="exit-threads-panel button">
           <div className="bar1 bar"></div>
           <div className="bar2 bar"></div>
         </button>
