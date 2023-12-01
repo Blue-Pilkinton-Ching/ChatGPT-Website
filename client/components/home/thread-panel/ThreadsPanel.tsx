@@ -1,10 +1,10 @@
 import { FormEvent } from 'react'
 import { ThreadPanelProps } from '../../../../interfaces.ts'
 import { getAuth } from 'firebase/auth'
+import { ExitButton } from '../../ExitButton.tsx'
 
 export default function ThreadPanel(props: ThreadPanelProps) {
-  function handleExit(event: FormEvent<HTMLButtonElement>) {
-    event?.preventDefault()
+  function handleExit() {
     props.onExitButton()
   }
 
@@ -22,10 +22,7 @@ export default function ThreadPanel(props: ThreadPanelProps) {
   return (
     <>
       <div className={`threads-panel ${props.show ? 'show' : 'hide'}`}>
-        <button onClick={handleExit} className="exit-threads-panel button">
-          <div className="bar1 bar"></div>
-          <div className="bar2 bar"></div>
-        </button>
+        <ExitButton onClick={handleExit} />
         <button className="account-container" onClick={OnAccountClick}>
           <img
             className="profile-photo"

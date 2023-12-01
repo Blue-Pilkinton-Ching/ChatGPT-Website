@@ -5,11 +5,12 @@ import { MessageArea } from './MessageArea.tsx'
 export default function ChatArea(props: ChatAreaProps) {
   function openThreadsPanel(event: FormEvent<HTMLButtonElement>) {
     event.preventDefault()
-    props.onOpenThreadsPanel()
+    props.openThreadsPanel()
   }
 
   function openSettings(event: FormEvent<HTMLButtonElement>) {
-    event.preventDefault
+    event.preventDefault()
+    props.showSettingsPanel()
   }
 
   return (

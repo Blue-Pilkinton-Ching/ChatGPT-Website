@@ -28,7 +28,17 @@ export interface SignInButtonProps {
 export interface ChatAreaProps {
   chatStarted: boolean
   showPanelThreadsButton: boolean
-  onOpenThreadsPanel: () => void
+  showSettingsPanel: () => void
+  openThreadsPanel: () => void
+}
+
+export interface SettingsProps {
+  show: boolean
+  onExitButton: () => void
+}
+
+export interface ExitButtonProps {
+  onClick: () => void
 }
 
 export interface ThreadPanelProps {

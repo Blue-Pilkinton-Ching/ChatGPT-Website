@@ -1,7 +1,7 @@
 export default function NewChatPage() {
   return (
     <>
-      <div className="new-chat-page">
+      <div className="new-chat-page center">
         <div className="logo-container">
           <img src="images/logo.svg" alt="logo" className="logo-svg" />
         </div>

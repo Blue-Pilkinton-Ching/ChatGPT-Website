@@ -9,6 +9,7 @@ import Settings from './Settings'
 export default function HomePage() {
   const [showThreadPanel, setShowThreadPanel] = useState(false)
   const [showChatArea, setShowChatArea] = useState(true)
+  const [showSettings, setShowSettings] = useState(false)
   const { globalData, setGlobalData } = useGlobalData()
   const [currentUser, setCurrentUser] = useState<User | null>(
     getAuth().currentUser
@@ -26,14 +27,13 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function onOpenThreadsPanel() {
-    setShowChatArea(false)
-    setShowThreadPanel(true)
+  function triggerThreadsPanel() {
+    setShowChatArea(!showChatArea)
+    setShowThreadPanel(!showThreadPanel)
   }
 
-  function onExitThreadsPanel() {
-    setShowChatArea(true)
-    setShowThreadPanel(false)
+  function triggerSettingsPanel() {
+    setShowSettings(!showSettings)
   }
 
   return (
@@ -42,14 +42,15 @@ export default function HomePage() {
         <>
           <ThreadPanel
             show={showThreadPanel}
-            onExitButton={onExitThreadsPanel}
+            onExitButton={triggerThreadsPanel}
           />
           <ChatArea
             chatStarted={false}
             showPanelThreadsButton={showChatArea}
-            onOpenThreadsPanel={onOpenThreadsPanel}
+            openThreadsPanel={triggerThreadsPanel}
+            showSettingsPanel={triggerSettingsPanel}
           />
-          <Settings />
+          <Settings show={showSettings} onExitButton={triggerSettingsPanel} />
         </>
       ) : (
         <Loader />
