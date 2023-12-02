@@ -1,31 +1,71 @@
-import { useState, KeyboardEvent } from 'react'
-import { SettingsProps } from '../../../../interfaces'
+import { useState, KeyboardEvent, useEffect } from 'react'
+import {
+  Settings as SettingsInterface,
+  SettingsProps,
+} from '../../../../interfaces'
 import { ExitButton } from '../../ExitButton'
 import { SettingsOption } from './SettingsOption'
-
-const generalSettings = <></>
-const usageSettings = <></>
-const apiKeySettings = (
-  <>
-    <textarea
-      onKeyDown={onKeyDown}
-      className="api-key-text text"
-      placeholder="Paste your OpenAI API key..."
-      wrap="off"
-    />
-  </>
-)
-
-function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
-  if (event.code === 'Enter') {
-    event.preventDefault()
-    event.currentTarget.blur()
-  }
-}
+import { useWindowSize } from '@uidotdev/usehooks'
+import { ApplySettings } from './ApplySettings'
+import { useGlobalData } from '../../../hooks/useGlobalData'
 
 export default function Settings(props: SettingsProps) {
-  const [settingsContent, setSettingsContent] = useState(generalSettings)
+  const [settingsContent, setSettingsContent] = useState<JSX.Element>()
   const [selectedID, setSelectedID] = useState(0)
+  const size = useWindowSize()
+  const { globalData, setGlobalData } = useGlobalData()
+  const [settingsValues, setSettingsValues] = useState<SettingsInterface>()
+
+  useEffect(() => {
+    globalData.settingsData.onSave.push(() => {
+      onSave()
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  function onSave() {
+    const updatedGlobalData = {
+      ...globalData,
+      settingsData: {
+        ...globalData.settingsData,
+        settings: {
+          ...globalData.settingsData.settings,
+          apiKey: 'asdasd',
+        },
+      },
+    }
+    setGlobalData(updatedGlobalData)
+  }
+
+  if (size.width == null || size.height == null) {
+    return
+  }
+
+  const generalSettings = <></>
+  const usageSettings = <></>
+  const apiKeySettings = (
+    <>
+      <textarea
+        onChange={(event) => {
+          setSettingsValues({
+            ...settingsValues,
+            apiKey: event.currentTarget.value,
+          })
+        }}
+        onKeyDown={onKeyDown}
+        className="api-key-text text"
+        placeholder="Paste your OpenAI API key..."
+        wrap="off"
+      />
+    </>
+  )
+
+  function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.code === 'Enter') {
+      event.preventDefault()
+      event.currentTarget.blur()
+    }
+  }
 
   function onSettingsOptionClick(id: number) {
     setSelectedID(id)
@@ -76,14 +116,10 @@ export default function Settings(props: SettingsProps) {
                   onClick={onSettingsOptionClick}
                   selected={selectedID === 2}
                 />
-                <div className="save-settings">
-                  <button className="save-button"></button>
-                </div>
-                <div className="revert-settings">
-                  <button className="revert-button"></button>
-                </div>
+                {size.width >= 750 ? <ApplySettings /> : ''}
               </div>
               <div className="settings-content">{settingsContent}</div>
+              {size.width < 750 ? <ApplySettings /> : ''}
             </div>
           </div>
         </div>

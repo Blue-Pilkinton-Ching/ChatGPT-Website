@@ -28,7 +28,7 @@ export function MessageArea() {
 
   return (
     <div className="message-area">
-      {globalData?.insideNewChat ? <NewChatPage /> : ''}
+      {globalData.insideNewChat ? <NewChatPage /> : ''}
       <textarea
         onKeyDown={onKeyDown}
         onChange={onMessageChange}

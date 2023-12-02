@@ -7,13 +7,16 @@ import { useState } from 'react'
 const router = createBrowserRouter(routes)
 
 export function App() {
-  const [globalData, setGlobalData] = useState<GlobalData>()
+  const [globalState, setGlobalState] = useState<GlobalData>({
+    insideNewChat: true,
+    settingsData: { onSave: [], onCancel: [], settings: { apiKey: '' } },
+  })
 
   return (
     <GlobalContext.Provider
       value={{
-        globalData,
-        setGlobalData,
+        globalData: globalState,
+        setGlobalData: setGlobalState,
       }}
     >
       <RouterProvider router={router} />

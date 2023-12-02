@@ -10,7 +10,6 @@ export function useGlobalData() {
 
   return context
 }
-
-export const GlobalContext = createContext<GlobalDataWrapper | undefined>(
-  undefined
-)
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export const GlobalContext = createContext<GlobalDataWrapper>()

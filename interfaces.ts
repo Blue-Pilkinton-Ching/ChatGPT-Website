@@ -9,12 +9,21 @@ export interface FirebaseConfig {
 }
 
 export interface GlobalDataWrapper {
-  globalData: GlobalData | undefined
+  globalData: GlobalData
   setGlobalData: (data: GlobalData) => void
 }
 
 export interface GlobalData {
   insideNewChat: boolean
+  settingsData: {
+    onSave: Array<() => void>
+    onCancel: Array<() => void>
+    settings: Settings
+  }
+}
+
+export interface Settings {
+  apiKey: string
 }
 
 export interface SignInButtonProps {
