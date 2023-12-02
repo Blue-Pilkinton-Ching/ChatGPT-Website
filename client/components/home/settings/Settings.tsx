@@ -17,6 +17,7 @@ export default function Settings(props: SettingsProps) {
   const [settingsValues, setSettingsValues] = useState<SettingsInterface>()
 
   useEffect(() => {
+    console.log(globalData)
     globalData.settingsData.onSave.push(() => {
       onSave()
     })
@@ -34,6 +35,7 @@ export default function Settings(props: SettingsProps) {
         },
       },
     }
+
     setGlobalData(updatedGlobalData)
   }
 
