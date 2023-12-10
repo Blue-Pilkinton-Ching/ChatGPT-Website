@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import ChatArea from './conversation/ChatArea'
 import ThreadPanel from './thread-panel/ThreadsPanel'
-import { useGlobalData } from '../../hooks/useGlobalData'
+import { useGlobalData } from '../../hooks/useGlobalState'
 import { User, getAuth } from 'firebase/auth'
 import { Loader } from '../Loader'
 import Settings from './settings/Settings'
@@ -10,7 +10,8 @@ export default function HomePage() {
   const [showThreadPanel, setShowThreadPanel] = useState(false)
   const [showChatArea, setShowChatArea] = useState(true)
   const [showSettings, setShowSettings] = useState(false)
-  const { globalData, setGlobalData } = useGlobalData()
+  const { globalState: globalData, setGlobalState: setGlobalData } =
+    useGlobalData()
   const [currentUser, setCurrentUser] = useState<User | null>(
     getAuth().currentUser
   )

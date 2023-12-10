@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react'
-import { GlobalDataWrapper } from '../../interfaces'
+import { GlobalStateWrapper } from '../../interfaces'
 
 export function useGlobalData() {
-  const context = useContext(GlobalContext)
+  const context = useContext(GlobalStateContext)
 
   if (context == undefined) {
     throw 'Global Context is null or undefined'
@@ -12,4 +12,4 @@ export function useGlobalData() {
 }
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export const GlobalContext = createContext<GlobalDataWrapper>()
+export const GlobalStateContext = createContext<GlobalStateWrapper>()

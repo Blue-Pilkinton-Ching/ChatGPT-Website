@@ -1,24 +1,20 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { GlobalContext } from '../hooks/useGlobalData'
-import { GlobalData } from '../../interfaces'
+import { GlobalStateContext } from '../hooks/useGlobalState'
+import { GlobalRef, GlobalState } from '../../interfaces'
 import routes from '../routes'
-import { useEffect, useState } from 'react'
-import EventEmitter from 'events'
+import { useState, useRef } from 'react'
 import { initializeApp } from 'firebase/app'
+import { GlobalRefContext } from '../hooks/useGlobalRef'
 
 const router = createBrowserRouter(routes)
 
-export const onGlobalData = new EventEmitter()
-
 export function App() {
-  const [globalState, setGlobalState] = useState<GlobalData>({
+  const [globalState, setGlobalState] = useState<GlobalState>({
     insideNewChat: true,
+  })
+  const globalRef = useRef<GlobalRef>({
     settings: { apiKey: '' },
   })
-
-  useEffect(() => {
-    onGlobalData.emit('changed')
-  }, [])
 
   initializeApp({
     apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
@@ -31,16 +27,15 @@ export function App() {
   })
 
   return (
-    <GlobalContext.Provider
-      value={{
-        globalData: globalState,
-        setGlobalData: (data) => {
-          setGlobalState(data)
-          onGlobalData.emit('changed')
-        },
-      }}
-    >
-      <RouterProvider router={router} />
-    </GlobalContext.Provider>
+    <GlobalRefContext.Provider value={globalRef}>
+      <GlobalStateContext.Provider
+        value={{
+          globalState,
+          setGlobalState,
+        }}
+      >
+        <RouterProvider router={router} />
+      </GlobalStateContext.Provider>
+    </GlobalRefContext.Provider>
   )
 }

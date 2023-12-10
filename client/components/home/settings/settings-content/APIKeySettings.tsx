@@ -1,16 +1,16 @@
 import { ChangeEvent, KeyboardEvent, useEffect, useRef } from 'react'
 import { onSave as onSaveEvent } from '../Settings'
-import { useGlobalData } from '../../../../hooks/useGlobalData'
 import { SettingsContentProps } from '../../../../../interfaces'
+import { useGlobalRef } from '../../../../hooks/useGlobalRef'
 
 export function APIKeySettings(props: SettingsContentProps) {
   const apiKeyRef = useRef<HTMLTextAreaElement>(null)
   const apiKey = useRef('')
-  const { globalData, setGlobalData } = useGlobalData()
+  const globalRef = useGlobalRef()
 
   useEffect(() => {
     const apiKeyRefNew = apiKeyRef.current as HTMLTextAreaElement
-    apiKeyRefNew.value = globalData.settings.apiKey
+    apiKeyRefNew.value = globalRef.current.settings.apiKey
 
     onSaveEvent.on('action', onSave)
 
@@ -21,7 +21,10 @@ export function APIKeySettings(props: SettingsContentProps) {
   }, [])
 
   function onSave() {
-    setGlobalData({ ...globalData, settings: { apiKey: apiKey.current } })
+    globalRef.current = {
+      ...globalRef.current,
+      settings: { apiKey: apiKey.current },
+    }
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {

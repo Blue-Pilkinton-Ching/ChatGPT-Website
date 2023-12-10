@@ -8,13 +8,16 @@ export interface FirebaseConfig {
   measurementId: string
 }
 
-export interface GlobalDataWrapper {
-  globalData: GlobalData
-  setGlobalData: (data: GlobalData) => void
+export interface GlobalStateWrapper {
+  globalState: GlobalState
+  setGlobalState: (data: GlobalState) => void
 }
 
-export interface GlobalData {
+export interface GlobalState {
   insideNewChat: boolean
+}
+
+export interface GlobalRef {
   settings: Settings
 }
 
