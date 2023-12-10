@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { GlobalStateContext } from '../hooks/useGlobalState'
-import { GlobalRef, GlobalState } from '../../interfaces'
+import { GlobalState } from '../../interfaces'
 import routes from '../routes'
 import { useState, useRef } from 'react'
 import { initializeApp } from 'firebase/app'
@@ -12,7 +12,7 @@ export function App() {
   const [globalState, setGlobalState] = useState<GlobalState>({
     insideNewChat: true,
   })
-  const globalRef = useRef<GlobalRef>({
+  const globalRef = useRef({
     settings: { apiKey: '' },
   })
 

@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react'
+import { GlobalRef } from '../../interfaces'
 
 export function useGlobalRef() {
   const context = useContext(GlobalRefContext)
@@ -9,6 +10,6 @@ export function useGlobalRef() {
 
   return context
 }
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const GlobalRefContext = createContext<GlobalRef>()
+export const GlobalRefContext = createContext<
+  React.MutableRefObject<GlobalRef | null>
+>({ current: null })

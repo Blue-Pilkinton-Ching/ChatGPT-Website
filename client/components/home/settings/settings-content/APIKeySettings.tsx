@@ -10,6 +10,11 @@ export function APIKeySettings(props: SettingsContentProps) {
 
   useEffect(() => {
     const apiKeyRefNew = apiKeyRef.current as HTMLTextAreaElement
+
+    if (globalRef.current == undefined) {
+      throw new Error()
+    }
+
     apiKeyRefNew.value = globalRef.current.settings.apiKey
 
     onSaveEvent.on('action', onSave)

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { SettingsProps } from '../../../../interfaces'
 import { ExitButton } from '../../ExitButton'
 import { SettingsOption } from './SettingsOption'
@@ -7,15 +7,23 @@ import { GeneralSettings } from './settings-content/GeneralSettings'
 import { APIKeySettings } from './settings-content/APIKeySettings'
 
 import EventEmitter from 'events'
+import { getFirestore } from 'firebase/firestore'
+import { useGlobalRef } from '../../../hooks/useGlobalRef'
 
 export const onSave = new EventEmitter()
 
 export default function Settings(props: SettingsProps) {
+  useRef<string>()
   const [selectedID, setSelectedID] = useState(0)
+  const globalRef = useGlobalRef()
 
   function exit() {
     onSave.emit('action')
     props.onExitButton()
+
+    if (globalRef.current == undefined) {
+      throw new Error()
+    }
   }
 
   return (
