@@ -1,85 +1,33 @@
-import { useState, KeyboardEvent, useEffect } from 'react'
-import {
-  Settings as SettingsInterface,
-  SettingsProps,
-} from '../../../../interfaces'
+import { useState } from 'react'
+import { SettingsProps } from '../../../../interfaces'
 import { ExitButton } from '../../ExitButton'
 import { SettingsOption } from './SettingsOption'
 import { useWindowSize } from '@uidotdev/usehooks'
 import { ApplySettings } from './ApplySettings'
-import { useGlobalData } from '../../../hooks/useGlobalData'
+import { UsageSettings } from './settings-content/UsageSettings'
+import { GeneralSettings } from './settings-content/GeneralSettings'
+import { APIKeySettings } from './settings-content/APIKeySettings'
 
 export default function Settings(props: SettingsProps) {
   const [settingsContent, setSettingsContent] = useState<JSX.Element>()
   const [selectedID, setSelectedID] = useState(0)
   const size = useWindowSize()
-  const { globalData, setGlobalData } = useGlobalData()
-  const [settingsValues, setSettingsValues] = useState<SettingsInterface>()
-
-  useEffect(() => {
-    console.log(globalData)
-    globalData.settingsData.onSave.push(() => {
-      onSave()
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  function onSave() {
-    const updatedGlobalData = {
-      ...globalData,
-      settingsData: {
-        ...globalData.settingsData,
-        settings: {
-          ...globalData.settingsData.settings,
-          apiKey: 'asdasd',
-        },
-      },
-    }
-
-    setGlobalData(updatedGlobalData)
-  }
 
   if (size.width == null || size.height == null) {
     return
-  }
-
-  const generalSettings = <></>
-  const usageSettings = <></>
-  const apiKeySettings = (
-    <>
-      <textarea
-        onChange={(event) => {
-          setSettingsValues({
-            ...settingsValues,
-            apiKey: event.currentTarget.value,
-          })
-        }}
-        onKeyDown={onKeyDown}
-        className="api-key-text text"
-        placeholder="Paste your OpenAI API key..."
-        wrap="off"
-      />
-    </>
-  )
-
-  function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
-    if (event.code === 'Enter') {
-      event.preventDefault()
-      event.currentTarget.blur()
-    }
   }
 
   function onSettingsOptionClick(id: number) {
     setSelectedID(id)
     switch (id) {
       case 0:
-        setSettingsContent(generalSettings)
+        setSettingsContent(<GeneralSettings />)
         break
       case 1:
-        setSettingsContent(usageSettings)
+        setSettingsContent(<UsageSettings />)
         break
       case 2:
-        setSettingsContent(apiKeySettings)
+        setSettingsContent(<APIKeySettings />)
         break
       default:
         throw new Error('Unknown settings content id!')

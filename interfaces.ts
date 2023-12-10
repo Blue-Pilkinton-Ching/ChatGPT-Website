@@ -8,18 +8,9 @@ export interface FirebaseConfig {
   measurementId: string
 }
 
-export interface GlobalDataWrapper {
-  globalData: GlobalData
-  setGlobalData: (data: GlobalData) => void
-}
-
 export interface GlobalData {
   insideNewChat: boolean
-  settingsData: {
-    onSave: Array<() => void>
-    onCancel: Array<() => void>
-    settings: Settings
-  }
+  settings: Settings
 }
 
 export interface Settings {

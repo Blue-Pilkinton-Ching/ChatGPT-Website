@@ -2,21 +2,27 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { GlobalContext } from '../hooks/useGlobalData'
 import { GlobalData } from '../../interfaces'
 import routes from '../routes'
-import { useState } from 'react'
+import { useEffect, useRef } from 'react'
+import EventEmitter from 'events'
 
 const router = createBrowserRouter(routes)
 
+export const onGlobalStateChanged = new EventEmitter()
+
 export function App() {
-  const [globalState, setGlobalState] = useState<GlobalData>({
+  const globalData = useRef<GlobalData>({
     insideNewChat: true,
-    settingsData: { onSave: [], onCancel: [], settings: { apiKey: '' } },
+    settings: { apiKey: '' },
   })
+
+  useEffect(() => {
+    onGlobalStateChanged.emit('changed')
+  }, [])
 
   return (
     <GlobalContext.Provider
       value={{
-        globalData: globalState,
-        setGlobalData: setGlobalState,
+        globalData: globalData.current,
       }}
     >
       <RouterProvider router={router} />
