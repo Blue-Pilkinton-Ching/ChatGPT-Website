@@ -8,6 +8,11 @@ export interface FirebaseConfig {
   measurementId: string
 }
 
+export interface GlobalDataWrapper {
+  globalData: GlobalData
+  setGlobalData: (data: GlobalData) => void
+}
+
 export interface GlobalData {
   insideNewChat: boolean
   settings: Settings

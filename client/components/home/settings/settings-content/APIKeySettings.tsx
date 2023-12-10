@@ -1,12 +1,16 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, useEffect, useRef } from 'react'
 import { onApplySettings } from '../ApplySettings'
 import { useGlobalData } from '../../../../hooks/useGlobalData'
 
 export function APIKeySettings() {
-  const [apiKey, setApiKey] = useState('')
-  let globalData = useGlobalData()
+  const apiKeyRef = useRef<HTMLTextAreaElement>(null)
+  const apiKey = useRef('')
+  const { globalData, setGlobalData } = useGlobalData()
 
   useEffect(() => {
+    const apiKeyRefNew = apiKeyRef.current as HTMLTextAreaElement
+    apiKeyRefNew.value = globalData.settings.apiKey
+
     onApplySettings.on('save', onSave)
     onApplySettings.on('cancel', onCancel)
 
@@ -18,12 +22,11 @@ export function APIKeySettings() {
   }, [])
 
   function onSave() {
-    console.log(apiKey)
-    console.log('saving')
-    globalData = { ...globalData, settings: { apiKey: apiKey } }
+    setGlobalData({ ...globalData, settings: { apiKey: apiKey.current } })
   }
+
   function onCancel() {
-    setApiKey('')
+    apiKey.current = ''
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
@@ -34,14 +37,13 @@ export function APIKeySettings() {
   }
 
   function onChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    event.preventDefault()
-    setApiKey(event.target.value)
-    console.log(apiKey)
+    apiKey.current = event.target.value
   }
 
   return (
     <>
       <textarea
+        ref={apiKeyRef}
         onChange={onChange}
         onKeyDown={onKeyDown}
         className="api-key-text text"
