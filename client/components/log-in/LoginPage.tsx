@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import { initializeApp } from 'firebase/app'
 import {
   AuthProvider,
   GithubAuthProvider,
@@ -13,18 +12,6 @@ import { SignInButton } from './SignInButton'
 import Logos from '../../auth-logos'
 import { OAuthCredential } from 'firebase/auth'
 import { Loader } from '../Loader'
-
-const app = initializeApp({
-  apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
-  authDomain: 'chatgpt-website-c81b2.firebaseapp.com',
-  projectId: 'chatgpt-website-c81b2',
-  storageBucket: 'chatgpt-website-c81b2.appspot.com',
-  messagingSenderId: '348741570396',
-  appId: '1:348741570396:web:dfd779c008b66a00e3fb99',
-  measurementId: 'G-9KW9PBHY99',
-})
-
-const auth = getAuth(app)
 
 function LoginPage() {
   const [signingIn, setSigningIn] = useState(false)
@@ -56,7 +43,7 @@ function LoginPage() {
         return
     }
 
-    signInWithPopup(auth, provider).catch((error) => {
+    signInWithPopup(getAuth(), provider).catch((error) => {
       alert(`Error Signing in: ${error.code}`)
       console.error(error)
       setSigningIn(false)

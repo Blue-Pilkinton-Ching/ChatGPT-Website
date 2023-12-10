@@ -13,6 +13,11 @@ export const onSave = new EventEmitter()
 export default function Settings(props: SettingsProps) {
   const [selectedID, setSelectedID] = useState(0)
 
+  function exit() {
+    onSave.emit('action')
+    props.onExitButton()
+  }
+
   return (
     <>
       {props.show ? (
@@ -20,12 +25,7 @@ export default function Settings(props: SettingsProps) {
           <div className="center settings-panel">
             <div className="settings-header">
               <h2 className="settings-header-text">Settings</h2>
-              <ExitButton
-                onClick={() => {
-                  onSave.emit('action')
-                  props.onExitButton()
-                }}
-              />
+              <ExitButton onClick={exit} />
             </div>
             <div className="settings-box">
               <div className="settings-options">

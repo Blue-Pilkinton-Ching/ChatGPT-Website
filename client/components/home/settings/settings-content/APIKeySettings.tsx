@@ -37,18 +37,14 @@ export function APIKeySettings(props: SettingsContentProps) {
 
   return (
     <>
-      {props.show ? (
-        <textarea
-          ref={apiKeyRef}
-          onChange={onChange}
-          onKeyDown={onKeyDown}
-          className="api-key-text text"
-          placeholder="Enter your OpenAI API key..."
-          wrap="off"
-        />
-      ) : (
-        ''
-      )}
+      <textarea
+        ref={apiKeyRef}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        className={`api-key-text text ${props.show ? '' : 'hide'}`}
+        placeholder="Enter your OpenAI API key..."
+        wrap="off"
+      />
     </>
   )
 }

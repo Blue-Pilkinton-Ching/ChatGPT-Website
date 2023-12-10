@@ -258,7 +258,7 @@ h1 {
   display: inline-block;
 }
 
-.threads-panel.hide {
+.hide {
   display: none;
 }
 
