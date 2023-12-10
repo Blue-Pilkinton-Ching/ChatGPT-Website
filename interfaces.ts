@@ -58,3 +58,7 @@ export interface SettingsOptionProps {
   text: string
   onClick: (id: number) => void
 }
+
+export interface SettingsContentProps {
+  show: boolean
+}
