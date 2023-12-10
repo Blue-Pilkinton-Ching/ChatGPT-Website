@@ -510,61 +510,6 @@ h4 {
   border-color: var(--color7);
 }
 
-.apply-settings {
-  width: 50%;
-  display: inline-block;
-  height: 40px;
-  position: relative;
-  top: 100%;
-  transform: translateY(-100%);
-  box-sizing: border-box;
-  text-align: center;
-}
-
-.apply-settings-button {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-radius: 4px;
-  font-size: 0.95em;
-  transition-duration: var(--transition-duration);
-  cursor: pointer;
-}
-
-.apply-settings-button:hover {
-  filter: brightness(var(--hover-brightness));
-}
-
-.apply-settings-button:hover {
-  filter: brightness(var(--active-brightness));
-}
-
-.save-settings {
-  padding-right: 4px;
-}
-
-.revert-settings {
-  padding-left: 4px;
-}
-
-.save-button {
-  background-color: rgb(77, 133, 76);
-}
-
-.revert-button {
-  background-color: rgb(176, 41, 39);
-}
-
-.apply-settings-container {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  bottom: 0px;
-  left: 0;
-  padding: 16px;
-  box-sizing: border-box;
-}
-
 /* Phablet */
 @media (min-width: 400px) {
   h1 {

@@ -1,5 +1,5 @@
 import { ChangeEvent, KeyboardEvent, useEffect, useRef } from 'react'
-import { onApplySettings } from '../ApplySettings'
+import { onSave as onSaveEvent } from '../Settings'
 import { useGlobalData } from '../../../../hooks/useGlobalData'
 
 export function APIKeySettings() {
@@ -11,22 +11,16 @@ export function APIKeySettings() {
     const apiKeyRefNew = apiKeyRef.current as HTMLTextAreaElement
     apiKeyRefNew.value = globalData.settings.apiKey
 
-    onApplySettings.on('save', onSave)
-    onApplySettings.on('cancel', onCancel)
+    onSaveEvent.on('action', onSave)
 
     return () => {
-      onApplySettings.off('save', onSave)
-      onApplySettings.off('cancel', onCancel)
+      onSaveEvent.off('action', onSave)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function onSave() {
     setGlobalData({ ...globalData, settings: { apiKey: apiKey.current } })
-  }
-
-  function onCancel() {
-    apiKey.current = ''
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
