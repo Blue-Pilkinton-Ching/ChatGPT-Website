@@ -12,6 +12,7 @@ export default function HomePage() {
   const [showSettings, setShowSettings] = useState(false)
   const { globalState: globalData, setGlobalState: setGlobalData } =
     useGlobalData()
+
   const [currentUser, setCurrentUser] = useState<User | null>(
     getAuth().currentUser
   )
@@ -24,7 +25,6 @@ export default function HomePage() {
     })
 
     return () => unsubscribe()
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

@@ -17,14 +17,9 @@ export interface GlobalState {
   insideNewChat: boolean
 }
 
-export interface GlobalRef {
-  settings: Settings
-}
-
-export interface Settings {
+export interface FireStoreData {
   apiKey: string
 }
-
 export interface SignInButtonProps {
   text: string
   imgSrc: string
