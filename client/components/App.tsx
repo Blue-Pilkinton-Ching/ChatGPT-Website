@@ -1,15 +1,10 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { GlobalStateContext } from '../hooks/useGlobalState'
-import { GlobalState } from '../../interfaces'
-import routes from '../routes'
-import { useState, useRef } from 'react'
+import { GlobalRef, GlobalState } from '../../interfaces'
+import { useRef, useState } from 'react'
 import { initializeApp } from 'firebase/app'
-import {
-  FireStoreDataContext,
-  useFirestoreData,
-} from '../hooks/useFirestoreData'
+import { GlobalRefContext } from '../hooks/useGlobalRef'
+import Controller from './Controller'
 
-const router = createBrowserRouter(routes)
 initializeApp({
   apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
   authDomain: 'chatgpt-website-c81b2.firebaseapp.com',
@@ -24,18 +19,20 @@ export function App() {
   const [globalState, setGlobalState] = useState<GlobalState>({
     insideNewChat: true,
   })
-  const fsData = useFirestoreData()
+  const ref = useRef<GlobalRef>({
+    settings: { apiKey: '' },
+  })
 
   return (
-    <GlobalStateContext.Provider
-      value={{
-        globalState,
-        setGlobalState,
-      }}
-    >
-      <FireStoreDataContext.Provider value={fsData}>
-        <RouterProvider router={router} />
-      </FireStoreDataContext.Provider>
-    </GlobalStateContext.Provider>
+    <GlobalRefContext.Provider value={ref.current}>
+      <GlobalStateContext.Provider
+        value={{
+          globalState,
+          setGlobalState,
+        }}
+      >
+        <Controller />
+      </GlobalStateContext.Provider>
+    </GlobalRefContext.Provider>
   )
 }

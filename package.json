@@ -34,7 +34,8 @@
     "events": "^3.3.0",
     "express": "^4.17.2",
     "firebase": "^10.6.0",
-    "firebase-admin": "^11.11.0"
+    "firebase-admin": "^11.11.0",
+    "react-firebase-hooks": "^5.1.1"
   },
   "devDependencies": {
     "@devacademy/eslint-config": "^1.9.1",
@@ -64,7 +65,6 @@
     "prettier": "2.6.1",
     "react": "^18.0.2",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.18.0",
     "superagent": "7.1.1",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6",

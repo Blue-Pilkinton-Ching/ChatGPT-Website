@@ -13,7 +13,7 @@ import Logos from '../../auth-logos'
 import { OAuthCredential } from 'firebase/auth'
 import { Loader } from '../Loader'
 
-function LoginPage() {
+function Login() {
   const [signingIn, setSigningIn] = useState(false)
   function OnSignInButtonClick(service: string) {
     setSigningIn(true)
@@ -86,4 +86,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage
+export default Login

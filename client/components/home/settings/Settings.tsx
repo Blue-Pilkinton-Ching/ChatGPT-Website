@@ -9,8 +9,8 @@ import * as db from 'firebase/firestore'
 
 import EventEmitter from 'events'
 
-import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { getAuth } from 'firebase/auth'
+import { useGlobalRef } from '../../../hooks/useGlobalRef'
 
 export const onSave = new EventEmitter()
 
@@ -22,16 +22,12 @@ export default function Settings(props: SettingsProps) {
     onSave.emit('action')
     props.onExitButton()
 
-    if (globalRef.current == undefined) {
-      throw new Error()
-    }
-
     const user = db.doc(
       db.getFirestore(),
       'users/' + getAuth().currentUser?.uid
     )
 
-    db.setDoc(user, globalRef.current.settings).catch((e) => {
+    db.setDoc(user, globalRef.settings).catch((e) => {
       console.error(e.message)
       alert('Failed to save settings')
     })
