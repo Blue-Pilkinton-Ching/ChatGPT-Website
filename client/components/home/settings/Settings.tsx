@@ -6,15 +6,16 @@ import { UsageSettings } from './settings-content/UsageSettings'
 import { GeneralSettings } from './settings-content/GeneralSettings'
 import { APIKeySettings } from './settings-content/APIKeySettings'
 import * as db from 'firebase/firestore'
-
 import EventEmitter from 'events'
 
 import { getAuth } from 'firebase/auth'
 import { useGlobalRef } from '../../../hooks/useGlobalRef'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 export const onSave = new EventEmitter()
 
 export default function Settings(props: SettingsProps) {
+  const [user] = useAuthState(getAuth())
   const [selectedID, setSelectedID] = useState(0)
   const globalRef = useGlobalRef()
 
@@ -22,12 +23,9 @@ export default function Settings(props: SettingsProps) {
     onSave.emit('action')
     props.onExitButton()
 
-    const user = db.doc(
-      db.getFirestore(),
-      'users/' + getAuth().currentUser?.uid
-    )
+    const settingsDoc = db.doc(db.getFirestore(), 'settings/' + user?.uid)
 
-    db.setDoc(user, globalRef.settings).catch((e) => {
+    db.setDoc(settingsDoc, globalRef.settings).catch((e) => {
       console.error(e.message)
       alert('Failed to save settings')
     })
@@ -69,7 +67,6 @@ export default function Settings(props: SettingsProps) {
               <div className="settings-content">
                 {
                   <>
-                    {' '}
                     <GeneralSettings show={selectedID === 0} />
                     <UsageSettings show={selectedID === 1} />
                     <APIKeySettings show={selectedID === 2} />
