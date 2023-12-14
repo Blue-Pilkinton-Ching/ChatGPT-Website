@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useRef } from 'react'
+import { KeyboardEvent, useEffect, useRef } from 'react'
 import { onSave as onSaveEvent } from '../Settings'
 import { SettingsContentProps } from '../../../../../interfaces'
 import { useGlobalRef } from '../../../../hooks/useGlobalRef'
@@ -36,13 +36,11 @@ export function APIKeySettings(props: SettingsContentProps) {
     }
   }
 
-  function onChange(event: ChangeEvent<HTMLTextAreaElement>) {}
-
   return (
     <>
       <textarea
+        name="apiKey"
         ref={apiKeyRef}
-        onChange={onChange}
         onKeyDown={onKeyDown}
         className={`api-key-text text ${props.show ? '' : 'hide'}`}
         placeholder="Enter your OpenAI API key..."

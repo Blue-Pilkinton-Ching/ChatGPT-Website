@@ -7,7 +7,6 @@ import { GeneralSettings } from './settings-content/GeneralSettings'
 import { APIKeySettings } from './settings-content/APIKeySettings'
 import * as db from 'firebase/firestore'
 import EventEmitter from 'events'
-
 import { getAuth } from 'firebase/auth'
 import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { useAuthState } from 'react-firebase-hooks/auth'

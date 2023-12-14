@@ -1,8 +1,10 @@
 import * as Path from 'node:path'
 import express from 'express'
 import cors, { CorsOptions } from 'cors'
+import { Server } from 'socket.io'
 
 const server = express()
+const io = new Server(server._router)
 
 server.get('/api/v1/greeting', (req, res) => {
   const greetings = ['hola', 'hi', 'hello', 'howdy']

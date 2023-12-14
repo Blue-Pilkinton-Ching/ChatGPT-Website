@@ -1,17 +1,9 @@
-import { ChangeEvent, FormEvent, KeyboardEvent } from 'react'
+import { ChangeEvent, KeyboardEvent } from 'react'
 import NewChatPage from './NewChatPage'
 import { useGlobalData } from '../../../hooks/useGlobalState'
 
 export function MessageArea() {
-  const { globalState: globalData } = useGlobalData()
-
-  if (globalData == null) {
-    return ''
-  }
-
-  function onMessageSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-  }
+  const { globalState, setGlobalState } = useGlobalData()
 
   function onMessageChange(event: ChangeEvent<HTMLTextAreaElement>) {
     event.target.style.height = 'auto'
@@ -22,13 +14,19 @@ export function MessageArea() {
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (event.code === 'Enter' && !event.shiftKey) {
       event.preventDefault()
-      console.log('submit message')
+      console.log('Submit Message')
+      if (globalState.insideNewChat) {
+        // New Chat
+        setGlobalState({ ...globalState, insideNewChat: false })
+      } else {
+        // Existing Chat
+      }
     }
   }
 
   return (
     <div className="message-area">
-      {globalData.insideNewChat ? <NewChatPage /> : ''}
+      {globalState.insideNewChat ? <NewChatPage /> : ''}
       <textarea
         onKeyDown={onKeyDown}
         onChange={onMessageChange}

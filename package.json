@@ -1,8 +1,8 @@
 {
-  "name": "boilerplate-react-api",
+  "name": "pre-pay-gpt",
   "type": "module",
-  "version": "0.2.3",
-  "description": "A react starter",
+  "version": "0.0.1",
+  "description": "An online web app for interfacing with GPT models, by charging your API key",
   "repository": "https://github.com/dev-academy-challenges/boilerplate-react-webpack.git",
   "author": "Dev Academy Aotearoa",
   "license": "ISC",
@@ -35,7 +35,8 @@
     "express": "^4.17.2",
     "firebase": "^10.6.0",
     "firebase-admin": "^11.11.0",
-    "react-firebase-hooks": "^5.1.1"
+    "react-firebase-hooks": "^5.1.1",
+    "socket.io": "^4.7.2"
   },
   "devDependencies": {
     "@devacademy/eslint-config": "^1.9.1",

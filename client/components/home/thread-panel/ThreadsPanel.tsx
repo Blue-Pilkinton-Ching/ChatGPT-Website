@@ -27,7 +27,7 @@ export default function ThreadPanel(props: ThreadPanelProps) {
   return (
     <>
       <div className={`threads-panel ${props.show ? 'show' : 'hide'}`}>
-        <ExitButton onClick={handleExit} />
+        <ExitButton onClick={handleExit} tick={false} />
         <button className="account-container" onClick={OnAccountClick}>
           <img
             className="profile-photo"
