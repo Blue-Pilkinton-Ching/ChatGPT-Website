@@ -1,7 +1,6 @@
 import { ChangeEvent, KeyboardEvent } from 'react'
 import NewChatPage from './NewChatPage'
 import { useGlobalData } from '../../../hooks/useGlobalState'
-import OpenAI from 'openai'
 import { useGlobalRef } from '../../../hooks/useGlobalRef'
 
 export function MessageArea() {
@@ -22,25 +21,15 @@ export function MessageArea() {
         // New Chat
         setGlobalState({ ...globalState, insideNewChat: false })
 
-        const assistant = await globalRef.openai.beta.assistants.create({
-          name: 'GPT-3.5 Turbo Assistant',
-          instructions:
-            'You are GPT-3, a highly advanced assistance AI Chatbot developed by OpenAI.',
-          model: 'gpt-3.5-turbo-1106',
-        })
-
         const target = event.target as HTMLTextAreaElement
         console.log(target.value)
 
         const thread = await globalRef.openai.beta.threads.create()
 
-        const message = await globalRef.openai.beta.threads.messages.create(
-          thread.id,
-          {
-            role: 'user',
-            content: target.value,
-          }
-        )
+        await globalRef.openai.beta.threads.messages.create(thread.id, {
+          role: 'user',
+          content: target.value,
+        })
 
         const run = await globalRef.openai.beta.threads.runs.create(thread.id, {
           assistant_id: assistant.id,

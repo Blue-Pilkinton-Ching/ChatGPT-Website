@@ -6,20 +6,25 @@ import { UsageSettings } from './settings-content/UsageSettings'
 import { GeneralSettings } from './settings-content/GeneralSettings'
 import { APIKeySettings } from './settings-content/APIKeySettings'
 import * as db from 'firebase/firestore'
-import EventEmitter from 'events'
 import { getAuth } from 'firebase/auth'
 import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { AsyncEventEmitter } from '../../../../helpers/AsyncEventEmitter'
+import { Loader } from '../../Loader'
 
-export const onSave = new EventEmitter()
+export const onSave = new AsyncEventEmitter()
 
 export default function Settings(props: SettingsProps) {
   const [user] = useAuthState(getAuth())
   const [selectedID, setSelectedID] = useState(0)
   const globalRef = useGlobalRef()
+  const [loading, setLoading] = useState(false)
 
-  function exit() {
-    onSave.emit('action')
+  async function exit() {
+    setLoading(true)
+    await onSave.emitAsync('action')
+    setLoading(false)
+
     props.onExitButton()
 
     const settingsDoc = db.doc(db.getFirestore(), 'settings/' + user?.uid)
@@ -64,6 +69,7 @@ export default function Settings(props: SettingsProps) {
                 />
               </div>
               <div className="settings-content">
+                {loading ? <Loader text="Saving..." /> : ''}
                 {
                   <>
                     <GeneralSettings show={selectedID === 0} />

@@ -1,8 +1,10 @@
-export function Loader() {
+import { LoaderProps } from '../../interfaces'
+
+export function Loader(props: LoaderProps) {
   return (
     <div className="center">
       <span className="loader"></span>
-      <h5>Signing in...</h5>
+      <h5>{props.text}</h5>
     </div>
   )
 }

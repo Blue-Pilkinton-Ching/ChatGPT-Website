@@ -20,7 +20,8 @@ export function App() {
     insideNewChat: true,
   })
   const ref = useRef<GlobalRef>({
-    settings: { apiKey: '' },
+    settings: { apiKey: '', assistants: [] },
+    openai: null,
   })
 
   return (
