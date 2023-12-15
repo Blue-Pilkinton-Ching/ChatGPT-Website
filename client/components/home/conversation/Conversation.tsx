@@ -1,4 +1,7 @@
 import { useGlobalState } from '../../../hooks/useGlobalState'
+import markdownit from 'markdown-it'
+
+const md = markdownit({ breaks: true, linkify: true, typographer: false })
 
 export function Conversation() {
   const { globalState } = useGlobalState()
@@ -17,7 +20,11 @@ export function Conversation() {
                   }`,
                 }}
               >
-                {message.content}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: md.render(message.content),
+                  }}
+                />
               </div>
             )
           })

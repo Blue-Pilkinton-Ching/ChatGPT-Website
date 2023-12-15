@@ -83,6 +83,8 @@ export function MessageArea() {
       alert('Failed to save thread')
     })
 
+    console.log(threadData)
+
     setGlobalState({
       ...globalState,
       currentThread: threadData,
