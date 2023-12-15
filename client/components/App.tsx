@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { GlobalRefContext } from '../hooks/useGlobalRef'
 import Controller from './Controller'
+import OpenAI from 'openai'
 
 initializeApp({
   apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
@@ -21,7 +22,10 @@ export function App() {
   })
   const ref = useRef<GlobalRef>({
     settings: { apiKey: '', assistants: [] },
-    openai: null,
+    openai: new OpenAI({
+      apiKey: 'PLACEHOLDER',
+      dangerouslyAllowBrowser: true,
+    }),
   })
 
   return (

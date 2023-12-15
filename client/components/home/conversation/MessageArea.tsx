@@ -2,6 +2,7 @@ import { ChangeEvent, KeyboardEvent } from 'react'
 import NewChatPage from './NewChatPage'
 import { useGlobalData } from '../../../hooks/useGlobalState'
 import { useGlobalRef } from '../../../hooks/useGlobalRef'
+import { Assistant } from '../../../../interfaces'
 
 export function MessageArea() {
   const { globalState, setGlobalState } = useGlobalData()
@@ -22,7 +23,6 @@ export function MessageArea() {
         setGlobalState({ ...globalState, insideNewChat: false })
 
         const target = event.target as HTMLTextAreaElement
-        console.log(target.value)
 
         const thread = await globalRef.openai.beta.threads.create()
 
@@ -30,6 +30,14 @@ export function MessageArea() {
           role: 'user',
           content: target.value,
         })
+
+        console.log(globalRef.settings)
+
+        const assistant = globalRef.settings.assistants.find(
+          (a) => a.isDefault
+        ) as Assistant
+
+        console.log(assistant)
 
         const run = await globalRef.openai.beta.threads.runs.create(thread.id, {
           assistant_id: assistant.id,

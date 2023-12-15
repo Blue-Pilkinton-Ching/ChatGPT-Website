@@ -7,17 +7,18 @@ export function useNewAPIKey() {
   async function GenerateAssistants() {
     const gpt3 = await globalRef.openai?.beta.assistants.create({
       name: 'PrePayGPT - GPT-3.5 Turbo Assistant',
-      instructions:
-        'You are GPT-3.5 Turbo, a highly advanced assistance AI Chatbot developed by OpenAI.',
       model: 'gpt-3.5-turbo-1106',
     })
 
     const gpt4 = await globalRef.openai?.beta.assistants.create({
       name: 'PrePayGPT - GPT-4 Turbo Assistant',
-      instructions:
-        'You are GPT-4, a highly advanced assistance AI Chatbot developed by OpenAI.',
       model: 'gpt-4-1106-preview',
     })
+
+    if (!gpt3 || !gpt4) {
+      throw new Error('Failed to generate assistants')
+    }
+
     return { gpt3, gpt4 }
   }
 
@@ -31,14 +32,31 @@ export function useNewAPIKey() {
       ...globalRef.settings,
       apiKey: newAPIKey,
     }
+
     globalRef.openai = openai
 
     if (
       !globalRef.settings.assistants ||
-      globalRef.settings.assistants.length < 0
+      globalRef.settings.assistants.length === 0
     ) {
       await GenerateAssistants()
         .then(({ gpt3, gpt4 }) => {
+          globalRef.settings.assistants = [
+            {
+              id: gpt3.id,
+              name: 'GPT-3.5 Turbo',
+              instructions: gpt3.instructions,
+              model: gpt3.model,
+              isDefault: true,
+            },
+            {
+              id: gpt4.id,
+              name: 'GPT-4 Turbo',
+              instructions: gpt4.instructions,
+              model: gpt4.model,
+              isDefault: false,
+            },
+          ]
           console.log(gpt3, gpt4)
         })
         .catch((err) => {

@@ -20,7 +20,7 @@ export interface GlobalState {
 
 export interface GlobalRef {
   settings: Settings
-  openai: OpenAI | null
+  openai: OpenAI
 }
 
 export interface LoaderProps {
@@ -35,6 +35,9 @@ export interface Settings {
 export interface Assistant {
   name: string
   id: string
+  instructions: string | null
+  model: string
+  isDefault: boolean
 }
 export interface SignInButtonProps {
   text: string
