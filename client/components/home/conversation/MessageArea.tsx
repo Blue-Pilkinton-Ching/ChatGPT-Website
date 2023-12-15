@@ -1,11 +1,11 @@
 import { ChangeEvent, KeyboardEvent } from 'react'
 import NewChatPage from './NewChatPage'
-import { useGlobalData } from '../../../hooks/useGlobalState'
+import { useGlobalState } from '../../../hooks/useGlobalState'
 import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { Assistant } from '../../../../interfaces'
 
 export function MessageArea() {
-  const { globalState, setGlobalState } = useGlobalData()
+  const { globalState, setGlobalState } = useGlobalState()
   const globalRef = useGlobalRef()
 
   function onMessageChange(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -18,26 +18,25 @@ export function MessageArea() {
     if (event.code === 'Enter' && !event.shiftKey) {
       event.preventDefault()
       console.log('Submit Message')
+
+      const target = event.target as HTMLTextAreaElement
+      const message = target.value
+      target.value = ''
+
       if (globalState.insideNewChat) {
         // New Chat
         setGlobalState({ ...globalState, insideNewChat: false })
-
-        const target = event.target as HTMLTextAreaElement
 
         const thread = await globalRef.openai.beta.threads.create()
 
         await globalRef.openai.beta.threads.messages.create(thread.id, {
           role: 'user',
-          content: target.value,
+          content: message,
         })
-
-        console.log(globalRef.settings)
 
         const assistant = globalRef.settings.assistants.find(
           (a) => a.isDefault
         ) as Assistant
-
-        console.log(assistant)
 
         const run = await globalRef.openai.beta.threads.runs.create(thread.id, {
           assistant_id: assistant.id,
@@ -48,7 +47,6 @@ export function MessageArea() {
             thread.id,
             run.id
           )
-          console.log(runStatus)
           if (runStatus.status === 'completed') {
             clearInterval(interval)
 

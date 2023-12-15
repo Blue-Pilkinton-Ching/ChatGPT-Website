@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 import { GlobalStateWrapper } from '../../interfaces'
 
-export function useGlobalData() {
+export function useGlobalState() {
   const context = useContext(GlobalStateContext)
 
   if (context == undefined) {

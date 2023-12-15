@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import ChatArea from './conversation/ChatArea'
 import ThreadPanel from './thread-panel/ThreadsPanel'
-import { useGlobalData } from '../../hooks/useGlobalState'
+import { useGlobalState } from '../../hooks/useGlobalState'
 import Settings from './settings/Settings'
 
 export default function Home() {
   const [showThreadPanel, setShowThreadPanel] = useState(false)
   const [showChatArea, setShowChatArea] = useState(true)
   const [showSettings, setShowSettings] = useState(false)
-  const { globalState, setGlobalState } = useGlobalData()
+  const { globalState, setGlobalState } = useGlobalState()
 
   useEffect(() => {
     setGlobalState({ ...globalState, insideNewChat: true })

@@ -21,8 +21,6 @@ export default function Controller() {
       return
     }
 
-    console.log(fsSettings?.data())
-
     const settings = fsSettings?.data() as Settings
     globalRef.settings = settings
 
