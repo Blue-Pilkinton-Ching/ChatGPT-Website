@@ -15,6 +15,7 @@ export default function Controller() {
   const globalRef = useGlobalRef()
 
   const [fsSettings] = useDocument(doc(getFirestore(), `settings/${user?.uid}`))
+  //   const [fsThreads] = useDocument(doc(getFirestore(), `threads/${user?.uid}`))
 
   useEffect(() => {
     if (fsSettings?.data() == undefined) {

@@ -19,6 +19,7 @@ initializeApp({
 export function App() {
   const [globalState, setGlobalState] = useState<GlobalState>({
     insideNewChat: true,
+    currentThread: null,
   })
   const ref = useRef<GlobalRef>({
     settings: { apiKey: '', assistants: [] },

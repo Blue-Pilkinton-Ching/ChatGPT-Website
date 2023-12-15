@@ -16,6 +16,7 @@ export interface GlobalStateWrapper {
 
 export interface GlobalState {
   insideNewChat: boolean
+  currentThread: Thread | null
 }
 
 export interface GlobalRef {
@@ -39,6 +40,20 @@ export interface Assistant {
   model: string
   isDefault: boolean
 }
+
+export interface Thread {
+  name: string
+  id: string
+  messages: Message[]
+}
+
+export interface Message {
+  role: string
+  assistantID: string | null
+  dateCreated: number
+  content: string
+}
+
 export interface SignInButtonProps {
   text: string
   imgSrc: string
