@@ -1,9 +1,12 @@
 import { ChangeEvent, KeyboardEvent } from 'react'
 import NewChatPage from './NewChatPage'
 import { useGlobalData } from '../../../hooks/useGlobalState'
+import OpenAI from 'openai'
+import { useGlobalRef } from '../../../hooks/useGlobalRef'
 
 export function MessageArea() {
   const { globalState, setGlobalState } = useGlobalData()
+  const globalRef = useGlobalRef()
 
   function onMessageChange(event: ChangeEvent<HTMLTextAreaElement>) {
     event.target.style.height = 'auto'
@@ -11,13 +14,53 @@ export function MessageArea() {
       Math.min(event.target.scrollHeight - 30, 150) + 'px'
   }
 
-  function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+  async function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (event.code === 'Enter' && !event.shiftKey) {
       event.preventDefault()
       console.log('Submit Message')
       if (globalState.insideNewChat) {
         // New Chat
         setGlobalState({ ...globalState, insideNewChat: false })
+
+        const assistant = await globalRef.openai.beta.assistants.create({
+          name: 'GPT-3.5 Turbo Assistant',
+          instructions:
+            'You are GPT-3, a highly advanced assistance AI Chatbot developed by OpenAI.',
+          model: 'gpt-3.5-turbo-1106',
+        })
+
+        const target = event.target as HTMLTextAreaElement
+        console.log(target.value)
+
+        const thread = await globalRef.openai.beta.threads.create()
+
+        const message = await globalRef.openai.beta.threads.messages.create(
+          thread.id,
+          {
+            role: 'user',
+            content: target.value,
+          }
+        )
+
+        const run = await globalRef.openai.beta.threads.runs.create(thread.id, {
+          assistant_id: assistant.id,
+        })
+
+        const interval = setInterval(async () => {
+          const runStatus = await globalRef.openai.beta.threads.runs.retrieve(
+            thread.id,
+            run.id
+          )
+          console.log(runStatus)
+          if (runStatus.status === 'completed') {
+            clearInterval(interval)
+
+            const messages = await globalRef.openai.beta.threads.messages.list(
+              thread.id
+            )
+            console.log(messages)
+          }
+        }, 500)
       } else {
         // Existing Chat
       }

@@ -8,7 +8,8 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { getAuth } from 'firebase/auth'
 import { useGlobalRef } from '../../hooks/useGlobalRef'
 import { Settings as SettingsInterface } from '../../../interfaces'
-import Settings from './settings/Settings'
+import Settings, { onSave as onSaveEvent } from './settings/Settings'
+import OpenAI from 'openai'
 
 export default function Home() {
   const [showThreadPanel, setShowThreadPanel] = useState(false)
@@ -28,8 +29,22 @@ export default function Home() {
 
   useEffect(() => {
     setGlobalState({ ...globalState, insideNewChat: true })
+
+    onSaveEvent.on('action', onSettingsSave)
+
+    return () => {
+      onSaveEvent.off('action', onSettingsSave)
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  function onSettingsSave() {
+    globalRef.openai = new OpenAI({
+      apiKey: globalRef.settings.apiKey,
+      dangerouslyAllowBrowser: true,
+    })
+  }
 
   function triggerThreadsPanel() {
     setShowChatArea(!showChatArea)

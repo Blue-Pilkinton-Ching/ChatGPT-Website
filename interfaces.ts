@@ -1,3 +1,6 @@
+import OpenAI from 'openai'
+import { Assistant } from 'openai/resources/beta/assistants/assistants.mjs'
+
 export interface FirebaseConfig {
   apiKey: string
   authDomain: string
@@ -19,6 +22,7 @@ export interface GlobalState {
 
 export interface GlobalRef {
   settings: Settings
+  openai: OpenAI
 }
 
 export interface Settings {

@@ -11,7 +11,7 @@ export function APIKeySettings(props: SettingsContentProps) {
     onSaveEvent.on('action', onSave)
 
     const apiKey = apiKeyRef.current as HTMLTextAreaElement
-    apiKey.value = globalRef.settings.apiKey
+    apiKey.value = globalRef.settings ? globalRef.settings.apiKey : ''
 
     return () => {
       onSaveEvent.off('action', onSave)

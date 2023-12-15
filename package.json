@@ -35,8 +35,8 @@
     "express": "^4.17.2",
     "firebase": "^10.6.0",
     "firebase-admin": "^11.11.0",
-    "react-firebase-hooks": "^5.1.1",
-    "socket.io": "^4.7.2"
+    "openai": "^4.21.0",
+    "react-firebase-hooks": "^5.1.1"
   },
   "devDependencies": {
     "@devacademy/eslint-config": "^1.9.1",
