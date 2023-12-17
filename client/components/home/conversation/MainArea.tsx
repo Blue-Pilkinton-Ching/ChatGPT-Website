@@ -1,12 +1,8 @@
 import { FormEvent } from 'react'
 import { ChatAreaProps } from '../../../../interfaces.ts'
 import { MessageArea } from './MessageArea.tsx'
-import { Conversation } from './Conversation.tsx'
-import { useGlobalState } from '../../../hooks/useGlobalState.tsx'
 
 export default function ChatArea(props: ChatAreaProps) {
-  const { globalState } = useGlobalState()
-
   function openThreadsPanel(event: FormEvent<HTMLButtonElement>) {
     event.preventDefault()
     props.openThreadsPanel()
@@ -20,7 +16,6 @@ export default function ChatArea(props: ChatAreaProps) {
   return (
     <>
       <div className="chat-area">
-        {globalState.insideNewChat ? '' : <Conversation />}
         {props.showPanelThreadsButton ? (
           <>
             <button

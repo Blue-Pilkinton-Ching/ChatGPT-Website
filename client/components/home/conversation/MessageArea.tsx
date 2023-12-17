@@ -7,16 +7,21 @@ import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { getAuth } from 'firebase/auth'
 import { MessageContentText } from 'openai/resources/beta/threads/index.mjs'
+import { Conversation } from './Conversation'
 
 export function MessageArea() {
   const { globalState, setGlobalState } = useGlobalState()
   const [user] = useAuthState(getAuth())
   const globalRef = useGlobalRef()
 
-  function onMessageChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    event.target.style.height = 'auto'
-    event.target.style.height =
-      Math.min(event.target.scrollHeight - 30, 150) + 'px'
+  function ChangeTextAreaHeight(target: HTMLTextAreaElement) {
+    target.style.height = 'auto'
+    target.style.height = Math.min(target.scrollHeight - 30, 150) + 'px'
+
+    setGlobalState({
+      ...globalState,
+      messageTextAreaHeight: target.style.height,
+    })
   }
 
   async function PollRun(threadID: string, runID: string) {
@@ -100,6 +105,8 @@ export function MessageArea() {
       const message = target.value
       target.value = ''
 
+      ChangeTextAreaHeight(target)
+
       if (globalState.insideNewChat) {
         GenerateNewChat(message)
       } else {
@@ -110,10 +117,12 @@ export function MessageArea() {
 
   return (
     <div className="message-area">
-      {globalState.insideNewChat ? <NewChatPage /> : ''}
+      {globalState.insideNewChat ? <NewChatPage /> : <Conversation />}
       <textarea
         onKeyDown={onKeyDown}
-        onChange={onMessageChange}
+        onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+          ChangeTextAreaHeight(event.target)
+        }
         className="message-text-field text"
         name="message-text-field"
         placeholder="Message GPT..."

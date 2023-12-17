@@ -15,6 +15,7 @@ export interface GlobalStateWrapper {
 }
 
 export interface GlobalState {
+  messageTextAreaHeight: string
   insideNewChat: boolean
   currentThread: Thread | null
 }

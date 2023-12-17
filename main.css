@@ -240,6 +240,7 @@ h1 {
 }
 
 .chat-area {
+  overflow: hidden;
   height: 100%;
   display: flex;
   align-items: flex-end;
@@ -281,7 +282,6 @@ h1 {
 .settings-svg {
   height: 37px;
   width: 37px;
-  transform: translate();
 }
 
 .button {
@@ -292,6 +292,7 @@ h1 {
   background-color: transparent;
   color: white;
   border: 0;
+  z-index: 100;
 }
 
 .exit {
@@ -354,6 +355,7 @@ h1 {
 }
 
 .message-text-field {
+  position: relative;
   width: calc(80% - 60px);
   height: 25px;
   box-shadow: none;
@@ -369,6 +371,7 @@ h1 {
   padding-right: 60px;
   resize: none;
   line-height: 25px;
+  z-index: 1;
 }
 
 .message-text-field:focus {
@@ -377,11 +380,12 @@ h1 {
 }
 
 .new-chat-page {
-  position: absolute;
+  position: relative;
   padding-left: 30px;
   padding-right: 30px;
-  padding-bottom: 10%;
-  width: 70%;
+  padding-bottom: 70vh;
+  transform: translateY(40%);
+  display: block;
 }
 
 .logo-svg {
@@ -512,14 +516,30 @@ h4 {
 }
 
 .conversation {
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  padding-bottom: calc(120px + 3vw);
-  padding-left: 5%;
-  padding-right: 5%;
+  position: relative;
+  margin-bottom: 20px;
   box-sizing: border-box;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  margin-left: 10%;
+  margin-right: 10%;
   z-index: 0;
+  display: flex;
+  overflow: scroll;
+  /* Set using JS inside MessageArea.ts */
+  height: '';
+}
+
+.message-box {
+  color: white;
+  font-family: var(--font1);
+  font-size: 1em;
+}
+
+.message-content {
+  overflow-wrap: break-word;
+  text-align: left;
+  font-size: 14px;
 }
 
 /* Phablet */
@@ -569,17 +589,12 @@ h4 {
   }
 
   .conversation {
-    padding-left: 15%;
-    padding-right: 15%;
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: flex-start;
+    margin-left: 15%;
+    margin-right: 15%;
   }
 
-  .message-box {
-    color: white;
-    font-family: var(--font1);
-    font-size: 1em;
+  .message-content {
+    font-size: 16px;
   }
 }
 
@@ -630,8 +645,8 @@ h4 {
   }
 
   .conversation {
-    padding-left: min(15%, 250px);
-    padding-right: min(15%, 250px);
+    margin-left: min(15%, 250px);
+    margin-right: min(15%, 250px);
   }
 }
 
@@ -646,7 +661,7 @@ h4 {
   }
 
   .conversation {
-    padding-left: calc((100vw - 650px) / 2);
-    padding-right: calc((100vw - 650px) / 2);
+    margin-left: calc((100vw - 650px) / 2);
+    margin-right: calc((100vw - 650px) / 2);
   }
 }

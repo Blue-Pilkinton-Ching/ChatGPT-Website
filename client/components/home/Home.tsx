@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import ChatArea from './conversation/ChatArea'
+import ChatArea from './conversation/MainArea'
 import ThreadPanel from './thread-panel/ThreadsPanel'
 import { useGlobalState } from '../../hooks/useGlobalState'
 import Settings from './settings/Settings'
