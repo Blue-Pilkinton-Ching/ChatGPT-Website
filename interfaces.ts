@@ -9,6 +9,9 @@ export interface FirebaseConfig {
   measurementId: string
 }
 
+export interface MessageProps {
+  message: Message
+}
 export interface GlobalStateWrapper {
   globalState: GlobalState
   setGlobalState: (data: GlobalState) => void

@@ -262,10 +262,6 @@ h1 {
   box-shadow: var(--box-shadow);
 }
 
-.threads-panel.show {
-  display: inline-block;
-}
-
 .hide {
   display: none;
 }
@@ -533,7 +529,7 @@ h4 {
   overflow-y: auto;
   overflow-x: hidden;
   /* Set using JS inside MessageArea.ts */
-  height: '';
+  height: auto;
 }
 
 .message-box {
@@ -546,6 +542,7 @@ h4 {
   overflow-wrap: break-word;
   text-align: left;
   font-size: 14px;
+  font-family: var(--font1);
 }
 
 /* Phablet */
