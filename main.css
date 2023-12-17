@@ -40,15 +40,21 @@
     var(--bg-gradient);
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: var(--color5);
-  border-radius: 9999px;
-  --tw-border-opacity: 1;
+::-webkit-scrollbar {
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
   background-color: transparent;
   border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color5);
+  border-radius: 9999px;
+  --tw-border-opacity: 1;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 html {
@@ -517,15 +523,15 @@ h4 {
 
 .conversation {
   position: relative;
-  margin-bottom: 20px;
   box-sizing: border-box;
   flex-direction: column-reverse;
   justify-content: flex-start;
-  margin-left: 10%;
-  margin-right: 10%;
+  padding-left: 10%;
+  padding-right: 10%;
   z-index: 0;
   display: flex;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
   /* Set using JS inside MessageArea.ts */
   height: '';
 }
@@ -589,8 +595,8 @@ h4 {
   }
 
   .conversation {
-    margin-left: 15%;
-    margin-right: 15%;
+    padding-left: 15%;
+    padding-right: 15%;
   }
 
   .message-content {
@@ -645,8 +651,8 @@ h4 {
   }
 
   .conversation {
-    margin-left: min(15%, 250px);
-    margin-right: min(15%, 250px);
+    padding-left: min(15%, 250px);
+    padding-right: min(15%, 250px);
   }
 }
 
@@ -656,12 +662,8 @@ h4 {
     width: 50%;
   }
 
-  .message-area {
-    margin-bottom: 65px;
-  }
-
   .conversation {
-    margin-left: calc((100vw - 650px) / 2);
-    margin-right: calc((100vw - 650px) / 2);
+    padding-left: calc((100vw - 650px) / 2);
+    padding-right: calc((100vw - 650px) / 2);
   }
 }

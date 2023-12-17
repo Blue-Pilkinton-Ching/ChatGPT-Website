@@ -42,17 +42,36 @@ export function MessageArea() {
 
     const thread = await globalRef.openai.beta.threads.create()
 
+    const assistant = globalRef.settings.assistants.find(
+      (a) => a.isDefault
+    ) as Assistant
+
+    if (assistant == undefined) {
+      alert('Default assistant not found. Please try again later')
+      throw new Error('Default assistant not found. Please try again later')
+    }
+
+    const newThread: Thread = {
+      name: 'Loading',
+      id: thread.id,
+      messages: [],
+    }
+
+    GenerateMessage(newThread, message, assistant.id)
+  }
+
+  async function GenerateMessage(
+    thread: Thread,
+    message: string,
+    assistantID: string
+  ) {
     await globalRef.openai.beta.threads.messages.create(thread.id, {
       role: 'user',
       content: message,
     })
 
-    const assistant = globalRef.settings.assistants.find(
-      (a) => a.isDefault
-    ) as Assistant
-
     const run = await globalRef.openai.beta.threads.runs.create(thread.id, {
-      assistant_id: assistant.id,
+      assistant_id: assistantID,
     })
 
     await PollRun(thread.id, run.id)
@@ -72,27 +91,23 @@ export function MessageArea() {
       return result
     })
 
-    const threadData: Thread = {
-      name: 'Loading...',
-      id: thread.id,
-      messages: formattedMessages,
-    }
+    thread.messages = formattedMessages
 
     const threadsDoc = db.doc(
       db.getFirestore(),
       `threads/${user?.uid}/conversations/${thread.id}`
     )
 
-    await db.setDoc(threadsDoc, threadData).catch((e) => {
+    await db.setDoc(threadsDoc, thread).catch((e) => {
       console.error(e.message)
       alert('Failed to save thread')
     })
 
-    console.log(threadData)
+    console.log(thread)
 
     setGlobalState({
       ...globalState,
-      currentThread: threadData,
+      currentThread: thread,
       insideNewChat: false,
     })
   }
@@ -110,7 +125,11 @@ export function MessageArea() {
       if (globalState.insideNewChat) {
         GenerateNewChat(message)
       } else {
-        // Existing Chat
+        GenerateMessage(
+          globalState.currentThread as Thread,
+          message,
+          globalRef.settings.assistants[0].id
+        )
       }
     }
   }

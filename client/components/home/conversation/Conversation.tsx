@@ -6,13 +6,11 @@ const md = markdownit({ breaks: true, linkify: true, typographer: false })
 export function Conversation() {
   const { globalState } = useGlobalState()
 
-  console.log(globalState.messageTextAreaHeight)
-
   return (
     <div
       className="conversation"
       style={{
-        height: `calc(100vh - 20px - 30px - 2px - 60px - ${globalState.messageTextAreaHeight})`,
+        maxHeight: `calc(100vh - 20px - 30px - 2px - 60px - ${globalState.messageTextAreaHeight})`,
       }}
     >
       {globalState.currentThread
