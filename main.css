@@ -7,6 +7,7 @@
   --color6: rgb(70, 84, 104);
   --color7: rgb(54, 64, 80);
   --color8: rgb(70, 84, 104, 0.7);
+  --color9: rgb(219, 219, 219);
 
   --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   --border-radius: 10px;
@@ -197,12 +198,14 @@ p {
 .show-threads-panel:hover .bar1,
 .show-threads-panel:hover .bar2,
 .show-threads-panel:hover .bar3,
+.copy-code:hover .copy-code-svg,
 .settings:hover .settings-svg {
   filter: brightness(var(--hover-brightness));
 }
 
 .exit:active .bar1,
 .exit:active .bar2,
+.copy-code:active .copy-code-svg,
 .show-threads-panel:active .bar1,
 .show-threads-panel:active .bar2,
 .show-threads-panel:active .bar3,
@@ -539,11 +542,83 @@ h4 {
   font-size: 1em;
 }
 
+.message-box h4 {
+  font-weight: 900;
+  padding: 12px 0 3px 3px;
+  float: left;
+}
+
 .message-content {
   overflow-wrap: break-word;
   text-align: left;
   font-size: 14px;
-  font-family: var(--font1);
+  position: relative;
+}
+
+.message-content,
+.message-content p {
+  color: var(--color9);
+}
+
+.message-content li::marker,
+.message-content strong,
+.message-content a {
+  color: white;
+}
+
+.message-photo {
+  width: 25px;
+  border-radius: 100%;
+  padding: 10px;
+  float: left;
+  position: relative;
+}
+
+.message {
+  padding-top: 5px;
+  padding-left: 48px;
+  position: relative;
+}
+
+.code-block-header {
+  height: 40px;
+  background-color: var(--color5);
+  border-radius: 10px 10px 0 0;
+}
+
+.code-block-container {
+  box-shadow: var(--box-shadow);
+}
+
+code {
+  border-radius: 0 0 10px 10px;
+}
+
+.code-block-header h6 {
+  margin: 0;
+  top: 50%;
+  position: relative;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: 100;
+  margin-left: 20px;
+}
+
+.copy-code {
+  width: 35px;
+  position: relative;
+  margin-top: 7px;
+  float: right;
+  margin-right: 7px;
+  color: white;
+}
+
+.copy-code-svg {
+  width: 100%;
+}
+
+pre {
+  margin-top: 0;
 }
 
 /* Phablet */

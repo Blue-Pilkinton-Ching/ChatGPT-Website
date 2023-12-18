@@ -20,6 +20,7 @@ export function App() {
   const [globalState, setGlobalState] = useState<GlobalState>({
     insideNewChat: true,
     currentThread: null,
+    messageTextAreaHeight: '',
   })
   const ref = useRef<GlobalRef>({
     settings: { apiKey: '', assistants: [] },
