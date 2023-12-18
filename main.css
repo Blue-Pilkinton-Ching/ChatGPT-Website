@@ -632,6 +632,8 @@ pre {
   height: 40px;
   padding: 5px;
   box-sizing: border-box;
+  overflow-x: hidden;
+  text-wrap: nowrap;
 }
 
 .thread-button {

@@ -1,4 +1,5 @@
 import OpenAI from 'openai'
+import { Dispatch, SetStateAction } from 'react'
 export interface FirebaseConfig {
   apiKey: string
   authDomain: string
@@ -14,7 +15,7 @@ export interface MessageProps {
 }
 export interface GlobalStateWrapper {
   globalState: GlobalState
-  setGlobalState: (data: GlobalState) => void
+  setGlobalState: Dispatch<SetStateAction<GlobalState>>
 }
 export interface ThreadOptionProps {
   thread: ThreadHeader
@@ -56,7 +57,6 @@ export interface Assistant {
 }
 
 export interface Thread {
-  name: string
   id: string
   messages: Message[]
   lastEdited: number

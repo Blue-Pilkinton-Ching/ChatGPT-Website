@@ -6,7 +6,7 @@ import { useGlobalState } from '../../../hooks/useGlobalState'
 
 export default function ThreadOption(props: ThreadOptionProps) {
   const [user] = useAuthState(getAuth())
-  const { globalState, setGlobalState } = useGlobalState()
+  const { setGlobalState } = useGlobalState()
 
   async function onClick() {
     const threadDoc = db.doc(
@@ -15,11 +15,11 @@ export default function ThreadOption(props: ThreadOptionProps) {
     )
 
     const thread = (await db.getDoc(threadDoc)).data() as Thread
-    setGlobalState({
-      ...globalState,
+    setGlobalState((oldState) => ({
+      ...oldState,
       currentThread: thread,
       insideNewChat: false,
-    })
+    }))
   }
 
   return (

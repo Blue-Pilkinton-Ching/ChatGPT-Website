@@ -23,10 +23,10 @@ export function MessageArea() {
     target.style.height = 'auto'
     target.style.height = Math.min(target.scrollHeight - 30, 150) + 'px'
 
-    setGlobalState({
-      ...globalState,
+    setGlobalState((oldState) => ({
+      ...oldState,
       messageTextAreaHeight: target.style.height,
-    })
+    }))
   }
 
   async function PollRun(threadID: string, runID: string) {
@@ -40,6 +40,27 @@ export function MessageArea() {
     } else {
       return runStatus
     }
+  }
+
+  async function GenerateCompletion(
+    threadID: string,
+    message: string,
+    assistantID: string
+  ) {
+    await globalRef.openai.beta.threads.messages.create(threadID, {
+      role: 'user',
+      content: message,
+    })
+
+    const run = await globalRef.openai.beta.threads.runs.create(threadID, {
+      assistant_id: assistantID,
+    })
+
+    await PollRun(threadID, run.id)
+
+    const response = await globalRef.openai.beta.threads.messages.list(threadID)
+
+    return response
   }
 
   async function GenerateNewChat(message: string) {
@@ -56,12 +77,52 @@ export function MessageArea() {
 
     const newThread: Thread = {
       lastEdited: db.Timestamp.now().toMillis(),
-      name: 'Loading',
       id: thread.id,
       messages: [],
     }
 
     GenerateMessage(newThread, message, assistant.id)
+    GenerateHeader(message, newThread)
+  }
+  async function GenerateHeader(message: string, thread: Thread) {
+    const newThread = await globalRef.openai.beta.threads.create()
+
+    const assistant = globalRef.settings.assistants.find(
+      (a) => a.name === 'Header Generator'
+    ) as Assistant
+
+    if (assistant == undefined) {
+      alert('Header assistant not found. Please try again later')
+      throw new Error('Header assistant not found. Please try again later')
+    }
+
+    const messages = await GenerateCompletion(
+      newThread.id,
+      message,
+      assistant.id
+    )
+
+    const response = messages.data[0].content[0] as MessageContentText
+
+    const header: ThreadHeader = {
+      lastEdited: thread.lastEdited,
+      name: response.text.value,
+      threadID: thread.id,
+    }
+    const threadsHeaderDoc = db.doc(
+      db.getFirestore(),
+      `threads/${user?.uid}/headers/${thread.id}`
+    )
+
+    await db.setDoc(threadsHeaderDoc, header).catch((e) => {
+      console.error(e.message)
+      alert('Failed to save thread')
+    })
+
+    setGlobalState((oldState) => ({
+      ...oldState,
+      threadHeaders: [header, ...globalState.threadHeaders],
+    }))
   }
 
   async function GenerateMessage(
@@ -69,26 +130,13 @@ export function MessageArea() {
     message: string,
     assistantID: string
   ) {
-    setGlobalState({
-      ...globalState,
+    setGlobalState((oldState) => ({
+      ...oldState,
       insideNewChat: false,
       currentThread: thread,
-    })
+    }))
 
-    await globalRef.openai.beta.threads.messages.create(thread.id, {
-      role: 'user',
-      content: message,
-    })
-
-    const run = await globalRef.openai.beta.threads.runs.create(thread.id, {
-      assistant_id: assistantID,
-    })
-
-    await PollRun(thread.id, run.id)
-
-    const messages = await globalRef.openai.beta.threads.messages.list(
-      thread.id
-    )
+    const messages = await GenerateCompletion(thread.id, message, assistantID)
 
     const formattedMessages = messages.data.map((message) => {
       const messageContent = message.content[0] as MessageContentText
@@ -102,34 +150,12 @@ export function MessageArea() {
 
     thread.messages = formattedMessages
 
-    setGlobalState({
-      ...globalState,
-      insideNewChat: false,
-      currentThread: thread,
-    })
-
     const threadsDoc = db.doc(
       db.getFirestore(),
       `threads/${user?.uid}/conversations/${thread.id}`
     )
 
     await db.setDoc(threadsDoc, thread).catch((e) => {
-      console.error(e.message)
-      alert('Failed to save thread')
-    })
-
-    const header: ThreadHeader = {
-      lastEdited: thread.lastEdited,
-      name: thread.name,
-      threadID: thread.id,
-    }
-
-    const threadsHeaderDoc = db.doc(
-      db.getFirestore(),
-      `threads/${user?.uid}/headers/${thread.id}`
-    )
-
-    await db.setDoc(threadsHeaderDoc, header).catch((e) => {
       console.error(e.message)
       alert('Failed to save thread')
     })

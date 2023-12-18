@@ -8,10 +8,10 @@ export default function Home() {
   const [showThreadPanel, setShowThreadPanel] = useState(false)
   const [showChatArea, setShowChatArea] = useState(true)
   const [showSettings, setShowSettings] = useState(false)
-  const { globalState, setGlobalState } = useGlobalState()
+  const { setGlobalState } = useGlobalState()
 
   useEffect(() => {
-    setGlobalState({ ...globalState, insideNewChat: true })
+    setGlobalState((oldState) => ({ ...oldState, insideNewChat: true }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

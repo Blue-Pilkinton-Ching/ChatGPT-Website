@@ -24,7 +24,7 @@ export default function Controller() {
   const globalRef = useGlobalRef()
   const [fsSettings] = useDocument(doc(getFirestore(), `settings/${user?.uid}`))
 
-  const { globalState, setGlobalState } = useGlobalState()
+  const { setGlobalState } = useGlobalState()
 
   const [fsHeaders] = useCollectionOnce(
     query(
@@ -40,10 +40,10 @@ export default function Controller() {
         return element.data()
       }) as ThreadHeader[]
 
-      setGlobalState({
-        ...globalState,
+      setGlobalState((oldState) => ({
+        ...oldState,
         threadHeaders: threadHeaders,
-      })
+      }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fsHeaders])
