@@ -10,7 +10,7 @@ import ThreadOption from './ThreadOption.tsx'
 export default function ThreadPanel(props: ThreadPanelProps) {
   const [user, authLoading, authError] = useAuthState(getAuth())
   const [signOut] = useSignOut(getAuth())
-  const { globalState } = useGlobalState()
+  const { globalState, setGlobalState } = useGlobalState()
 
   if (!user || authLoading || authError) {
     alert('Not signed in')
@@ -27,10 +27,23 @@ export default function ThreadPanel(props: ThreadPanelProps) {
     signOut()
   }
 
+  function CreateNewChat() {
+    setGlobalState((oldState) => ({
+      ...oldState,
+      insideNewChat: true,
+    }))
+  }
+
   return (
     <>
       <div className={`threads-panel ${props.show ? 'show' : 'hide'}`}>
         <ExitButton onClick={handleExit} />
+        <div className="new-chat-option text">
+          <button onClick={CreateNewChat} className="new-chat-button button">
+            <img src="images/logo.svg" className="new-chat-logo" alt="" />
+            <h3>New Chat</h3>
+          </button>
+        </div>
         <div className="thread-option-list">
           {globalState.threadHeaders.map((thread, index) => {
             return <ThreadOption thread={thread} key={index} />

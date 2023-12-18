@@ -199,7 +199,8 @@ p {
 .show-threads-panel:hover .bar2,
 .show-threads-panel:hover .bar3,
 .copy-code:hover .copy-code-svg,
-.settings:hover .settings-svg {
+.settings:hover .settings-svg,
+.new-chat-option:hover {
   filter: brightness(var(--hover-brightness));
 }
 
@@ -209,7 +210,8 @@ p {
 .show-threads-panel:active .bar1,
 .show-threads-panel:active .bar2,
 .show-threads-panel:active .bar3,
-.settings:active .settings-svg {
+.settings:active .settings-svg,
+.new-chat-option:active {
   filter: brightness(var(--active-brightness));
 }
 
@@ -336,11 +338,13 @@ h1 {
   text-align: left;
 }
 
-.account-container:hover {
+.account-container:hover,
+.thread-button:hover {
   background-color: var(--hover-bg);
 }
 
-.account-container:active {
+.account-container:active,
+.thread-button:active {
   background-color: var(--hover-bg);
 }
 
@@ -650,14 +654,40 @@ pre {
   font-size: 16px;
   padding-left: 15px;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-.thread-button:hover {
-  background-color: var(--hover-bg);
+.new-chat-option {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  margin-top: 15px;
+  padding-top: 0;
+  padding-bottom: 10px;
+  height: 50px;
+  text-align: center;
+  cursor: pointer;
 }
 
-.thread-button:active {
-  background-color: var(--hover-bg);
+.new-chat-logo {
+  width: 40px;
+  margin: 5px;
+  float: left;
+  margin-top: 2.5px;
+}
+
+.new-chat-option h3 {
+  display: inline;
+  float: left;
+  transform: translateY(-20%);
+  padding-left: 15px;
+  margin-bottom: 0;
+  margin-top: 17px;
+}
+
+.new-chat-button {
+  float: left;
+  position: relative;
 }
 
 /* Phablet */
