@@ -1,7 +1,12 @@
 import { ChangeEvent, KeyboardEvent } from 'react'
 import NewChatPage from './NewChatPage'
 import { useGlobalState } from '../../../hooks/useGlobalState'
-import { Assistant, Message, Thread } from '../../../../interfaces'
+import {
+  Assistant,
+  Message,
+  Thread,
+  ThreadHeader,
+} from '../../../../interfaces'
 import * as db from 'firebase/firestore'
 import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -38,8 +43,6 @@ export function MessageArea() {
   }
 
   async function GenerateNewChat(message: string) {
-    setGlobalState({ ...globalState, insideNewChat: false })
-
     const thread = await globalRef.openai.beta.threads.create()
 
     const assistant = globalRef.settings.assistants.find(
@@ -52,6 +55,7 @@ export function MessageArea() {
     }
 
     const newThread: Thread = {
+      lastEdited: db.Timestamp.now().toMillis(),
       name: 'Loading',
       id: thread.id,
       messages: [],
@@ -65,6 +69,12 @@ export function MessageArea() {
     message: string,
     assistantID: string
   ) {
+    setGlobalState({
+      ...globalState,
+      insideNewChat: false,
+      currentThread: thread,
+    })
+
     await globalRef.openai.beta.threads.messages.create(thread.id, {
       role: 'user',
       content: message,
@@ -86,12 +96,17 @@ export function MessageArea() {
         assistantID: message.assistant_id,
         content: messageContent.text.value,
         role: message.role,
-        dateCreated: message.created_at,
       }
       return result
     })
 
     thread.messages = formattedMessages
+
+    setGlobalState({
+      ...globalState,
+      insideNewChat: false,
+      currentThread: thread,
+    })
 
     const threadsDoc = db.doc(
       db.getFirestore(),
@@ -103,12 +118,20 @@ export function MessageArea() {
       alert('Failed to save thread')
     })
 
-    console.log(thread)
+    const header: ThreadHeader = {
+      lastEdited: thread.lastEdited,
+      name: thread.name,
+      threadID: thread.id,
+    }
 
-    setGlobalState({
-      ...globalState,
-      currentThread: thread,
-      insideNewChat: false,
+    const threadsHeaderDoc = db.doc(
+      db.getFirestore(),
+      `threads/${user?.uid}/headers/${thread.id}`
+    )
+
+    await db.setDoc(threadsHeaderDoc, header).catch((e) => {
+      console.error(e.message)
+      alert('Failed to save thread')
     })
   }
 

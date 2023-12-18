@@ -4,10 +4,13 @@ import { getAuth } from 'firebase/auth'
 import { ExitButton } from '../../ExitButton.tsx'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSignOut } from 'react-firebase-hooks/auth'
+import { useGlobalState } from '../../../hooks/useGlobalState.tsx'
+import ThreadOption from './ThreadOption.tsx'
 
 export default function ThreadPanel(props: ThreadPanelProps) {
   const [user, authLoading, authError] = useAuthState(getAuth())
   const [signOut] = useSignOut(getAuth())
+  const { globalState } = useGlobalState()
 
   if (!user || authLoading || authError) {
     alert('Not signed in')
@@ -27,7 +30,12 @@ export default function ThreadPanel(props: ThreadPanelProps) {
   return (
     <>
       <div className={`threads-panel ${props.show ? 'show' : 'hide'}`}>
-        <ExitButton onClick={handleExit} tick={false} />
+        <ExitButton onClick={handleExit} />
+        <div className="thread-option-list">
+          {globalState.threadHeaders.map((thread, index) => {
+            return <ThreadOption thread={thread} key={index} />
+          })}
+        </div>
         <button className="account-container" onClick={OnAccountClick}>
           <img
             className="profile-photo"

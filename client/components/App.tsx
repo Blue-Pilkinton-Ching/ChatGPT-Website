@@ -21,6 +21,7 @@ export function App() {
     insideNewChat: true,
     currentThread: null,
     messageTextAreaHeight: '',
+    threadHeaders: [],
   })
   const ref = useRef<GlobalRef>({
     settings: { apiKey: '', assistants: [] },

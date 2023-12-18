@@ -30,7 +30,7 @@ export function Conversation() {
         const button = document.createElement('button') as HTMLButtonElement
         button.className = 'copy-code button'
         if (button != null) {
-          button.addEventListener('click', (event) => {
+          button.addEventListener('click', () => {
             navigator.clipboard.writeText(
               element.children[0]?.textContent as string
             )

@@ -57,7 +57,7 @@ function Login() {
       {signingIn ? (
         <Loader text="Signing in..." />
       ) : (
-        <div className="center" id="sign-in">
+        <div className="center sign-in">
           <h1> Sign in Method</h1>
           <hr className="sign-in-bar" />
           <br />

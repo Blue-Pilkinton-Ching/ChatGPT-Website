@@ -92,7 +92,7 @@ p {
   font-family: var(--font1);
 }
 
-#sign-in {
+.sign-in {
   width: 90%;
   top: 40%;
   left: 50%;
@@ -621,13 +621,50 @@ pre {
   margin-top: 0;
 }
 
+.thread-options {
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.thread-option {
+  width: 100%;
+  height: 40px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.thread-button {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--border-radius);
+  transition-duration: var(--transition-duration);
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+  font-size: 16px;
+  padding-left: 15px;
+  box-sizing: border-box;
+}
+
+.thread-button:hover {
+  background-color: var(--hover-bg);
+}
+
+.thread-button:active {
+  background-color: var(--hover-bg);
+}
+
 /* Phablet */
 @media (min-width: 400px) {
   h1 {
     font-size: 2.5em;
   }
 
-  #sign-in {
+  .sign-in {
     width: 340px;
   }
 

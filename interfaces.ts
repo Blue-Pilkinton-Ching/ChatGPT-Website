@@ -16,11 +16,21 @@ export interface GlobalStateWrapper {
   globalState: GlobalState
   setGlobalState: (data: GlobalState) => void
 }
+export interface ThreadOptionProps {
+  thread: ThreadHeader
+}
+
+export interface ThreadHeader {
+  name: string
+  threadID: string
+  lastEdited: number
+}
 
 export interface GlobalState {
   messageTextAreaHeight: string
   insideNewChat: boolean
   currentThread: Thread | null
+  threadHeaders: ThreadHeader[]
 }
 
 export interface GlobalRef {
@@ -49,12 +59,12 @@ export interface Thread {
   name: string
   id: string
   messages: Message[]
+  lastEdited: number
 }
 
 export interface Message {
   role: string
   assistantID: string | null
-  dateCreated: number
   content: string
 }
 
