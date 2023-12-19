@@ -11,14 +11,16 @@ import {
   limit,
   orderBy,
   query,
-  where,
+  getDocs,
+  startAfter,
 } from 'firebase/firestore'
-import { useDocument, useCollectionOnce } from 'react-firebase-hooks/firestore'
+import { useDocument } from 'react-firebase-hooks/firestore'
 import { useEffect } from 'react'
 import { Settings, ThreadHeader } from '../../interfaces'
 import OpenAI from 'openai'
-import {} from 'firebase/firestore'
 import { useGlobalState } from '../hooks/useGlobalState'
+
+const threadsPerLoad = 15
 
 export default function Controller() {
   const [user, authLoading, authError] = useAuthState(getAuth())
@@ -27,27 +29,61 @@ export default function Controller() {
 
   const { setGlobalState } = useGlobalState()
 
-  const [fsHeaders] = useCollectionOnce(
-    query(
-      collection(getFirestore(), `threads/${user?.uid}/headers`),
-      limit(5),
-      orderBy('lastEdited', 'desc')
-    )
-  )
-
   useEffect(() => {
-    if (fsHeaders) {
-      const threadHeaders = fsHeaders.docs.map((element) => {
-        return element.data()
-      }) as ThreadHeader[]
+    if (authLoading || authError) {
+      return
+    }
+
+    globalRef.showMoreThreads = async () => {
+      console.log('loading threads')
+      const headers = await GetThreadHeaders()
+
+      const headerDocs = headers.docs.map((doc, index) => {
+        const data = doc.data() as ThreadHeader
+
+        if (index === threadsPerLoad - 1) {
+          globalRef.latestDoc = doc
+        }
+
+        const result = data as ThreadHeader
+        return result
+      })
 
       setGlobalState((oldState) => ({
         ...oldState,
-        threadHeaders: threadHeaders,
+        threadHeaders: oldState.threadHeaders.concat(headerDocs),
       }))
     }
+
+    globalRef.showMoreThreads()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fsHeaders])
+  }, [user])
+
+  async function GetThreadHeaders() {
+    const headersCollection = collection(
+      getFirestore(),
+      `threads/${user?.uid}/headers`
+    )
+
+    let q
+
+    if (globalRef.latestDoc == null) {
+      q = query(
+        headersCollection,
+        limit(threadsPerLoad),
+        orderBy('lastEdited', 'desc')
+      )
+    } else {
+      q = query(
+        headersCollection,
+        limit(threadsPerLoad),
+        orderBy('lastEdited', 'desc'),
+        startAfter(globalRef.latestDoc)
+      )
+    }
+
+    return await getDocs(q)
+  }
 
   useEffect(() => {
     if (fsSettings?.data() == undefined) {

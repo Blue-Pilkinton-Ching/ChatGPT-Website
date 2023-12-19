@@ -1,3 +1,4 @@
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { Dispatch, SetStateAction } from 'react'
@@ -39,6 +40,8 @@ export interface GlobalState {
 export interface GlobalRef {
   settings: Settings
   openai: OpenAI
+  showMoreThreads: () => void
+  latestDoc: null | QueryDocumentSnapshot<DocumentData, DocumentData>
 }
 
 export interface LoaderProps {
@@ -88,6 +91,7 @@ export interface SettingsProps {
 
 export interface ExitButtonProps {
   onClick: () => void
+  classes?: string
 }
 
 export interface ThreadPanelProps {

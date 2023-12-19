@@ -97,6 +97,8 @@ export function MessageArea() {
     )
     AddMessageToConversation(conversation, 'user', message)
 
+    console.log(conversation)
+
     const completion = await GenerateCompletion(conversation, assistant)
 
     console.log(completion)

@@ -6,11 +6,13 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSignOut } from 'react-firebase-hooks/auth'
 import { useGlobalState } from '../../../hooks/useGlobalState.tsx'
 import ThreadOption from './ThreadOption.tsx'
+import { useGlobalRef } from '../../../hooks/useGlobalRef.tsx'
 
 export default function ThreadPanel(props: ThreadPanelProps) {
   const [user, authLoading, authError] = useAuthState(getAuth())
   const [signOut] = useSignOut(getAuth())
   const { globalState, setGlobalState } = useGlobalState()
+  const globalRef = useGlobalRef()
 
   if (!user || authLoading || authError) {
     alert('Not signed in')
@@ -34,20 +36,34 @@ export default function ThreadPanel(props: ThreadPanelProps) {
     }))
   }
 
+  function ShowMoreThreads() {
+    globalRef.showMoreThreads()
+  }
+
   return (
     <>
       <div className={`threads-panel ${props.show ? 'show' : 'hide'}`}>
-        <ExitButton onClick={handleExit} />
-        <div className="new-chat-option text">
-          <button onClick={CreateNewChat} className="new-chat-button button">
-            <img src="images/logo.svg" className="new-chat-logo" alt="" />
-            <h3>New Chat</h3>
-          </button>
+        <ExitButton onClick={handleExit} classes="exit-threads" />
+        <div className="threads-head">
+          <div className="new-chat-option text">
+            <button onClick={CreateNewChat} className="new-chat-button button">
+              <img src="images/logo.svg" className="new-chat-logo" alt="" />
+              <h3>New Chat</h3>
+            </button>
+          </div>
         </div>
         <div className="thread-option-list">
           {globalState.threadHeaders.map((thread, index) => {
             return <ThreadOption thread={thread} key={index} />
           })}
+          <div className="load-more-threads">
+            <button
+              className="load-more-threads-button button"
+              onClick={ShowMoreThreads}
+            >
+              <h3 className="show-more">Show More</h3>
+            </button>
+          </div>
         </div>
         <button className="account-container" onClick={OnAccountClick}>
           <img

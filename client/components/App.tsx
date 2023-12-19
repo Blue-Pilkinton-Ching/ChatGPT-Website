@@ -29,6 +29,8 @@ export function App() {
       apiKey: 'PLACEHOLDER',
       dangerouslyAllowBrowser: true,
     }),
+    showMoreThreads: () => {},
+    latestDoc: null,
   })
 
   return (
