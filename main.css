@@ -15,6 +15,7 @@
   --active-brightness: 60%;
   --hover-brightness: 85%;
   --transition-duration: 0.2s;
+
   --font1: 'Roboto', sans-serif;
 
   --bg-gradient: linear-gradient(
@@ -557,6 +558,12 @@ h4 {
   text-align: left;
   font-size: 14px;
   position: relative;
+  font-family: var(--font1);
+  line-height: 1.8em;
+}
+
+.message-content p {
+  /* margin-bottom: 20px; */
 }
 
 .message-content,

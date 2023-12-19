@@ -1,7 +1,6 @@
 import { MessageProps } from '../../../../interfaces'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { getAuth } from 'firebase/auth'
-import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { Marked } from 'marked'
 import { markedHighlight } from 'marked-highlight'
 import hljs from 'highlight.js'
@@ -36,12 +35,18 @@ export function Message(props: MessageProps) {
       <h4>{isUser ? 'You' : props.assistant.name}</h4>
       <br />
       <div className="message">
-        <div
-          className="message-content text"
-          dangerouslySetInnerHTML={{
-            __html: marked.parse(props.message.content as string),
-          }}
-        ></div>
+        {isUser ? (
+          <div className="message-content text">
+            <p>{props.message.content as string}</p>
+          </div>
+        ) : (
+          <div
+            className="message-content text"
+            dangerouslySetInnerHTML={{
+              __html: marked.parse(props.message.content as string),
+            }}
+          ></div>
+        )}
       </div>
     </div>
   )

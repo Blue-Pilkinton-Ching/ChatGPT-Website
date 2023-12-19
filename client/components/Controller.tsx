@@ -11,6 +11,7 @@ import {
   limit,
   orderBy,
   query,
+  where,
 } from 'firebase/firestore'
 import { useDocument, useCollectionOnce } from 'react-firebase-hooks/firestore'
 import { useEffect } from 'react'
@@ -29,9 +30,9 @@ export default function Controller() {
   const [fsHeaders] = useCollectionOnce(
     query(
       collection(getFirestore(), `threads/${user?.uid}/headers`),
-      (limit(20), orderBy('lastEdited', 'desc'))
-    ),
-    {}
+      limit(5),
+      orderBy('lastEdited', 'desc')
+    )
   )
 
   useEffect(() => {
