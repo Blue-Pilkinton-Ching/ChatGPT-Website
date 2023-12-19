@@ -528,7 +528,7 @@ h4 {
 .conversation {
   position: relative;
   box-sizing: border-box;
-  flex-direction: column-reverse;
+  flex-direction: column;
   justify-content: flex-start;
   padding-left: 10%;
   padding-right: 10%;

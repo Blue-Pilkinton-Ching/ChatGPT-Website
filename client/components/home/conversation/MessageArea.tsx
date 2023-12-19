@@ -1,18 +1,14 @@
 import { ChangeEvent, KeyboardEvent } from 'react'
 import NewChatPage from './NewChatPage'
 import { useGlobalState } from '../../../hooks/useGlobalState'
-import {
-  Assistant,
-  Message,
-  Thread,
-  ThreadHeader,
-} from '../../../../interfaces'
+import { Assistant, Thread, ThreadHeader } from '../../../../interfaces'
 import * as db from 'firebase/firestore'
 import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { getAuth } from 'firebase/auth'
-import { MessageContentText } from 'openai/resources/beta/threads/index.mjs'
 import { Conversation } from './Conversation'
+import { v4 as uuidv4 } from 'uuid'
+import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 
 export function MessageArea() {
   const { globalState, setGlobalState } = useGlobalState()
@@ -29,42 +25,32 @@ export function MessageArea() {
     }))
   }
 
-  async function PollRun(threadID: string, runID: string) {
-    const runStatus = await globalRef.openai.beta.threads.runs.retrieve(
-      threadID,
-      runID
-    )
-
-    if (runStatus.status === 'in_progress') {
-      await PollRun(threadID, runID)
-    } else {
-      return runStatus
-    }
-  }
-
   async function GenerateCompletion(
-    threadID: string,
-    message: string,
-    assistantID: string
+    conversation: ChatCompletionMessageParam[],
+    assistant: Assistant
   ) {
-    await globalRef.openai.beta.threads.messages.create(threadID, {
-      role: 'user',
-      content: message,
+    return await globalRef.openai.chat.completions.create({
+      messages: conversation,
+      model: assistant.model,
+      stream: false,
+      temperature: assistant.temperature,
+      max_tokens: assistant.maxTokens,
     })
-
-    const run = await globalRef.openai.beta.threads.runs.create(threadID, {
-      assistant_id: assistantID,
-    })
-
-    await PollRun(threadID, run.id)
-
-    const response = await globalRef.openai.beta.threads.messages.list(threadID)
-
-    return response
   }
 
-  async function GenerateNewChat(message: string) {
-    const thread = await globalRef.openai.beta.threads.create()
+  function AddMessageToConversation(
+    conversation: ChatCompletionMessageParam[],
+    role: 'user' | 'system' | 'assistant',
+    content: string
+  ) {
+    conversation.push({
+      role,
+      content,
+    })
+  }
+
+  async function CreateNewChatMessage(userMessage: string) {
+    const uuid = uuidv4()
 
     const assistant = globalRef.settings.assistants.find(
       (a) => a.isDefault
@@ -75,43 +61,55 @@ export function MessageArea() {
       throw new Error('Default assistant not found. Please try again later')
     }
 
-    const newThread: Thread = {
-      lastEdited: db.Timestamp.now().toMillis(),
-      id: thread.id,
-      messages: [],
+    const thread: Thread = {
+      id: uuid,
+      conversation: [],
+      assistant,
     }
 
-    GenerateMessage(newThread, message, assistant.id)
-    GenerateHeader(message, newThread)
-  }
-  async function GenerateHeader(message: string, thread: Thread) {
-    const newThread = await globalRef.openai.beta.threads.create()
+    if (assistant.instructions) {
+      AddMessageToConversation(
+        thread.conversation,
+        'system',
+        assistant.instructions
+      )
+    }
 
+    AddMessageToThread(thread, userMessage, true)
+    GenerateHeader(thread.id, userMessage)
+  }
+  async function GenerateHeader(threadID: string, message: string) {
     const assistant = globalRef.settings.assistants.find(
       (a) => a.name === 'Header Generator'
     ) as Assistant
 
     if (assistant == undefined) {
       alert('Header assistant not found. Please try again later')
-      throw new Error('Header assistant not found. Please try again later')
+      throw new Error('Header assistant not found')
     }
 
-    const messages = await GenerateCompletion(
-      newThread.id,
-      message,
-      assistant.id
-    )
+    const conversation: ChatCompletionMessageParam[] = []
 
-    const response = messages.data[0].content[0] as MessageContentText
+    AddMessageToConversation(
+      conversation,
+      'system',
+      assistant.instructions as string
+    )
+    AddMessageToConversation(conversation, 'user', message)
+
+    const completion = await GenerateCompletion(conversation, assistant)
+
+    console.log(completion)
 
     const header: ThreadHeader = {
-      lastEdited: thread.lastEdited,
-      name: response.text.value,
-      threadID: thread.id,
+      lastEdited: db.Timestamp.now().toMillis(),
+      name: completion.choices[0].message.content as string,
+      threadID,
     }
+
     const threadsHeaderDoc = db.doc(
       db.getFirestore(),
-      `threads/${user?.uid}/headers/${thread.id}`
+      `threads/${user?.uid}/headers/${threadID}`
     )
 
     await db.setDoc(threadsHeaderDoc, header).catch((e) => {
@@ -125,10 +123,10 @@ export function MessageArea() {
     }))
   }
 
-  async function GenerateMessage(
+  async function AddMessageToThread(
     thread: Thread,
     message: string,
-    assistantID: string
+    firstMessage: boolean
   ) {
     setGlobalState((oldState) => ({
       ...oldState,
@@ -136,19 +134,32 @@ export function MessageArea() {
       currentThread: thread,
     }))
 
-    const messages = await GenerateCompletion(thread.id, message, assistantID)
+    if (thread.assistant.instructions != null && firstMessage) {
+      AddMessageToConversation(
+        thread.conversation,
+        'system',
+        thread.assistant.instructions
+      )
+    }
 
-    const formattedMessages = messages.data.map((message) => {
-      const messageContent = message.content[0] as MessageContentText
-      const result: Message = {
-        assistantID: message.assistant_id,
-        content: messageContent.text.value,
-        role: message.role,
-      }
-      return result
-    })
+    AddMessageToConversation(thread.conversation, 'user', message)
 
-    thread.messages = formattedMessages
+    const messages = await GenerateCompletion(
+      thread.conversation,
+      thread.assistant
+    )
+
+    AddMessageToConversation(
+      thread.conversation,
+      'assistant',
+      messages.choices[0].message.content as string
+    )
+
+    setGlobalState((oldState) => ({
+      ...oldState,
+      insideNewChat: false,
+      currentThread: thread,
+    }))
 
     const threadsDoc = db.doc(
       db.getFirestore(),
@@ -172,13 +183,9 @@ export function MessageArea() {
       ChangeTextAreaHeight(target)
 
       if (globalState.insideNewChat) {
-        GenerateNewChat(message)
+        CreateNewChatMessage(message)
       } else {
-        GenerateMessage(
-          globalState.currentThread as Thread,
-          message,
-          globalRef.settings.assistants[0].id
-        )
+        AddMessageToThread(globalState.currentThread as Thread, message, false)
       }
     }
   }

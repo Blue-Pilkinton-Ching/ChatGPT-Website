@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useGlobalState } from '../../../hooks/useGlobalState'
 import { Message } from './Message'
+import { Assistant } from '../../../../interfaces'
 
 export function Conversation() {
   const { globalState } = useGlobalState()
@@ -62,8 +63,14 @@ export function Conversation() {
       {globalState.currentThread ? (
         <>
           <br />
-          {globalState.currentThread.messages.map((message, index) => {
-            return <Message key={index} message={message} />
+          {globalState.currentThread.conversation.map((message, index) => {
+            return (
+              <Message
+                key={index}
+                assistant={globalState.currentThread?.assistant as Assistant}
+                message={message}
+              />
+            )
           })}
         </>
       ) : (

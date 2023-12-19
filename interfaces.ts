@@ -1,4 +1,5 @@
 import OpenAI from 'openai'
+import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import { Dispatch, SetStateAction } from 'react'
 export interface FirebaseConfig {
   apiKey: string
@@ -11,7 +12,8 @@ export interface FirebaseConfig {
 }
 
 export interface MessageProps {
-  message: Message
+  message: ChatCompletionMessageParam
+  assistant: Assistant
 }
 export interface GlobalStateWrapper {
   globalState: GlobalState
@@ -54,18 +56,14 @@ export interface Assistant {
   instructions: string | null
   model: string
   isDefault: boolean
+  temperature?: number
+  maxTokens?: number
 }
 
 export interface Thread {
+  assistant: Assistant
+  conversation: ChatCompletionMessageParam[]
   id: string
-  messages: Message[]
-  lastEdited: number
-}
-
-export interface Message {
-  role: string
-  assistantID: string | null
-  content: string
 }
 
 export interface SignInButtonProps {

@@ -23,7 +23,6 @@ marked.setOptions({
 
 export function Message(props: MessageProps) {
   const [user] = useAuthState(getAuth())
-  const globalRef = useGlobalRef()
 
   const isUser = props.message.role === 'user'
 
@@ -34,19 +33,13 @@ export function Message(props: MessageProps) {
         alt="Profile"
         className="message-photo"
       />
-      <h4>
-        {isUser
-          ? 'You'
-          : globalRef.settings.assistants.find(
-              (a) => a.id === props.message.assistantID
-            )?.name}
-      </h4>
+      <h4>{isUser ? 'You' : props.assistant.name}</h4>
       <br />
       <div className="message">
         <div
           className="message-content text"
           dangerouslySetInnerHTML={{
-            __html: marked.parse(props.message.content),
+            __html: marked.parse(props.message.content as string),
           }}
         ></div>
       </div>
