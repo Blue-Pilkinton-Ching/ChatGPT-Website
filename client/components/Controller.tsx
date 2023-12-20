@@ -54,8 +54,6 @@ export default function Controller() {
 
     const headers = await getDocs(q)
 
-    console.log(headers.docs)
-
     if (!headers.empty) {
       globalRef.latestDoc = headers.docs[headers.docs.length - 1]
 
