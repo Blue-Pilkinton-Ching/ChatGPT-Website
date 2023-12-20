@@ -22,6 +22,7 @@ export function App() {
     currentThread: null,
     messageTextAreaHeight: '',
     threadHeaders: [],
+    reachedFinalThreadHeader: false,
   })
   const ref = useRef<GlobalRef>({
     settings: { apiKey: '', assistants: [] },
@@ -29,7 +30,7 @@ export function App() {
       apiKey: 'PLACEHOLDER',
       dangerouslyAllowBrowser: true,
     }),
-    showMoreThreads: () => {},
+    getMoreThreads: () => {},
     latestDoc: null,
   })
 

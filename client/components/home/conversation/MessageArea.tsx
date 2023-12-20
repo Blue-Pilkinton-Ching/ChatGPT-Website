@@ -121,7 +121,7 @@ export function MessageArea() {
 
     setGlobalState((oldState) => ({
       ...oldState,
-      threadHeaders: [header, ...globalState.threadHeaders],
+      threadHeaders: [header, ...oldState.threadHeaders],
     }))
   }
 

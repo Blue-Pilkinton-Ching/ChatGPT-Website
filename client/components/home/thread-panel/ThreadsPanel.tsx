@@ -37,7 +37,7 @@ export default function ThreadPanel(props: ThreadPanelProps) {
   }
 
   function ShowMoreThreads() {
-    globalRef.showMoreThreads()
+    globalRef.getMoreThreads()
   }
 
   return (

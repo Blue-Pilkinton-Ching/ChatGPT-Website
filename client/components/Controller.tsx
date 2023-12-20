@@ -20,70 +20,70 @@ import { Settings, ThreadHeader } from '../../interfaces'
 import OpenAI from 'openai'
 import { useGlobalState } from '../hooks/useGlobalState'
 
-const threadsPerLoad = 15
-
 export default function Controller() {
   const [user, authLoading, authError] = useAuthState(getAuth())
   const globalRef = useGlobalRef()
   const [fsSettings] = useDocument(doc(getFirestore(), `settings/${user?.uid}`))
+  const { globalState, setGlobalState } = useGlobalState()
 
-  const { setGlobalState } = useGlobalState()
+  const threadsPerLoad = 3
 
-  useEffect(() => {
-    if (authLoading || authError) {
+  async function GetMoreThreads() {
+    if (globalState.reachedFinalThreadHeader || user == null) {
       return
     }
 
-    globalRef.showMoreThreads = async () => {
-      console.log('loading threads')
-      const headers = await GetThreadHeaders()
-
-      const headerDocs = headers.docs.map((doc, index) => {
-        const data = doc.data() as ThreadHeader
-
-        if (index === threadsPerLoad - 1) {
-          globalRef.latestDoc = doc
-        }
-
-        const result = data as ThreadHeader
-        return result
-      })
-
-      setGlobalState((oldState) => ({
-        ...oldState,
-        threadHeaders: oldState.threadHeaders.concat(headerDocs),
-      }))
-    }
-
-    globalRef.showMoreThreads()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
-
-  async function GetThreadHeaders() {
     const headersCollection = collection(
       getFirestore(),
       `threads/${user?.uid}/headers`
     )
 
-    let q
+    const q =
+      globalRef.latestDoc == null
+        ? query(
+            headersCollection,
+            limit(threadsPerLoad),
+            orderBy('lastEdited', 'desc')
+          )
+        : query(
+            headersCollection,
+            limit(threadsPerLoad),
+            orderBy('lastEdited', 'desc'),
+            startAfter(globalRef.latestDoc)
+          )
 
-    if (globalRef.latestDoc == null) {
-      q = query(
-        headersCollection,
-        limit(threadsPerLoad),
-        orderBy('lastEdited', 'desc')
-      )
+    const headers = await getDocs(q)
+
+    console.log(headers.docs)
+
+    if (!headers.empty) {
+      globalRef.latestDoc = headers.docs[headers.docs.length - 1]
+
+      setGlobalState((oldState) => ({
+        ...oldState,
+        threadHeaders: [
+          ...oldState.threadHeaders,
+          ...headers.docs.map((doc) => doc.data() as ThreadHeader),
+        ],
+        reachedFinalThreadHeader: headers.docs.length < threadsPerLoad,
+      }))
     } else {
-      q = query(
-        headersCollection,
-        limit(threadsPerLoad),
-        orderBy('lastEdited', 'desc'),
-        startAfter(globalRef.latestDoc)
-      )
+      setGlobalState((oldState) => ({
+        ...oldState,
+        reachedFinalThreadHeader: true,
+      }))
     }
-
-    return await getDocs(q)
   }
+
+  useEffect(() => {
+    globalRef.getMoreThreads = GetMoreThreads
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [globalRef.latestDoc, user])
+
+  useEffect(() => {
+    globalRef.getMoreThreads()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   useEffect(() => {
     if (fsSettings?.data() == undefined) {

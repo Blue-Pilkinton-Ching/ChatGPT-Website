@@ -35,12 +35,13 @@ export interface GlobalState {
   insideNewChat: boolean
   currentThread: Thread | null
   threadHeaders: ThreadHeader[]
+  reachedFinalThreadHeader: boolean
 }
 
 export interface GlobalRef {
   settings: Settings
   openai: OpenAI
-  showMoreThreads: () => void
+  getMoreThreads: () => void
   latestDoc: null | QueryDocumentSnapshot<DocumentData, DocumentData>
 }
 
