@@ -84,6 +84,10 @@ export default function Controller() {
   }, [user])
 
   useEffect(() => {
+    console.log(user)
+  }, [user])
+
+  useEffect(() => {
     if (fsSettings?.data() == undefined) {
       return
     }

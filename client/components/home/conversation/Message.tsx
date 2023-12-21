@@ -5,6 +5,7 @@ import { Marked } from 'marked'
 import { markedHighlight } from 'marked-highlight'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github-dark-dimmed.css'
+import authLogos from '../../../auth-logos'
 
 const marked = new Marked(
   markedHighlight({
@@ -28,7 +29,13 @@ export function Message(props: MessageProps) {
   return (
     <div className="message-box">
       <img
-        src={isUser ? (user?.photoURL as string) : 'images/logo-bg.svg'}
+        src={
+          isUser
+            ? user?.photoURL
+              ? user?.photoURL
+              : authLogos.guest
+            : 'images/logo-bg.svg'
+        }
         alt="Profile"
         className="message-photo"
       />

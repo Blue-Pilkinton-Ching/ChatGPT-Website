@@ -25,6 +25,7 @@ export function Conversation() {
         header.innerText = element.children[0].classList[1]
 
         if (header.innerText == 'undefined') {
+          header.innerText = 'unknown'
           element.children[0].className = 'hljs'
         }
 

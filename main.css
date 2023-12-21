@@ -8,6 +8,7 @@
   --color7: rgb(54, 64, 80);
   --color8: rgb(70, 84, 104, 0.7);
   --color9: rgb(219, 219, 219);
+  --color10: rgb(74, 143, 207);
 
   --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   --border-radius: 10px;
@@ -117,18 +118,13 @@ p {
   border-width: 0;
   font-family: var(--font1);
   transition-duration: var(--transition-duration);
-  box-shadow: inset 0 1px 0 0 darkslategrey;
+  box-shadow: var(--box-shadow);
 }
 
-.sign-in-button:hover {
-  box-shadow: inset -1px 0 0 darkslategrey, inset 0 -1px 0 darkslategrey,
-    inset 1px 0 0 darkslategrey, inset 0 1px 0 darkslategrey;
+.sign-in-button:hover,
+.email-next-button:hover {
   cursor: pointer;
   border-radius: 22px;
-}
-
-.sign-in-button:active {
-  filter: brightness(var(--active-brightness));
 }
 
 .sign-in-button-img {
@@ -201,7 +197,9 @@ p {
 .show-threads-panel:hover .bar3,
 .copy-code:hover .copy-code-svg,
 .settings:hover .settings-svg,
-.load-more-threads-button:hover img {
+.load-more-threads-button:hover img,
+.sign-in-button:hover,
+.email-next-button:hover {
   filter: brightness(var(--hover-brightness));
 }
 
@@ -212,7 +210,9 @@ p {
 .show-threads-panel:active .bar2,
 .show-threads-panel:active .bar3,
 .settings:active .settings-svg,
-.load-more-threads-button:active img {
+.load-more-threads-button:active img,
+.sign-in-button:active,
+.email-next-button:active {
   filter: brightness(var(--active-brightness));
 }
 
@@ -740,6 +740,54 @@ pre {
 
 .down-arrow {
   width: 25px;
+}
+
+.email-back-button {
+  margin-right: 10px;
+  background-color: var(--color5);
+}
+
+.email-submit-button {
+  background-color: var(--color10);
+}
+
+.email-next-button {
+  height: 40px;
+  border-radius: var(--border-radius);
+  width: calc(50% - 5px);
+  position: relative;
+  box-shadow: var(--box-shadow);
+}
+
+.email-next {
+  display: flex;
+}
+
+.email-next h3 {
+  margin: 0;
+}
+
+.email-container {
+  width: 100%;
+}
+
+.sign-in-text-field {
+  width: 100%;
+  border: solid;
+  border-width: 1px;
+  border-color: var(--color5);
+  padding: 0;
+  height: 40px;
+  margin-bottom: 15px;
+  border-radius: var(--border-radius);
+  background-color: var(--color3);
+  box-sizing: border-box;
+  padding-left: 15px;
+}
+
+.sign-in-text-field:focus {
+  outline: none;
+  border-color: var(--color7);
 }
 
 /* Phablet */

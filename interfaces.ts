@@ -14,7 +14,8 @@ export interface FirebaseConfig {
 
 export interface SignInWithEmailProps {
   onBack: () => void
-  onSubmit: () => void
+  onSubmit: (email: string, password: string, creatingEmail: boolean) => void
+  warning: string
 }
 
 export interface MessageProps {

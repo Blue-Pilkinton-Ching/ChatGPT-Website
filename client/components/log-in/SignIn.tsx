@@ -4,7 +4,9 @@ import {
   AuthProvider,
   GithubAuthProvider,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
   getAuth,
+  signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth'
 import { SignInButton } from './SignInButton'
@@ -14,7 +16,7 @@ import { SignInWithEmail } from './SignInWithEmail'
 
 function SignIn() {
   const [signingIn, setSigningIn] = useState(false)
-
+  const [emailWarning, setEmailWarning] = useState('')
   const [emailSignIn, setEmailSignIn] = useState(false)
 
   function SignInWithPopup(service: string) {
@@ -45,6 +47,68 @@ function SignIn() {
     return service
   }
 
+  function onEmailBack() {
+    setEmailSignIn(false)
+  }
+
+  function onSubmit(email: string, password: string, creatingEmail: boolean) {
+    if (creatingEmail) {
+      createUserWithEmailAndPassword(getAuth(), email, password).catch(
+        (error) => {
+          let warning = error.code
+          switch (error.code) {
+            case 'auth/email-already-exists':
+              warning = 'Email already exists on another account'
+              break
+            case 'auth/email-already-in-use':
+              warning = 'Email already exists on another account'
+              break
+            case 'auth/invalid-email':
+              warning = 'Invalid email'
+              break
+            case 'auth/invalid-password':
+              warning = 'Invalid password. Must be at least six charactors'
+              break
+            case 'auth/weak-password':
+              warning = 'Weak password. Must be at least six charactors'
+              break
+            default:
+              break
+          }
+          setEmailWarning(warning)
+          console.error(error)
+          setSigningIn(false)
+        }
+      )
+    } else {
+      signInWithEmailAndPassword(getAuth(), email, password).catch((error) => {
+        let warning = error.code
+        switch (error.code) {
+          case 'auth/email-already-exists':
+            warning = 'Email already exists on another account'
+            break
+          case 'auth/invalid-email':
+            warning = 'Invalid email'
+            break
+          case 'auth/invalid-password':
+            warning = 'Invalid password.'
+            break
+          case 'auth/missing-password':
+            warning = 'Missing password!'
+            break
+          case 'auth/invalid-login-credentials':
+            warning = 'Email or password is incorrect.'
+            break
+          default:
+            break
+        }
+        setEmailWarning(warning)
+        console.error(error)
+        setSigningIn(false)
+      })
+    }
+  }
+
   return (
     <main className="login">
       {signingIn ? (
@@ -53,16 +117,13 @@ function SignIn() {
         <div className="center sign-in">
           {emailSignIn ? (
             <SignInWithEmail
-              onBack={function (): void {
-                throw new Error('Function not implemented.')
-              }}
-              onSubmit={function (): void {
-                throw new Error('Function not implemented.')
-              }}
+              onBack={onEmailBack}
+              onSubmit={onSubmit}
+              warning={emailWarning}
             />
           ) : (
             <>
-              <h1> Sign in Method</h1>
+              <h1>Sign in Method</h1>
               <hr className="sign-in-bar" />
               <br />
               <br />
@@ -90,6 +151,7 @@ function SignIn() {
                 text="Sign in with Email Password"
                 textColor="#FFFFFF"
                 onClickCallback={() => {
+                  setEmailWarning('')
                   setEmailSignIn(true)
                 }}
               ></SignInButton>

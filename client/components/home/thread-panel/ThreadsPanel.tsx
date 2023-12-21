@@ -7,6 +7,7 @@ import { useSignOut } from 'react-firebase-hooks/auth'
 import { useGlobalState } from '../../../hooks/useGlobalState.tsx'
 import ThreadOption from './ThreadOption.tsx'
 import { useGlobalRef } from '../../../hooks/useGlobalRef.tsx'
+import authLogos from '../../../auth-logos.ts'
 
 export default function ThreadPanel(props: ThreadPanelProps) {
   const [user, authLoading, authError] = useAuthState(getAuth())
@@ -81,11 +82,13 @@ export default function ThreadPanel(props: ThreadPanelProps) {
         <button className="account-container" onClick={OnAccountClick}>
           <img
             className="profile-photo"
-            src={user.photoURL as string}
+            src={user.photoURL ? user.photoURL : authLogos.guest}
             alt=""
             referrerPolicy="no-referrer"
           />
-          <span className="account-name text">{user.displayName}</span>
+          <span className="account-name text">
+            {user.displayName ? user.displayName : 'Anonymous User'}
+          </span>
         </button>
       </div>
     </>
