@@ -6,7 +6,7 @@ import { useGlobalState } from '../../../hooks/useGlobalState'
 
 export default function ThreadOption(props: ThreadOptionProps) {
   const [user] = useAuthState(getAuth())
-  const { setGlobalState } = useGlobalState()
+  const { globalState, setGlobalState } = useGlobalState()
 
   async function onClick() {
     const threadDoc = db.doc(
@@ -24,8 +24,16 @@ export default function ThreadOption(props: ThreadOptionProps) {
 
   return (
     <>
-      <div className="thread-option">
-        <button onClick={onClick} className="thread-button text">
+      <div className={`thread-option`}>
+        <button
+          onClick={onClick}
+          className={`thread-button text ${
+            globalState.currentThread?.id === props.thread.threadID &&
+            !globalState.insideNewChat
+              ? 'selected'
+              : ''
+          }`}
+        >
           {props.thread.name}
         </button>
       </div>

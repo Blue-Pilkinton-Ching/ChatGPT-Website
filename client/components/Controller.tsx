@@ -26,7 +26,7 @@ export default function Controller() {
   const [fsSettings] = useDocument(doc(getFirestore(), `settings/${user?.uid}`))
   const { globalState, setGlobalState } = useGlobalState()
 
-  const threadsPerLoad = 3
+  const threadsPerLoad = 15
 
   async function GetMoreThreads() {
     if (globalState.reachedFinalThreadHeader || user == null) {

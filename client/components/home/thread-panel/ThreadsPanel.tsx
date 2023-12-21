@@ -46,7 +46,12 @@ export default function ThreadPanel(props: ThreadPanelProps) {
         <ExitButton onClick={handleExit} classes="exit-threads" />
         <div className="threads-head">
           <div className="new-chat-option text">
-            <button onClick={CreateNewChat} className="new-chat-button button">
+            <button
+              onClick={CreateNewChat}
+              className={`new-chat-button button ${
+                globalState.insideNewChat ? 'selected' : ''
+              }`}
+            >
               <img src="images/logo.svg" className="new-chat-logo" alt="" />
               <h3>New Chat</h3>
             </button>
@@ -56,14 +61,22 @@ export default function ThreadPanel(props: ThreadPanelProps) {
           {globalState.threadHeaders.map((thread, index) => {
             return <ThreadOption thread={thread} key={index} />
           })}
-          <div className="load-more-threads">
-            <button
-              className="load-more-threads-button button"
-              onClick={ShowMoreThreads}
-            >
-              <h3 className="show-more">Show More</h3>
-            </button>
-          </div>
+          {globalState.reachedFinalThreadHeader ? (
+            ''
+          ) : (
+            <div className="load-more-threads">
+              <button
+                className="load-more-threads-button button"
+                onClick={ShowMoreThreads}
+              >
+                <img
+                  src="images/down-arrow.svg"
+                  className="down-arrow"
+                  alt=""
+                />
+              </button>
+            </div>
+          )}
         </div>
         <button className="account-container" onClick={OnAccountClick}>
           <img

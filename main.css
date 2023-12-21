@@ -93,12 +93,6 @@ p {
   font-family: var(--font1);
 }
 
-.sign-in {
-  width: 90%;
-  top: 40%;
-  left: 50%;
-}
-
 .center {
   position: absolute;
   top: 50%;
@@ -107,6 +101,10 @@ p {
   text-align: center;
   justify-content: center;
 }
+.sign-in {
+  top: 43%;
+}
+
 .sign-in-button {
   position: relative;
   height: 40px;
@@ -200,7 +198,8 @@ p {
 .show-threads-panel:hover .bar2,
 .show-threads-panel:hover .bar3,
 .copy-code:hover .copy-code-svg,
-.settings:hover .settings-svg {
+.settings:hover .settings-svg,
+.load-more-threads-button:hover img {
   filter: brightness(var(--hover-brightness));
 }
 
@@ -210,7 +209,8 @@ p {
 .show-threads-panel:active .bar1,
 .show-threads-panel:active .bar2,
 .show-threads-panel:active .bar3,
-.settings:active .settings-svg {
+.settings:active .settings-svg,
+.load-more-threads-button:active img {
   filter: brightness(var(--active-brightness));
 }
 
@@ -340,13 +340,11 @@ h1 {
 
 .account-container:hover,
 .thread-button:hover,
-.new-chat-button:hover,
-.load-more-threads-button:hover {
+.new-chat-button:hover {
   background-color: var(--hover-bg);
 }
 
-.account-container:active,
-.thread-button:active .load-more-threads-button:active {
+.account-container:active {
   background-color: var(--hover-bg);
 }
 
@@ -500,8 +498,9 @@ h4 {
   width: 100%;
 }
 
-.settings-option-selected {
-  background-color: var(--color4);
+.settings-option-selected,
+.selected {
+  background-color: var(--hover-bg) !important;
 }
 
 .api-key-text {
@@ -638,8 +637,7 @@ pre {
 .thread-option {
   width: 100%;
   height: 40px;
-  padding: 5px;
-  box-sizing: border-box;
+  margin: 2px;
   overflow-x: hidden;
   text-wrap: nowrap;
 }
@@ -717,11 +715,12 @@ pre {
   position: relative;
   margin-bottom: 100px;
   height: calc(100% - 174px);
+  overflow-x: hidden;
 }
 
 .load-more-threads {
   width: 100%;
-  height: 60px;
+  height: 40px;
   bottom: 0;
 }
 
@@ -735,6 +734,10 @@ pre {
 
 .show-more {
   font-size: 17px;
+}
+
+.down-arrow {
+  width: 25px;
 }
 
 /* Phablet */
@@ -815,6 +818,7 @@ pre {
 
   .settings-option {
     width: 100%;
+    margin-bottom: 5px;
   }
   .settings-option-icon {
     left: 24px;
