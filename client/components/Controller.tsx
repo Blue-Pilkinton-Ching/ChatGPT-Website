@@ -2,7 +2,7 @@ import { getAuth } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import Home from './home/Home'
 import { Loader } from './Loader'
-import Login from './log-in/Login'
+import SignIn from './log-in/SignIn'
 import { useGlobalRef } from '../hooks/useGlobalRef'
 import {
   doc,
@@ -115,6 +115,6 @@ export default function Controller() {
     alert(authError.message)
     return ''
   } else {
-    return <Login />
+    return <SignIn />
   }
 }

@@ -109,11 +109,13 @@ p {
   position: relative;
   height: 40px;
   margin: 7px;
+  margin-bottom: 10px;
   display: block;
   width: calc(100% - 14px);
   text-align: center;
   border-radius: 8px;
   border-width: 0;
+  font-family: var(--font1);
   transition-duration: var(--transition-duration);
   box-shadow: inset 0 1px 0 0 darkslategrey;
 }
@@ -140,7 +142,7 @@ p {
 
 .sign-in-button-text {
   display: inline-block;
-  font-size: 1.1rem;
+  font-size: 1.35em;
 }
 
 .sign-in-bar {
@@ -529,7 +531,7 @@ h4 {
 .conversation {
   position: relative;
   box-sizing: border-box;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: flex-start;
   padding-left: 10%;
   padding-right: 10%;
@@ -537,8 +539,8 @@ h4 {
   display: flex;
   overflow-y: auto;
   overflow-x: hidden;
-  /* Set using JS inside MessageArea.ts */
-  height: auto;
+  /* Set using JS inside Conversation.ts */
+  height: 'auto';
 }
 
 .message-box {

@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent } from 'react'
+import { ChangeEvent, KeyboardEvent, useEffect, useRef } from 'react'
 import NewChatPage from './NewChatPage'
 import { useGlobalState } from '../../../hooks/useGlobalState'
 import { Assistant, Thread, ThreadHeader } from '../../../../interfaces'
@@ -13,7 +13,15 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 export function MessageArea() {
   const { globalState, setGlobalState } = useGlobalState()
   const [user] = useAuthState(getAuth())
+  const textAreaRef = useRef<HTMLTextAreaElement>(null)
   const globalRef = useGlobalRef()
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      ChangeTextAreaHeight(textAreaRef.current)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [textAreaRef.current])
 
   function ChangeTextAreaHeight(target: HTMLTextAreaElement) {
     target.style.height = 'auto'
@@ -196,6 +204,7 @@ export function MessageArea() {
     <div className="message-area">
       {globalState.insideNewChat ? <NewChatPage /> : <Conversation />}
       <textarea
+        ref={textAreaRef}
         onKeyDown={onKeyDown}
         onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
           ChangeTextAreaHeight(event.target)

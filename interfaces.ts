@@ -12,6 +12,11 @@ export interface FirebaseConfig {
   measurementId: string
 }
 
+export interface SignInWithEmailProps {
+  onBack: () => void
+  onSubmit: () => void
+}
+
 export interface MessageProps {
   message: ChatCompletionMessageParam
   assistant: Assistant

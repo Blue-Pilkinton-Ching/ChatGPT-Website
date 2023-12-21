@@ -8,7 +8,7 @@ import 'highlight.js/styles/github-dark-dimmed.css'
 
 const marked = new Marked(
   markedHighlight({
-    langPrefix: 'hljs language-',
+    langPrefix: 'hljs ',
     highlight(code, lang) {
       const language = hljs.getLanguage(lang) ? lang : 'plaintext'
       return hljs.highlight(code, { language }).value
@@ -43,7 +43,7 @@ export function Message(props: MessageProps) {
           <div
             className="message-content text"
             dangerouslySetInnerHTML={{
-              __html: marked.parse(props.message.content as string),
+              __html: `<p></p>${marked.parse(props.message.content as string)}`,
             }}
           ></div>
         )}

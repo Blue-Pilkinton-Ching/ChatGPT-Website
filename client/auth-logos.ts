@@ -7,4 +7,5 @@ export default {
     'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg',
   guest:
     'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/anonymous.png',
+  email: 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/mail.svg',
 }
