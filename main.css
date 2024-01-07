@@ -496,7 +496,11 @@ h1 {
 }
 
 h4 {
-  display: none;
+  margin: 0;
+  display: inline-block;
+  padding-left: 12px;
+  padding-left: 12px;
+  margin: auto;
 }
 
 .settings-content {
@@ -877,14 +881,6 @@ pre {
   .settings-option-icon {
     left: 24px;
     margin: 0;
-  }
-
-  h4 {
-    margin: 0;
-    display: inline-block;
-    padding-left: 12px;
-    padding-left: 12px;
-    margin: auto;
   }
 
   .settings-content {

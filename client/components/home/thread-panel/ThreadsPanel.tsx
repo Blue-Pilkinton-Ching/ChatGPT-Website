@@ -7,12 +7,14 @@ import { useGlobalState } from '../../../hooks/useGlobalState.tsx'
 import ThreadOption from './ThreadOption.tsx'
 import { useGlobalRef } from '../../../hooks/useGlobalRef.tsx'
 import authLogos from '../../../auth-logos.ts'
+import { useWindowSize } from '@uidotdev/usehooks'
 
 export default function ThreadPanel() {
   const [user, authLoading, authError] = useAuthState(getAuth())
   const [signOut] = useSignOut(getAuth())
   const { globalState, setGlobalState } = useGlobalState()
   const globalRef = useGlobalRef()
+  const { width } = useWindowSize()
 
   if (!user || authLoading || authError) {
     alert('Not signed in')
@@ -36,6 +38,7 @@ export default function ThreadPanel() {
     setGlobalState((oldState) => ({
       ...oldState,
       insideNewChat: true,
+      showThreadsPanel: width ? width >= 400 : false,
     }))
   }
 

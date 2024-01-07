@@ -3,9 +3,11 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { getAuth } from 'firebase/auth'
 import * as db from 'firebase/firestore'
 import { useGlobalState } from '../../../hooks/useGlobalState'
+import { useWindowSize } from '@uidotdev/usehooks'
 
 export default function ThreadOption(props: ThreadOptionProps) {
   const [user] = useAuthState(getAuth())
+  const { width } = useWindowSize()
   const { globalState, setGlobalState } = useGlobalState()
 
   async function onClick() {
@@ -19,6 +21,7 @@ export default function ThreadOption(props: ThreadOptionProps) {
       ...oldState,
       currentThread: thread,
       insideNewChat: false,
+      showThreadsPanel: width ? width >= 400 : false,
     }))
   }
 
