@@ -203,17 +203,22 @@ export function MessageArea() {
   return (
     <div className="message-area">
       {globalState.insideNewChat ? <NewChatPage /> : <Conversation />}
-      <textarea
-        ref={textAreaRef}
-        onKeyDown={onKeyDown}
-        onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
-          ChangeTextAreaHeight(event.target)
-        }
-        className="message-text-field text"
-        name="message-text-field"
-        placeholder="Message GPT..."
-        rows={1}
-      ></textarea>
+      <div className="text-area-container">
+        <textarea
+          ref={textAreaRef}
+          onKeyDown={onKeyDown}
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+            ChangeTextAreaHeight(event.target)
+          }
+          className="message-text-field text"
+          name="message-text-field"
+          placeholder="Message GPT..."
+          rows={1}
+        ></textarea>
+        {/* <button className="send-text-button">
+          <img src="images/send.svg" alt="send-icon" className="send-text" />
+        </button> */}
+      </div>
     </div>
   )
 }
