@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { SettingsProps } from '../../../../interfaces'
 import { ExitButton } from '../../ExitButton'
 import { SettingsOption } from './SettingsOption'
 import { UsageSettings } from './settings-content/UsageSettings'
@@ -11,13 +10,15 @@ import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { AsyncEventEmitter } from '../../../../helpers/AsyncEventEmitter'
 import { Loader } from '../../Loader'
+import { useGlobalState } from '../../../hooks/useGlobalState'
 
 export const onSave = new AsyncEventEmitter()
 
-export default function Settings(props: SettingsProps) {
+export default function Settings() {
   const [user] = useAuthState(getAuth())
   const [selectedID, setSelectedID] = useState(0)
   const globalRef = useGlobalRef()
+  const { globalState, setGlobalState } = useGlobalState()
   const [loading, setLoading] = useState(false)
 
   async function exit() {
@@ -25,7 +26,10 @@ export default function Settings(props: SettingsProps) {
     await onSave.emitAsync('action')
     setLoading(false)
 
-    props.onExitButton()
+    setGlobalState((oldState) => ({
+      ...oldState,
+      showSettingsPanel: false,
+    }))
 
     const settingsDoc = db.doc(db.getFirestore(), 'settings/' + user?.uid)
 
@@ -37,7 +41,7 @@ export default function Settings(props: SettingsProps) {
 
   return (
     <>
-      {props.show ? (
+      {globalState.showSettingsPanel ? (
         <div className="popup-cover">
           <div className="center settings-panel">
             <div className="settings-header">

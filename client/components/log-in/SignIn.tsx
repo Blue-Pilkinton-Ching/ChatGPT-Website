@@ -48,6 +48,7 @@ function SignIn() {
   }
 
   function onEmailBack() {
+    setEmailWarning('')
     setEmailSignIn(false)
   }
 
@@ -148,7 +149,7 @@ function SignIn() {
               <SignInButton
                 imgSrc={Logos.email}
                 bgColor="#db4437"
-                text="Sign in with Email Password"
+                text="Sign in with Email"
                 textColor="#FFFFFF"
                 onClickCallback={() => {
                   setEmailWarning('')

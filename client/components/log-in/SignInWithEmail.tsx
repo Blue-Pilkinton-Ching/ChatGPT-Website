@@ -40,6 +40,7 @@ export function SignInWithEmail(props: SignInWithEmailProps) {
     event.preventDefault()
 
     if (creatingEmail) {
+      setWarning('')
       setCreatingEmail(false)
     } else {
       props.onBack()

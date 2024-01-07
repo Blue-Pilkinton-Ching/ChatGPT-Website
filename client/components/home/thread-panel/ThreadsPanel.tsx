@@ -1,5 +1,4 @@
 import { FormEvent } from 'react'
-import { ThreadPanelProps } from '../../../../interfaces.ts'
 import { getAuth } from 'firebase/auth'
 import { ExitButton } from '../../ExitButton.tsx'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -9,7 +8,7 @@ import ThreadOption from './ThreadOption.tsx'
 import { useGlobalRef } from '../../../hooks/useGlobalRef.tsx'
 import authLogos from '../../../auth-logos.ts'
 
-export default function ThreadPanel(props: ThreadPanelProps) {
+export default function ThreadPanel() {
   const [user, authLoading, authError] = useAuthState(getAuth())
   const [signOut] = useSignOut(getAuth())
   const { globalState, setGlobalState } = useGlobalState()
@@ -21,8 +20,11 @@ export default function ThreadPanel(props: ThreadPanelProps) {
     return
   }
 
-  function handleExit() {
-    props.onExitButton()
+  function Exit() {
+    setGlobalState((oldState) => ({
+      ...oldState,
+      showThreadsPanel: false,
+    }))
   }
 
   function OnAccountClick(event: FormEvent<HTMLButtonElement>) {
@@ -43,8 +45,12 @@ export default function ThreadPanel(props: ThreadPanelProps) {
 
   return (
     <>
-      <div className={`threads-panel ${props.show ? 'show' : 'hide'}`}>
-        <ExitButton onClick={handleExit} classes="exit-threads" />
+      <div
+        className={`threads-panel ${
+          globalState.showThreadsPanel ? 'show' : 'hide'
+        }`}
+      >
+        <ExitButton onClick={Exit} classes="exit-threads" />
         <div className="threads-head">
           <div className="new-chat-option text">
             <button

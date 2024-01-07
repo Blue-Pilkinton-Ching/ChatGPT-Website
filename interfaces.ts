@@ -17,7 +17,6 @@ export interface SignInWithEmailProps {
   onSubmit: (email: string, password: string, creatingEmail: boolean) => void
   warning: string
 }
-
 export interface MessageProps {
   message: ChatCompletionMessageParam
   assistant: Assistant
@@ -37,6 +36,8 @@ export interface ThreadHeader {
 }
 
 export interface GlobalState {
+  showThreadsPanel: boolean
+  showSettingsPanel: boolean
   messageTextAreaHeight: string
   insideNewChat: boolean
   currentThread: Thread | null
@@ -84,26 +85,9 @@ export interface SignInButtonProps {
   onClickCallback: () => void
 }
 
-export interface ChatAreaProps {
-  chatStarted: boolean
-  showPanelThreadsButton: boolean
-  showSettingsPanel: () => void
-  openThreadsPanel: () => void
-}
-
-export interface SettingsProps {
-  show: boolean
-  onExitButton: () => void
-}
-
 export interface ExitButtonProps {
   onClick: () => void
   classes?: string
-}
-
-export interface ThreadPanelProps {
-  show: boolean
-  onExitButton: () => void
 }
 
 export interface SettingsOptionProps {
