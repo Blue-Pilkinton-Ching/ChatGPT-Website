@@ -23,7 +23,10 @@ export function App() {
     messageTextAreaHeight: '',
     threadHeaders: [],
     reachedFinalThreadHeader: false,
+    showThreadsPanel: false,
+    showSettingsPanel: false,
   })
+
   const ref = useRef<GlobalRef>({
     settings: { apiKey: '', assistants: [] },
     openai: new OpenAI({

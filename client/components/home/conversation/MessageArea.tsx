@@ -186,7 +186,14 @@ export function MessageArea() {
     if (event.code === 'Enter' && !event.shiftKey) {
       event.preventDefault()
 
-      const target = event.target as HTMLTextAreaElement
+      SendMessage()
+    }
+  }
+
+  function SendMessage() {
+    const target = textAreaRef.current as HTMLTextAreaElement
+
+    if (target.value) {
       const message = target.value
       target.value = ''
 
@@ -215,9 +222,9 @@ export function MessageArea() {
           placeholder="Message GPT..."
           rows={1}
         ></textarea>
-        {/* <button className="send-text-button">
+        <button onClick={SendMessage} className="send-text-button button">
           <img src="images/send.svg" alt="send-icon" className="send-text" />
-        </button> */}
+        </button>
       </div>
     </div>
   )

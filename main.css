@@ -800,13 +800,19 @@ pre {
 }
 
 .send-text {
-  width: 30px;
+  width: 100%;
+  height: 100%;
 }
 
 .send-text-button {
-  width: 30px;
+  width: 34px;
+  height: 35px;
   position: absolute;
-  bottom: 0;
+  bottom: 15px;
+  right: -16px;
+  background-color: var(--color6);
+  border-radius: var(--border-radius);
+  z-index: 1;
 }
 
 .text-area-container {
