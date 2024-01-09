@@ -526,8 +526,7 @@ h4 {
 }
 
 .api-key-text {
-  width: calc(80%);
-  margin-top: 20px;
+  flex: auto;
   height: 30px;
   padding-left: 10px;
   box-sizing: border-box;
@@ -857,6 +856,23 @@ pre {
   position: relative;
 }
 
+.settings-label {
+  display: inline;
+  padding-right: 20px;
+  margin: auto;
+}
+
+.setting {
+  display: flex;
+  padding: 15px;
+  padding-left: 8%;
+  padding-right: 8%;
+}
+
+.setting.hide {
+  display: none;
+}
+
 /* Phablet */
 @media (min-width: 400px) {
   h1 {
@@ -869,10 +885,6 @@ pre {
 
   .threads-panel.show {
     display: inline-block;
-  }
-
-  .threads-panel.hide {
-    display: none;
   }
 
   .threads-panel {

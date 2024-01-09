@@ -3,10 +3,13 @@ import { onSave as onSaveEvent } from '../Settings'
 import { SettingsContentProps } from '../../../../../interfaces'
 import { useGlobalRef } from '../../../../hooks/useGlobalRef'
 import { useNewAPIKey } from '../../../../hooks/useNewAPIKey'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { getAuth } from 'firebase/auth'
 
 export function APIKeySettings(props: SettingsContentProps) {
   const apiKeyRef = useRef<HTMLInputElement>(null)
   const globalRef = useGlobalRef()
+  const [user] = useAuthState(getAuth())
   const changeAPIKey = useNewAPIKey()
 
   useEffect(() => {
@@ -39,14 +42,18 @@ export function APIKeySettings(props: SettingsContentProps) {
 
   return (
     <>
-      <input
-        type="password"
-        name="apiKey"
-        ref={apiKeyRef}
-        onKeyDown={onKeyDown}
-        className={`api-key-text text ${props.show ? '' : 'hide'}`}
-        placeholder="Enter your OpenAI API key..."
-      />
+      <div className={`${props.show ? '' : 'hide'} setting`}>
+        <p className="settings-label">API Key</p>
+        <input
+          disabled={user?.email === 'demo@prepaygpt.xyz'}
+          type="password"
+          name="apiKey"
+          ref={apiKeyRef}
+          onKeyDown={onKeyDown}
+          className={`api-key-text text`}
+          placeholder="Enter your OpenAI API key..."
+        />
+      </div>
     </>
   )
 }
