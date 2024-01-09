@@ -25,18 +25,50 @@ export default function ThreadOption(props: ThreadOptionProps) {
       showThreadsPanel: width ? width >= 400 : false,
     }))
   }
-  //   function onHover(event: MouseEvent<HTMLImageElement>) {}
 
   function onHover(event: MouseEvent<HTMLElement>) {
-    console.log('Image hovered over')
-    console.log(event.currentTarget.getAttribute('data-element'))
+    const parent = event.currentTarget.parentElement as HTMLElement
+    parent.style.backgroundColor = 'rgba(0, 0, 0, 0.2)'
+  }
+
+  function onHoverOut(event: MouseEvent<HTMLElement>) {
+    const parent = event.currentTarget.parentElement as HTMLElement
+    parent.style.backgroundColor = ''
+  }
+
+  function onDelete() {
+    const threadDoc = db.doc(
+      db.getFirestore(),
+      `threads/${user?.uid}/conversations/${props.thread.threadID}`
+    )
+
+    const headerDoc = db.doc(
+      db.getFirestore(),
+      `threads/${user?.uid}/headers/${props.thread.threadID}`
+    )
+    db.deleteDoc(threadDoc)
+    db.deleteDoc(headerDoc)
+
+    setGlobalState((oldState) => {
+      const index = oldState.threadHeaders.findIndex(
+        (x) => x.threadID === props.thread.threadID
+      )
+
+      const newHeaders = oldState.threadHeaders
+
+      newHeaders.splice(index, 1)
+
+      return {
+        ...oldState,
+        threadHeaders: newHeaders,
+      }
+    })
   }
 
   return (
     <>
-      <div onMouseOver={onHover} className={`thread-option`}>
+      <div className={`thread-option`}>
         <button
-          data-element="button"
           onClick={onClick}
           className={`thread-button text ${
             globalState.currentThread?.id === props.thread.threadID &&
@@ -47,14 +79,21 @@ export default function ThreadOption(props: ThreadOptionProps) {
         >
           {props.thread.name}
         </button>
-        <div className="thread-option-settings">
+        <button
+          // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+          onMouseOver={onHover}
+          // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+          onMouseOut={onHoverOut}
+          className="thread-option-settings button"
+          onClick={onDelete}
+        >
           <img
-            data-element="image"
+            data-element="delete"
             className="delete-conversation"
             src="images/delete.svg"
             alt="delete conversation icon"
           />
-        </div>
+        </button>
       </div>
     </>
   )
