@@ -95,6 +95,14 @@ export default function Controller() {
     const settings = fsSettings?.data() as Settings
     globalRef.settings = settings
 
+    setGlobalState((oldState) => ({
+      ...oldState,
+      triggers: {
+        ...oldState.triggers,
+        downloadedSettings: true,
+      },
+    }))
+
     const openai = new OpenAI({
       apiKey: settings.apiKey,
       dangerouslyAllowBrowser: true,

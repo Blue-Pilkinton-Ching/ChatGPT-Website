@@ -25,6 +25,9 @@ export function App() {
     reachedFinalThreadHeader: false,
     showThreadsPanel: false,
     showSettingsPanel: false,
+    triggers: {
+      downloadedSettings: false,
+    },
   })
 
   const ref = useRef<GlobalRef>({
@@ -35,6 +38,7 @@ export function App() {
     }),
     getMoreThreads: () => {},
     latestDoc: null,
+    assistant: null,
   })
 
   return (

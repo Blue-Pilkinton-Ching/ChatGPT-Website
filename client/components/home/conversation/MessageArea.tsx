@@ -60,14 +60,7 @@ export function MessageArea() {
   async function CreateNewChatMessage(userMessage: string) {
     const uuid = uuidv4()
 
-    const assistant = globalRef.settings.assistants.find(
-      (a) => a.isDefault
-    ) as Assistant
-
-    if (assistant == undefined) {
-      alert('Default assistant not found. Please try again later')
-      throw new Error('Default assistant not found. Please try again later')
-    }
+    const assistant = globalRef.assistant as Assistant
 
     const thread: Thread = {
       id: uuid,

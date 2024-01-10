@@ -43,6 +43,11 @@ export interface GlobalState {
   currentThread: Thread | null
   threadHeaders: ThreadHeader[]
   reachedFinalThreadHeader: boolean
+  triggers: GlobalRenderTriggers
+}
+
+export interface GlobalRenderTriggers {
+  downloadedSettings: boolean
 }
 
 export interface GlobalRef {
@@ -50,6 +55,7 @@ export interface GlobalRef {
   openai: OpenAI
   getMoreThreads: () => void
   latestDoc: null | QueryDocumentSnapshot<DocumentData, DocumentData>
+  assistant: Assistant | null
 }
 
 export interface LoaderProps {
