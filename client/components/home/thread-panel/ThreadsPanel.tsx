@@ -29,7 +29,7 @@ export default function ThreadPanel() {
     }))
   }
 
-  function OnAccountClick(event: FormEvent<HTMLButtonElement>) {
+  function onLogout(event: FormEvent<HTMLButtonElement>) {
     event.preventDefault()
     signOut()
   }
@@ -88,17 +88,24 @@ export default function ThreadPanel() {
             </div>
           )}
         </div>
-        <button className="account-container" onClick={OnAccountClick}>
+        <div className="account-container">
           <img
             className="profile-photo"
             src={user.photoURL ? user.photoURL : authLogos.guest}
             alt=""
             referrerPolicy="no-referrer"
           />
-          <span className="account-name text">
+          <div className="account-name text">
             {user.displayName ? user.displayName : 'Anonymous User'}
-          </span>
-        </button>
+          </div>
+          <button onClick={onLogout} className="logout-button button">
+            <img
+              className="logout-img"
+              src="images/logout.svg"
+              alt="logout icon"
+            />
+          </button>
+        </div>
       </div>
     </>
   )

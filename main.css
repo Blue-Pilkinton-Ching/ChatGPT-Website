@@ -200,7 +200,8 @@ p {
 .settings:hover .settings-svg,
 .load-more-threads-button:hover img,
 .sign-in-button:hover,
-.email-next-button:hover {
+.email-next-button:hover,
+.logout-button :hover {
   filter: brightness(var(--hover-brightness));
 }
 
@@ -217,7 +218,8 @@ p {
 .new-chat-button:active,
 .thread-button:active,
 .delete-conversation:hover,
-.delete-conversation:active {
+.delete-conversation:active,
+.logout-button :active {
   filter: brightness(var(--active-brightness));
 }
 
@@ -317,35 +319,46 @@ h1 {
 }
 
 .account-container {
-  width: calc(100% - 30px);
+  width: 100%;
   bottom: 0;
-  height: 50px;
+  height: 80px;
   position: absolute;
-  margin: 15px;
-  margin-right: 0px;
-  padding: 0;
-  background-color: transparent;
-  border: 0;
+  padding: 15px;
+  box-sizing: border-box;
   border-radius: var(--border-radius);
   transition-duration: var(--transition-duration);
   align-items: center;
   display: flex;
-  cursor: pointer;
+  font-size: 14px;
   background-color: var(--color5);
+}
+
+.logout-button {
+  height: 100%;
+  padding: 5px;
+  position: relative;
+  margin-left: auto;
+  flex-direction: row;
+}
+
+.logout-img {
+  height: 100%;
+  color: white;
 }
 
 .account-name {
   font-size: 1.1em;
   letter-spacing: 0.5px;
-  float: left;
   padding-left: 5px;
   font-weight: bold;
   position: relative;
   overflow: hidden;
   text-align: left;
+  width: fit-content;
+  position: relative;
+  bottom: 2px;
 }
 
-.account-container:hover,
 .thread-button:hover,
 .new-chat-button:hover {
   background-color: var(--hover-bg);
@@ -360,11 +373,6 @@ h1 {
 .thread-button:hover + div {
   display: flex;
 }
-
-.account-container:active {
-  background-color: var(--hover-bg);
-}
-
 .profile-photo {
   position: relative;
   border-radius: 50%;
