@@ -55,6 +55,10 @@ export function Conversation() {
         headerDiv.appendChild(button)
         headerDiv.appendChild(header)
         button.appendChild(copy)
+
+        if (!window.isSecureContext) {
+          button.remove()
+        }
       }
     }
   })
