@@ -26,6 +26,13 @@ export function Message(props: MessageProps) {
 
   const isUser = props.message.role === 'user'
 
+  let userMessage
+
+  if (isUser) {
+    const content = props.message.content as string
+    userMessage = content.split(/\n/g)
+  }
+
   return (
     <div className="message-box">
       <img
@@ -44,7 +51,9 @@ export function Message(props: MessageProps) {
       <div className="message">
         {isUser ? (
           <div className="message-content text">
-            <p>{props.message.content as string}</p>
+            {userMessage?.map((element, index) => (
+              <p key={index}>{element}</p>
+            ))}
           </div>
         ) : (
           <div

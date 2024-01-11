@@ -37,6 +37,13 @@ export default function ThreadOption(props: ThreadOptionProps) {
   }
 
   function onDelete() {
+    if (globalState.currentThread?.id === props.thread.threadID) {
+      setGlobalState((oldState) => ({
+        ...oldState,
+        insideNewChat: true,
+      }))
+    }
+
     const threadDoc = db.doc(
       db.getFirestore(),
       `threads/${user?.uid}/conversations/${props.thread.threadID}`
