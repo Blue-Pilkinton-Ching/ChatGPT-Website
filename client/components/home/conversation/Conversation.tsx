@@ -14,6 +14,10 @@ export function Conversation() {
       const element = elements[i]
       // Replace the element with the JSX element
 
+      if (element.classList.contains('user-message')) {
+        continue
+      }
+
       if (element.parentElement?.className !== 'code-block-container') {
         const wrapper = document.createElement('div')
         wrapper.className = 'code-block-container'

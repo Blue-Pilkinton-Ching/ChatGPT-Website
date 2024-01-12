@@ -52,7 +52,7 @@ export function Message(props: MessageProps) {
         {isUser ? (
           <>
             <p></p>
-            <div className="message-content text">
+            <pre className="message-content text user-message">
               {userMessage?.map((element, index) => {
                 return (
                   <div key={index}>
@@ -60,7 +60,7 @@ export function Message(props: MessageProps) {
                   </div>
                 )
               })}
-            </div>
+            </pre>
           </>
         ) : (
           <div

@@ -893,6 +893,9 @@ pre {
   cursor: pointer;
 }
 
+.user-message {
+  text-wrap: pretty;
+}
 .select-model-option {
   background-color: var(--color2);
   margin-top: 5px;
