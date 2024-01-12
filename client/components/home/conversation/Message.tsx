@@ -29,8 +29,8 @@ export function Message(props: MessageProps) {
   let userMessage
 
   if (isUser) {
-    const content = props.message.content as string
-    userMessage = content.split(/\n/g)
+    const userContent = props.message.content as string
+    userMessage = userContent.replace(/\n/g, `<br>`)
   }
 
   return (
@@ -50,11 +50,12 @@ export function Message(props: MessageProps) {
       <br />
       <div className="message">
         {isUser ? (
-          <div className="message-content text">
-            {userMessage?.map((element, index) => (
-              <p key={index}>{element}</p>
-            ))}
-          </div>
+          <div
+            className="message-content text"
+            dangerouslySetInnerHTML={{
+              __html: `<p>${userMessage}</p>`,
+            }}
+          ></div>
         ) : (
           <div
             className="message-content text"
