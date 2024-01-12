@@ -7,7 +7,7 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/github-dark-dimmed.css'
 import authLogos from '../../../auth-logos'
 
-const marked = new Marked(
+const botMarked = new Marked(
   markedHighlight({
     langPrefix: 'hljs ',
     highlight(code, lang) {
@@ -17,7 +17,7 @@ const marked = new Marked(
   })
 )
 
-marked.setOptions({
+botMarked.setOptions({
   breaks: true,
 })
 
@@ -26,11 +26,11 @@ export function Message(props: MessageProps) {
 
   const isUser = props.message.role === 'user'
 
-  let userMessage
+  const messageContent = props.message.content as string
 
+  let userMessage
   if (isUser) {
-    const userContent = props.message.content as string
-    userMessage = userContent.replace(/\n/g, `<br>`)
+    userMessage = messageContent.split(/\n/g)
   }
 
   return (
@@ -50,17 +50,23 @@ export function Message(props: MessageProps) {
       <br />
       <div className="message">
         {isUser ? (
-          <div
-            className="message-content text"
-            dangerouslySetInnerHTML={{
-              __html: `<p>${userMessage}</p>`,
-            }}
-          ></div>
+          <>
+            <p></p>
+            <div className="message-content text">
+              {userMessage?.map((element, index) => {
+                return (
+                  <div key={index}>
+                    {element} <br />
+                  </div>
+                )
+              })}
+            </div>
+          </>
         ) : (
           <div
             className="message-content text"
             dangerouslySetInnerHTML={{
-              __html: `<p></p>${marked.parse(props.message.content as string)}`,
+              __html: `<p></p>${botMarked.parse(messageContent)}`,
             }}
           ></div>
         )}
