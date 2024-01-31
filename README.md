@@ -1,1 +1,1 @@
-ChatGPT Website built with react, express, firebase
+ChatGPT Website built with react, firebase, typescript
