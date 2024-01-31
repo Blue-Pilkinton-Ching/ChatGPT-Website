@@ -212,7 +212,7 @@ export function MessageArea() {
           rows={1}
         ></textarea>
         <button onClick={SendMessage} className="send-text-button button">
-          <img src="images/send.svg" alt="send-icon" className="send-text" />
+          <img src="/images/send.svg" alt="send-icon" className="send-text" />
         </button>
       </div>
     </div>

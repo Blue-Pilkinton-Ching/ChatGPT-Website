@@ -97,7 +97,7 @@ export default function ThreadOption(props: ThreadOptionProps) {
           <img
             data-element="delete"
             className="delete-conversation"
-            src="images/delete.svg"
+            src="/images/delete.svg"
             alt="delete conversation icon"
           />
         </button>

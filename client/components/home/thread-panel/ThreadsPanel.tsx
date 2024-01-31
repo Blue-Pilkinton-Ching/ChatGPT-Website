@@ -62,7 +62,7 @@ export default function ThreadPanel() {
                 globalState.insideNewChat ? 'selected' : ''
               }`}
             >
-              <img src="images/logo.svg" className="new-chat-logo" alt="" />
+              <img src="/images/logo.svg" className="new-chat-logo" alt="" />
               <h3>New Chat</h3>
             </button>
           </div>
@@ -80,7 +80,7 @@ export default function ThreadPanel() {
                 onClick={ShowMoreThreads}
               >
                 <img
-                  src="images/down-arrow.svg"
+                  src="/images/down-arrow.svg"
                   className="down-arrow"
                   alt=""
                 />
@@ -101,7 +101,7 @@ export default function ThreadPanel() {
           <button onClick={onLogout} className="logout-button button">
             <img
               className="logout-img"
-              src="images/logout.svg"
+              src="/images/logout.svg"
               alt="logout icon"
             />
           </button>

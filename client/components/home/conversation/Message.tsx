@@ -41,7 +41,7 @@ export function Message(props: MessageProps) {
             ? user?.photoURL
               ? user?.photoURL
               : authLogos.guest
-            : 'images/logo-bg.svg'
+            : '/images/logo-bg.svg'
         }
         alt="Profile"
         className="message-photo"

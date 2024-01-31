@@ -32,7 +32,7 @@ export default function MainArea() {
             </button>
             <button onClick={openSettings} className="settings button">
               <img
-                src="images/settings.svg"
+                src="/images/settings.svg"
                 alt="settings"
                 className="settings-svg"
               />

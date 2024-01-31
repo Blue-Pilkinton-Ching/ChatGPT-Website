@@ -34,7 +34,7 @@ export function Conversation() {
         }
 
         const copy = document.createElement('img')
-        copy.src = 'images/copy.svg'
+        copy.src = '/images/copy.svg'
         copy.alt = 'copy code'
         copy.className = 'copy-code-svg'
 
@@ -45,9 +45,9 @@ export function Conversation() {
             navigator.clipboard.writeText(
               element.children[0]?.textContent as string
             )
-            copy.src = 'images/check.svg'
+            copy.src = '/images/check.svg'
             setTimeout(() => {
-              copy.src = 'images/copy.svg'
+              copy.src = '/images/copy.svg'
             }, 2000)
           })
         }

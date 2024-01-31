@@ -51,21 +51,21 @@ export default function Settings() {
             <div className="settings-box">
               <div className="settings-options">
                 <SettingsOption
-                  icon="images/settings.svg"
+                  icon="/images/settings.svg"
                   text="General Settings"
                   id={0}
                   onClick={() => setSelectedID(0)}
                   selected={selectedID === 0}
                 />
                 <SettingsOption
-                  icon="images/chart.svg"
+                  icon="/images/chart.svg"
                   text="Usage"
                   id={1}
                   onClick={() => setSelectedID(1)}
                   selected={selectedID === 1}
                 />
                 <SettingsOption
-                  icon="images/key.svg"
+                  icon="/images/key.svg"
                   text="API key settings"
                   id={2}
                   onClick={() => setSelectedID(2)}
