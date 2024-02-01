@@ -1,1 +1,3 @@
-ChatGPT Website built with react, firebase, typescript
+PrePayGPT built with react, firebase
+
+You can find it [here](https://www.prepaygpt,xyz)
