@@ -56,6 +56,7 @@ export interface GlobalRef {
   getMoreThreads: () => void
   latestDoc: null | QueryDocumentSnapshot<DocumentData, DocumentData>
   assistant: Assistant | null
+  assistants: Assistant[]
 }
 
 export interface LoaderProps {
@@ -64,7 +65,6 @@ export interface LoaderProps {
 
 export interface Settings {
   apiKey: string
-  assistants: Assistant[]
 }
 
 export interface Assistant {

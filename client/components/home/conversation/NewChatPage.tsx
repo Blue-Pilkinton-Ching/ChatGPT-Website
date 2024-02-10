@@ -15,9 +15,8 @@ export default function NewChatPage() {
     setModel(
       user?.email === 'demo@prepaygpt.xyz'
         ? 'GPT-3.5 Turbo'
-        : globalRef.settings.assistants[0]
-        ? (globalRef.settings.assistants.find((a) => a.isDefault) as Assistant)
-            .name
+        : globalRef.assistants[0]
+        ? (globalRef.assistants.find((a) => a.isDefault) as Assistant).name
         : ''
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -28,7 +27,7 @@ export default function NewChatPage() {
   }
 
   useEffect(() => {
-    globalRef.assistant = globalRef.settings.assistants.find(
+    globalRef.assistant = globalRef.assistants.find(
       (a) => a.name === model
     ) as Assistant
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,7 +47,7 @@ export default function NewChatPage() {
           className="select-model text"
           disabled={user?.email === 'demo@prepaygpt.xyz'}
         >
-          {globalRef.settings.assistants.map((element, index) => {
+          {globalRef.assistants.map((element, index) => {
             return (
               <option
                 className="select-model-option text"

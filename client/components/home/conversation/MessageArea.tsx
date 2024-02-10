@@ -87,7 +87,7 @@ export function MessageArea() {
     GenerateHeader(thread.id, userMessage)
   }
   async function GenerateHeader(threadID: string, message: string) {
-    const assistant = globalRef.settings.assistants.find(
+    const assistant = globalRef.assistants.find(
       (a) => a.name === 'Header Generator'
     ) as Assistant
 
