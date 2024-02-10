@@ -188,6 +188,8 @@ export function MessageArea() {
       console.error(e.message)
       alert('Failed to save thread')
     })
+
+    console.log(thread)
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
