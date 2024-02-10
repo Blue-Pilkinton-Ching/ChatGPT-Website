@@ -31,7 +31,7 @@ export function App() {
   })
 
   const ref = useRef<GlobalRef>({
-    settings: { apiKey: '' },
+    settings: { openAIAPIKey: '', geminiProAPIKey: '' },
     openai: new OpenAI({
       apiKey: 'PLACEHOLDER',
       dangerouslyAllowBrowser: true,
@@ -65,6 +65,16 @@ export function App() {
         isDefault: false,
         temperature: 0,
         maxTokens: 15,
+      },
+      {
+        id: 'gemini-pro',
+        name: 'Gemini Pro',
+        instructions:
+          'Create a concise, neutral topic header summarizing the following text sent by the user. It must be under five words, and without periods, quotes, or embellishments, and avoid providing specific detail or answers.',
+        model: '',
+        isDefault: false,
+        temperature: 0,
+        maxTokens: 0,
       },
     ],
   })

@@ -4,18 +4,34 @@ import { useGlobalRef } from './useGlobalRef'
 export function useNewAPIKey() {
   const globalRef = useGlobalRef()
 
-  async function triggerNewAPIKey(newAPIKey: string) {
-    const openai = new OpenAI({
-      apiKey: newAPIKey,
-      dangerouslyAllowBrowser: true,
-    })
+  async function triggerNewAPIKey(
+    newAPIKey: string,
+    type: 'open-ai' | 'gemini-pro'
+  ) {
+    switch (type) {
+      case 'gemini-pro':
+        {
+          globalRef.settings = {
+            ...globalRef.settings,
+            geminiProAPIKey: newAPIKey,
+          }
+        }
+        break
+      case 'open-ai': {
+        globalRef.settings = {
+          ...globalRef.settings,
+          openAIAPIKey: newAPIKey,
+        }
 
-    globalRef.settings = {
-      ...globalRef.settings,
-      apiKey: newAPIKey,
+        const openai = new OpenAI({
+          apiKey: globalRef.settings.openAIAPIKey,
+          dangerouslyAllowBrowser: true,
+        })
+
+        globalRef.openai = openai
+        break
+      }
     }
-
-    globalRef.openai = openai
   }
   return triggerNewAPIKey
 }

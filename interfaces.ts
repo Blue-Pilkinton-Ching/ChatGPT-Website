@@ -64,7 +64,8 @@ export interface LoaderProps {
 }
 
 export interface Settings {
-  apiKey: string
+  openAIAPIKey: string
+  geminiProAPIKey: string
 }
 
 export interface Assistant {

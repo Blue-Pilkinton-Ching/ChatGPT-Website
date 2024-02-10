@@ -7,7 +7,8 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { getAuth } from 'firebase/auth'
 
 export function APIKeySettings(props: SettingsContentProps) {
-  const apiKeyRef = useRef<HTMLInputElement>(null)
+  const openAIApiKeyRef = useRef<HTMLInputElement>(null)
+  const geminiProApiKeyRef = useRef<HTMLInputElement>(null)
   const globalRef = useGlobalRef()
   const [user] = useAuthState(getAuth())
   const changeAPIKey = useNewAPIKey()
@@ -15,8 +16,15 @@ export function APIKeySettings(props: SettingsContentProps) {
   useEffect(() => {
     onSaveEvent.on('action', onSave)
 
-    const apiKey = apiKeyRef.current as HTMLInputElement
-    apiKey.value = globalRef.settings ? globalRef.settings.apiKey : ''
+    const openAIAPIKey = openAIApiKeyRef.current as HTMLInputElement
+    openAIAPIKey.value = globalRef.settings
+      ? globalRef.settings.openAIAPIKey
+      : ''
+
+    const geminiProApiKey = geminiProApiKeyRef.current as HTMLInputElement
+    geminiProApiKey.value = globalRef.settings
+      ? globalRef.settings.geminiProAPIKey
+      : ''
 
     return () => {
       onSaveEvent.off('action', onSave)
@@ -26,10 +34,16 @@ export function APIKeySettings(props: SettingsContentProps) {
   }, [])
 
   async function onSave() {
-    const apiKey = apiKeyRef.current as HTMLInputElement
+    const openAIAPIKey = openAIApiKeyRef.current as HTMLInputElement
 
-    if (globalRef.settings.apiKey != apiKey.value) {
-      await changeAPIKey(apiKey.value)
+    if (globalRef.settings.openAIAPIKey != openAIAPIKey.value) {
+      await changeAPIKey(openAIAPIKey.value, 'open-ai')
+    }
+
+    const geminiProApiKey = geminiProApiKeyRef.current as HTMLInputElement
+
+    if (globalRef.settings.geminiProAPIKey != geminiProApiKey.value) {
+      await changeAPIKey(geminiProApiKey.value, 'gemini-pro')
     }
   }
 
@@ -43,15 +57,27 @@ export function APIKeySettings(props: SettingsContentProps) {
   return (
     <>
       <div className={`${props.show ? '' : 'hide'} setting`}>
-        <p className="settings-label">API Key</p>
+        <p className="settings-label">Open AI</p>
         <input
           disabled={user?.email === 'demo@prepaygpt.xyz'}
           type="password"
           name="apiKey"
-          ref={apiKeyRef}
+          ref={openAIApiKeyRef}
           onKeyDown={onKeyDown}
           className={`api-key-text text`}
           placeholder="Enter your OpenAI API key..."
+        />
+      </div>
+      <div className={`${props.show ? '' : 'hide'} setting`}>
+        <p className="settings-label">Gemini Pro</p>
+        <input
+          disabled={user?.email === 'demo@prepaygpt.xyz'}
+          type="password"
+          name="apiKey"
+          ref={geminiProApiKeyRef}
+          onKeyDown={onKeyDown}
+          className={`api-key-text text`}
+          placeholder="Enter your Google Gemini API key..."
         />
       </div>
     </>

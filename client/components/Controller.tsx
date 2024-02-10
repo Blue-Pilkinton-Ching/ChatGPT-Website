@@ -104,7 +104,7 @@ export default function Controller() {
     }))
 
     const openai = new OpenAI({
-      apiKey: settings.apiKey,
+      apiKey: settings.openAIAPIKey,
       dangerouslyAllowBrowser: true,
     })
 
