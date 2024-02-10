@@ -45,7 +45,7 @@ export function App() {
         name: 'GPT-3.5 Turbo',
         instructions: null,
         model: 'gpt-3.5-turbo',
-        isDefault: true,
+        isDefault: false,
         maxTokens: 1500,
       },
       {
@@ -53,7 +53,7 @@ export function App() {
         name: 'GPT-4 Turbo',
         instructions: null,
         model: 'gpt-4-turbo-preview',
-        isDefault: false,
+        isDefault: true,
         maxTokens: 1500,
       },
       {
