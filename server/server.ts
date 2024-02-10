@@ -7,8 +7,6 @@ const httpServer = createServer(app)
 
 app.use(express.json())
 
-console.log(process.env.NODE_ENV)
-
 // Uncomment if production
 
 app.use(express.static(path.resolve('dist')))

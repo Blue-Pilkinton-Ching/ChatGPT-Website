@@ -8,7 +8,12 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { getAuth } from 'firebase/auth'
 import { Conversation } from './Conversation'
 import { v4 as uuidv4 } from 'uuid'
-import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
+import {
+  ChatCompletion,
+  ChatCompletionChunk,
+  ChatCompletionMessageParam,
+} from 'openai/resources/index.mjs'
+import { Stream } from 'openai/streaming.mjs'
 
 export function MessageArea() {
   const { globalState, setGlobalState } = useGlobalState()
@@ -35,15 +40,17 @@ export function MessageArea() {
 
   async function GenerateCompletion(
     conversation: ChatCompletionMessageParam[],
-    assistant: Assistant
+    assistant: Assistant,
+    stream: boolean
   ) {
-    return await globalRef.openai.chat.completions.create({
+    const complection = globalRef.openai.chat.completions.create({
       messages: conversation,
       model: assistant.model,
-      stream: false,
+      stream,
       temperature: assistant.temperature,
       max_tokens: assistant.maxTokens,
     })
+    return complection
   }
 
   function AddMessageToConversation(
@@ -98,7 +105,11 @@ export function MessageArea() {
     )
     AddMessageToConversation(conversation, 'user', message)
 
-    const completion = await GenerateCompletion(conversation, assistant)
+    const completion = (await GenerateCompletion(
+      conversation,
+      assistant,
+      false
+    )) as ChatCompletion
 
     const header: ThreadHeader = {
       lastEdited: db.Timestamp.now().toMillis(),
@@ -143,22 +154,30 @@ export function MessageArea() {
 
     AddMessageToConversation(thread.conversation, 'user', message)
 
-    const messages = await GenerateCompletion(
-      thread.conversation,
-      thread.assistant
-    )
+    AddMessageToConversation(thread.conversation, 'assistant', '')
 
-    AddMessageToConversation(
+    const messages = GenerateCompletion(
       thread.conversation,
-      'assistant',
-      messages.choices[0].message.content as string
-    )
+      thread.assistant,
+      true
+    ) as Promise<Stream<ChatCompletionChunk>>
 
-    setGlobalState((oldState) => ({
-      ...oldState,
-      insideNewChat: false,
-      currentThread: thread,
-    }))
+    for await (const chunk of await messages) {
+      const content = thread.conversation[thread.conversation.length - 1]
+        .content as string
+
+      const newContent = (chunk.choices[0].delta.content as string)
+        ? content.concat(chunk.choices[0].delta.content as string)
+        : content
+
+      thread.conversation[thread.conversation.length - 1].content = newContent
+
+      setGlobalState((oldState) => ({
+        ...oldState,
+        insideNewChat: false,
+        currentThread: thread,
+      }))
+    }
 
     const threadsDoc = db.doc(
       db.getFirestore(),
