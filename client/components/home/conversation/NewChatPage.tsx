@@ -2,13 +2,11 @@ import { getAuth } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { useGlobalState } from '../../../hooks/useGlobalState'
 import { Assistant } from '../../../../interfaces'
 
 export default function NewChatPage() {
   const [user] = useAuthState(getAuth())
   const globalRef = useGlobalRef()
-  const { globalState } = useGlobalState()
   const [model, setModel] = useState('')
 
   useEffect(() => {
@@ -23,7 +21,7 @@ export default function NewChatPage() {
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [globalState.triggers.downloadedSettings])
+  }, [])
 
   function onChange(event: ChangeEvent<HTMLSelectElement>) {
     setModel(event.currentTarget.value)
@@ -41,7 +39,7 @@ export default function NewChatPage() {
     }
 
     if (!globalRef.assistant) {
-      alert('error finding correct model!')
+      alert('error finding model!')
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

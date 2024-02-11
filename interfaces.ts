@@ -49,11 +49,6 @@ export interface GlobalState {
   currentThread: Thread | null
   threadHeaders: ThreadHeader[]
   reachedFinalThreadHeader: boolean
-  triggers: GlobalRenderTriggers
-}
-
-export interface GlobalRenderTriggers {
-  downloadedSettings: boolean
 }
 
 export interface GlobalRef {

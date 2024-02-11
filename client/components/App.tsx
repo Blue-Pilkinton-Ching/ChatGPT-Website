@@ -26,9 +26,6 @@ export function App() {
     reachedFinalThreadHeader: false,
     showThreadsPanel: false,
     showSettingsPanel: false,
-    triggers: {
-      downloadedSettings: false,
-    },
   })
 
   const ref = useRef<GlobalRef>({
