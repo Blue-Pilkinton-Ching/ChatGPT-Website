@@ -49,6 +49,7 @@ export function App() {
         model: 'gpt-3.5-turbo',
         isDefault: false,
         maxTokens: 1500,
+        canDemo: true,
       },
       {
         id: 'gpt4',
@@ -57,6 +58,7 @@ export function App() {
         model: 'gpt-4-turbo-preview',
         isDefault: true,
         maxTokens: 1500,
+        canDemo: false,
       },
       {
         id: 'header',
@@ -67,6 +69,7 @@ export function App() {
         isDefault: false,
         temperature: 0,
         maxTokens: 15,
+        canDemo: false,
       },
       {
         id: 'gemini-pro',
@@ -76,6 +79,7 @@ export function App() {
         isDefault: false,
         temperature: 0,
         maxTokens: 1500,
+        canDemo: true,
       },
     ],
   })

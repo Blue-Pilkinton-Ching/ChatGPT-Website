@@ -13,8 +13,13 @@ export default function NewChatPage() {
 
   useEffect(() => {
     if (user?.email === 'demo@prepaygpt.xyz') {
-      globalRef.assistants = globalRef.assistants.filter(
-        (a) => a.id === 'gemini-pro' || a.id === 'gpt3' || a.id === 'header'
+      globalRef.assistants = globalRef.assistants.filter((a) => a.canDemo)
+      setModel('GPT-3.5 Turbo')
+    } else {
+      setModel(
+        globalRef.assistants[
+          globalRef.assistants.findIndex((a) => a.id === 'gpt4')
+        ].name
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

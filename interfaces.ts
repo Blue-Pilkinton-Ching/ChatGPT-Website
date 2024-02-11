@@ -83,6 +83,7 @@ export interface Assistant {
   isDefault: boolean
   temperature?: number
   maxTokens?: number
+  canDemo: boolean
 }
 
 export interface Thread {
