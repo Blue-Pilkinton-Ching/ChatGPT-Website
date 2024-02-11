@@ -15,9 +15,8 @@ export default function NewChatPage() {
       setModel('GPT-3.5 Turbo')
     } else {
       setModel(
-        globalRef.assistants[
-          globalRef.assistants.findIndex((a) => a.id === 'gpt4')
-        ].name
+        globalRef.assistants[globalRef.assistants.findIndex((a) => a.isDefault)]
+          .name
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -31,12 +30,6 @@ export default function NewChatPage() {
     globalRef.assistant = globalRef.assistants.find(
       (a) => a.name === model
     ) as Assistant
-
-    if (!globalRef.assistant) {
-      globalRef.assistant = globalRef.assistants.find(
-        (a) => a.id === 'gpt3'
-      ) as Assistant
-    }
 
     if (!globalRef.assistant) {
       alert('error finding model!')
