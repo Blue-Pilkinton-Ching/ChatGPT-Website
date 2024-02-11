@@ -12,13 +12,11 @@ export default function NewChatPage() {
   const [model, setModel] = useState('')
 
   useEffect(() => {
-    setModel(
-      user?.email === 'demo@prepaygpt.xyz'
-        ? 'GPT-3.5 Turbo'
-        : globalRef.assistants[0]
-        ? (globalRef.assistants.find((a) => a.isDefault) as Assistant).name
-        : ''
-    )
+    if (user?.email === 'demo@prepaygpt.xyz') {
+      globalRef.assistants = globalRef.assistants.filter(
+        (a) => a.id === 'gemini-pro' || a.id === 'gpt3'
+      )
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [globalState.triggers.downloadedSettings])
 
@@ -45,7 +43,6 @@ export default function NewChatPage() {
           value={model}
           name="model"
           className="select-model text"
-          disabled={user?.email === 'demo@prepaygpt.xyz'}
         >
           {globalRef.assistants.map((element, index) => {
             return (

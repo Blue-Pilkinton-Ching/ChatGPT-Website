@@ -104,15 +104,18 @@ export default function Controller() {
       },
     }))
 
-    const openai = new OpenAI({
-      apiKey: settings.openAIAPIKey,
-      dangerouslyAllowBrowser: true,
-    })
+    if (settings.openAIAPIKey) {
+      const openai = new OpenAI({
+        apiKey: settings.openAIAPIKey,
+        dangerouslyAllowBrowser: true,
+      })
+      globalRef.openai = openai
+    }
 
-    const googleai = new GoogleGenerativeAI(settings.geminiProAPIKey)
-
-    globalRef.googleai = googleai
-    globalRef.openai = openai
+    if (settings.geminiProAPIKey) {
+      const googleai = new GoogleGenerativeAI(settings.geminiProAPIKey)
+      globalRef.googleai = googleai
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fsSettings])
