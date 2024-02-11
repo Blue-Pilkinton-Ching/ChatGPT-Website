@@ -26,6 +26,7 @@ export function Message(props: MessageProps) {
   const [user] = useAuthState(getAuth())
 
   const isUser = props.message.role === 'user'
+  const isSystem = props.message.role === 'system'
 
   const isGemini = props.assistant.id === 'gemini-pro'
 
@@ -59,7 +60,7 @@ export function Message(props: MessageProps) {
         alt="Profile"
         className="message-photo"
       />
-      <h4>{isUser ? 'You' : props.assistant.name}</h4>
+      <h4>{isUser ? 'You' : isSystem ? 'System' : props.assistant.name}</h4>
       <br />
       <div className="message">
         {isUser ? (

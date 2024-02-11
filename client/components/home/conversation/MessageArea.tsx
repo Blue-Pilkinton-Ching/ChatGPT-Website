@@ -91,22 +91,6 @@ export function MessageArea() {
       assistant,
     }
 
-    if (assistant.instructions) {
-      if (thread.assistant.id === 'gemini-pro') {
-        AddMessageToGeminiConversation(
-          thread.conversation as GeminiMessage[],
-          'system',
-          assistant.instructions
-        )
-      } else {
-        AddMessageToOpenAIConversation(
-          thread.conversation as ChatCompletionMessageParam[],
-          'system',
-          assistant.instructions
-        )
-      }
-    }
-
     AddMessageToThread(thread, userMessage, true)
     GenerateHeader(thread.id, userMessage)
   }
