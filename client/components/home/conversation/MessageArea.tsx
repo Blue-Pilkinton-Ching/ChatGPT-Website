@@ -112,7 +112,7 @@ export function MessageArea() {
   }
   async function GenerateHeader(threadID: string, message: string) {
     const assistant = globalRef.assistants.find(
-      (a) => a.name === 'Header Generator'
+      (a) => a.id === 'header'
     ) as Assistant
 
     if (assistant == undefined) {

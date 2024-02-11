@@ -14,7 +14,7 @@ export default function NewChatPage() {
   useEffect(() => {
     if (user?.email === 'demo@prepaygpt.xyz') {
       globalRef.assistants = globalRef.assistants.filter(
-        (a) => a.id === 'gemini-pro' || a.id === 'gpt3'
+        (a) => a.id === 'gemini-pro' || a.id === 'gpt3' || a.id === 'header'
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -28,6 +28,17 @@ export default function NewChatPage() {
     globalRef.assistant = globalRef.assistants.find(
       (a) => a.name === model
     ) as Assistant
+
+    if (!globalRef.assistant) {
+      globalRef.assistant = globalRef.assistants.find(
+        (a) => a.id === 'gpt3'
+      ) as Assistant
+    }
+
+    if (!globalRef.assistant) {
+      alert('error finding correct model!')
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model])
 
