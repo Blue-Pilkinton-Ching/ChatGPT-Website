@@ -1,4 +1,4 @@
-import { MessageProps } from '../../../../interfaces'
+import { GeminiMessage, MessageProps } from '../../../../interfaces'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { getAuth } from 'firebase/auth'
 import { Marked } from 'marked'
@@ -6,6 +6,7 @@ import { markedHighlight } from 'marked-highlight'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github-dark-dimmed.css'
 import authLogos from '../../../auth-logos'
+import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 
 const botMarked = new Marked(
   markedHighlight({
@@ -26,7 +27,19 @@ export function Message(props: MessageProps) {
 
   const isUser = props.message.role === 'user'
 
-  const messageContent = props.message.content as string
+  const isGemini = props.assistant.id === 'gemini-pro'
+
+  let messageContent
+
+  let message = props.message
+
+  if (isGemini) {
+    message = message as GeminiMessage
+    messageContent = message.parts as string
+  } else {
+    message = message as ChatCompletionMessageParam
+    messageContent = message.content as string
+  }
 
   let userMessage
   if (isUser) {

@@ -28,6 +28,7 @@
     ]
   },
   "dependencies": {
+    "@google/generative-ai": "^0.2.0",
     "@uidotdev/usehooks": "^2.4.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.2",

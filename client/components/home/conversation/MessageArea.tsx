@@ -1,7 +1,12 @@
 import { ChangeEvent, KeyboardEvent, useEffect, useRef } from 'react'
 import NewChatPage from './NewChatPage'
 import { useGlobalState } from '../../../hooks/useGlobalState'
-import { Assistant, Thread, ThreadHeader } from '../../../../interfaces'
+import {
+  Assistant,
+  GeminiMessage,
+  Thread,
+  ThreadHeader,
+} from '../../../../interfaces'
 import * as db from 'firebase/firestore'
 import { useGlobalRef } from '../../../hooks/useGlobalRef'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -38,7 +43,7 @@ export function MessageArea() {
     }))
   }
 
-  async function GenerateCompletion(
+  async function GenerateOpenAICompletion(
     conversation: ChatCompletionMessageParam[],
     assistant: Assistant,
     stream: boolean
@@ -53,7 +58,7 @@ export function MessageArea() {
     return complection
   }
 
-  function AddMessageToConversation(
+  function AddMessageToOpenAIConversation(
     conversation: ChatCompletionMessageParam[],
     role: 'user' | 'system' | 'assistant',
     content: string
@@ -61,6 +66,17 @@ export function MessageArea() {
     conversation.push({
       role,
       content,
+    })
+  }
+
+  function AddMessageToGeminiConversation(
+    conversation: GeminiMessage[],
+    role: string,
+    content: string
+  ) {
+    conversation.push({
+      role,
+      parts: content,
     })
   }
 
@@ -76,11 +92,19 @@ export function MessageArea() {
     }
 
     if (assistant.instructions) {
-      AddMessageToConversation(
-        thread.conversation,
-        'system',
-        assistant.instructions
-      )
+      if (thread.assistant.id === 'gemini-pro') {
+        AddMessageToGeminiConversation(
+          thread.conversation as GeminiMessage[],
+          'system',
+          assistant.instructions
+        )
+      } else {
+        AddMessageToOpenAIConversation(
+          thread.conversation as ChatCompletionMessageParam[],
+          'system',
+          assistant.instructions
+        )
+      }
     }
 
     AddMessageToThread(thread, userMessage, true)
@@ -98,14 +122,14 @@ export function MessageArea() {
 
     const conversation: ChatCompletionMessageParam[] = []
 
-    AddMessageToConversation(
+    AddMessageToOpenAIConversation(
       conversation,
       'system',
       assistant.instructions as string
     )
-    AddMessageToConversation(conversation, 'user', message)
+    AddMessageToOpenAIConversation(conversation, 'user', message)
 
-    const completion = (await GenerateCompletion(
+    const completion = (await GenerateOpenAICompletion(
       conversation,
       assistant,
       false
@@ -144,39 +168,77 @@ export function MessageArea() {
       currentThread: thread,
     }))
 
-    if (thread.assistant.instructions != null && firstMessage) {
-      AddMessageToConversation(
-        thread.conversation,
-        'system',
-        thread.assistant.instructions
-      )
-    }
+    if (thread.assistant.id === 'gemini-pro') {
+      const geminiConversation = thread.conversation as GeminiMessage[]
 
-    AddMessageToConversation(thread.conversation, 'user', message)
+      if (thread.assistant.instructions != null && firstMessage) {
+        AddMessageToGeminiConversation(
+          geminiConversation,
+          'system',
+          thread.assistant.instructions
+        )
+      }
 
-    AddMessageToConversation(thread.conversation, 'assistant', '')
+      AddMessageToGeminiConversation(geminiConversation, 'user', message)
+      AddMessageToGeminiConversation(geminiConversation, 'model', '')
 
-    const messages = GenerateCompletion(
-      thread.conversation,
-      thread.assistant,
-      true
-    ) as Promise<Stream<ChatCompletionChunk>>
+      const model = globalRef.googleai.getGenerativeModel({
+        model: thread.assistant.model,
+      })
 
-    for await (const chunk of await messages) {
-      const content = thread.conversation[thread.conversation.length - 1]
-        .content as string
+      const result = await model.generateContentStream({
+        contents: thread.conversation as unknown as GeminiMessage,
+      })
 
-      const newContent = (chunk.choices[0].delta.content as string)
-        ? content.concat(chunk.choices[0].delta.content as string)
-        : content
+      for await (const chunk of result.stream) {
+        const chunkText = chunk.text()
+        console.log(chunkText)
 
-      thread.conversation[thread.conversation.length - 1].content = newContent
+        geminiConversation[thread.conversation.length - 1].parts += chunkText
 
-      setGlobalState((oldState) => ({
-        ...oldState,
-        insideNewChat: false,
-        currentThread: thread,
-      }))
+        setGlobalState((oldState) => ({
+          ...oldState,
+          insideNewChat: false,
+          currentThread: thread,
+        }))
+      }
+    } else {
+      const openAIConversation =
+        thread.conversation as ChatCompletionMessageParam[]
+
+      if (thread.assistant.instructions != null && firstMessage) {
+        AddMessageToOpenAIConversation(
+          openAIConversation,
+          'system',
+          thread.assistant.instructions
+        )
+      }
+
+      AddMessageToOpenAIConversation(openAIConversation, 'user', message)
+      AddMessageToOpenAIConversation(openAIConversation, 'assistant', '')
+
+      const messages = GenerateOpenAICompletion(
+        openAIConversation,
+        thread.assistant,
+        true
+      ) as Promise<Stream<ChatCompletionChunk>>
+
+      for await (const chunk of await messages) {
+        const content = openAIConversation[thread.conversation.length - 1]
+          .content as string
+
+        const newContent = (chunk.choices[0].delta.content as string)
+          ? content.concat(chunk.choices[0].delta.content as string)
+          : content
+
+        openAIConversation[thread.conversation.length - 1].content = newContent
+
+        setGlobalState((oldState) => ({
+          ...oldState,
+          insideNewChat: false,
+          currentThread: thread,
+        }))
+      }
     }
 
     const threadsDoc = db.doc(

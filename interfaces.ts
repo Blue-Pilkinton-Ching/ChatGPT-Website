@@ -1,3 +1,4 @@
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore'
 import OpenAI from 'openai'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
@@ -12,13 +13,18 @@ export interface FirebaseConfig {
   measurementId: string
 }
 
+export interface GeminiMessage {
+  role: string
+  parts: string
+}
+
 export interface SignInWithEmailProps {
   onBack: () => void
   onSubmit: (email: string, password: string, creatingEmail: boolean) => void
   warning: string
 }
 export interface MessageProps {
-  message: ChatCompletionMessageParam
+  message: ChatCompletionMessageParam | GeminiMessage
   assistant: Assistant
 }
 export interface GlobalStateWrapper {
@@ -53,6 +59,7 @@ export interface GlobalRenderTriggers {
 export interface GlobalRef {
   settings: Settings
   openai: OpenAI
+  googleai: GoogleGenerativeAI
   getMoreThreads: () => void
   latestDoc: null | QueryDocumentSnapshot<DocumentData, DocumentData>
   assistant: Assistant | null
@@ -80,7 +87,7 @@ export interface Assistant {
 
 export interface Thread {
   assistant: Assistant
-  conversation: ChatCompletionMessageParam[]
+  conversation: ChatCompletionMessageParam[] | GeminiMessage[]
   id: string
 }
 

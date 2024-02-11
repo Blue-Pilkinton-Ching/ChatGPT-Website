@@ -5,6 +5,7 @@ import { initializeApp } from 'firebase/app'
 import { GlobalRefContext } from '../hooks/useGlobalRef'
 import Controller from './Controller'
 import OpenAI from 'openai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
 initializeApp({
   apiKey: 'AIzaSyB4enbUPLq5f3CJnoGSiNIoxV-MLmlAuVQ',
@@ -36,6 +37,7 @@ export function App() {
       apiKey: 'PLACEHOLDER',
       dangerouslyAllowBrowser: true,
     }),
+    googleai: new GoogleGenerativeAI(''),
     getMoreThreads: () => {},
     latestDoc: null,
     assistant: null,
@@ -69,12 +71,11 @@ export function App() {
       {
         id: 'gemini-pro',
         name: 'Gemini Pro',
-        instructions:
-          'Create a concise, neutral topic header summarizing the following text sent by the user. It must be under five words, and without periods, quotes, or embellishments, and avoid providing specific detail or answers.',
-        model: '',
+        instructions: '',
+        model: 'gemini-pro',
         isDefault: false,
         temperature: 0,
-        maxTokens: 0,
+        maxTokens: 1500,
       },
     ],
   })

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useGlobalState } from '../../../hooks/useGlobalState'
 import { Message } from './Message'
-import { Assistant } from '../../../../interfaces'
+import { Assistant, GeminiMessage } from '../../../../interfaces'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 
 export function Conversation() {
@@ -77,8 +77,19 @@ export function Conversation() {
       {globalState.currentThread ? (
         <>
           <br />
-          {globalState.currentThread.conversation.map((_, index) => {
-            return (
+          {globalState.currentThread.conversation.map((element, index) => {
+            return globalState.currentThread?.assistant.id === 'gemini-pro' ? (
+              <Message
+                key={index}
+                assistant={globalState.currentThread?.assistant as Assistant}
+                message={
+                  globalState.currentThread?.conversation[
+                    -index +
+                      (globalState.currentThread?.conversation.length - 1)
+                  ] as GeminiMessage
+                }
+              />
+            ) : (
               <Message
                 key={index}
                 assistant={globalState.currentThread?.assistant as Assistant}
