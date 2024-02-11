@@ -27,12 +27,14 @@ export default function NewChatPage() {
   }
 
   useEffect(() => {
-    globalRef.assistant = globalRef.assistants.find(
-      (a) => a.name === model
-    ) as Assistant
+    if (model) {
+      globalRef.assistant = globalRef.assistants.find(
+        (a) => a.name === model
+      ) as Assistant
 
-    if (!globalRef.assistant) {
-      alert('error finding model!')
+      if (!globalRef.assistant) {
+        alert('error finding model!')
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

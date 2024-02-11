@@ -66,7 +66,7 @@ export function App() {
         isDefault: false,
         temperature: 0,
         maxTokens: 15,
-        canDemo: false,
+        canDemo: true,
       },
       {
         id: 'gemini-pro',
