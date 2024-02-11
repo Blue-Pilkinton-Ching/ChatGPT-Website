@@ -19,6 +19,7 @@ import { useEffect } from 'react'
 import { Settings, ThreadHeader } from '../../interfaces'
 import OpenAI from 'openai'
 import { useGlobalState } from '../hooks/useGlobalState'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
 export default function Controller() {
   const [user, authLoading, authError] = useAuthState(getAuth())
@@ -108,6 +109,9 @@ export default function Controller() {
       dangerouslyAllowBrowser: true,
     })
 
+    const googleai = new GoogleGenerativeAI(settings.geminiProAPIKey)
+
+    globalRef.googleai = googleai
     globalRef.openai = openai
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
