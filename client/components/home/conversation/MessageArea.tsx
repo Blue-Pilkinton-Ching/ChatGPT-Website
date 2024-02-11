@@ -171,30 +171,23 @@ export function MessageArea() {
     if (thread.assistant.id === 'gemini-pro') {
       const geminiConversation = thread.conversation as GeminiMessage[]
 
-      if (thread.assistant.instructions != null && firstMessage) {
-        AddMessageToGeminiConversation(
-          geminiConversation,
-          'system',
-          thread.assistant.instructions
-        )
-      }
-
-      AddMessageToGeminiConversation(geminiConversation, 'user', message)
-      AddMessageToGeminiConversation(geminiConversation, 'model', '')
-
       const model = globalRef.googleai.getGenerativeModel({
         model: thread.assistant.model,
       })
 
-      const result = await model.generateContentStream({
-        contents: thread.conversation as unknown as GeminiMessage,
-      })
+      const chat = model.startChat({ history: geminiConversation })
+
+      AddMessageToGeminiConversation(geminiConversation, 'user', message)
+      AddMessageToGeminiConversation(geminiConversation, 'model', '')
+
+      const result = await chat.sendMessageStream(message)
 
       for await (const chunk of result.stream) {
         const chunkText = chunk.text()
-        console.log(chunkText)
 
         geminiConversation[thread.conversation.length - 1].parts += chunkText
+
+        thread.conversation = geminiConversation
 
         setGlobalState((oldState) => ({
           ...oldState,
